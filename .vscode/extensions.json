@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "icrawl.discord-vscode",
+    "dbaeumer.vscode-eslint",
+    "github.copilot",
+    "eg2.vscode-npm-script",
+    "christian-kohler.npm-intellisense",
+    "esbenp.prettier-vscode",
+    "robbowen.synthwave-vscode",
+    "visualstudioexptteam.vscodeintellicode"
+  ]
+}
