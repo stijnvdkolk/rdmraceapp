@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker: Debug Core",
+      "type": "node",
+      "request": "attach",
+      "port": 9221,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/usr/local/app-backend",
+      "protocol": "inspector",
+      "restart": true,
+      "sourceMaps": true,
+      "showAsyncStacks": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }
+  ]
+}

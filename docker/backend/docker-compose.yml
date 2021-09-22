@@ -1,0 +1,15 @@
+version: '3.8'
+
+services: 
+  backend:
+    build:
+      context: ${BACKEND_ROOT}
+      dockerfile: ./Dockerfile
+    command: yarn start:debug
+    tty: true
+    volumes:
+      - ${BACKEND_ROOT}/src:/usr/local/app-backend/src
+    ports:
+      - '${CORE_DEBUG_PORT}:9229'
+      - '3000:3000'
+
