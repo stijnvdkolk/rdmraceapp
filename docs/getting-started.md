@@ -15,7 +15,7 @@
       > When prompted for elevated permissions, click yes.
     * Setup WSL2 as default with the following command: `wsl --set-default-version 2`, make sure to install Ubuntu 20.04 after this command is executed.
 * [Docker](https://www.docker.com/)
-  * **Windows**: [Docker for Windows](https://docs.docker.com/desktop/windows/install/) (select The **`WSL 2 Backend`** option)
+  * **Windows**: [Docker for Windows](https://docs.docker.com/desktop/windows/install/) (select the **`WSL 2 Backend`** option)
   * **macOS**: [Docker for Mac](https://docs.docker.com/desktop/mac/install/)
   * **Linux**: [Docker CE/EE](https://docs.docker.com/install/#supported-platforms) 18.06+ and [Docker Compose](https://docs.docker.com/compose/install) 1.21+. (The Ubuntu snap package is not supported.)
 
