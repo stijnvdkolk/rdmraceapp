@@ -1,5 +1,12 @@
 {
   "recommendations": [
-    "icrawl.discord-vscode"
+    "icrawl.discord-vscode",
+    "dbaeumer.vscode-eslint",
+    "eg2.vscode-npm-script",
+    "christian-kohler.npm-intellisense",
+    "esbenp.prettier-vscode",
+    "visualstudioexptteam.vscodeintellicode",
+    "robbowen.synthwave-vscode",
+    "ms-azuretools.vscode-docker"
   ]
 }
