@@ -30,12 +30,19 @@
 1. Open a command prompt and navigate to the root of the repository.
 1. Please open this repo in Visual Studio Code using `code .` in the command prompt.
 1. Make sure to install the following extensions (they should also be in the recommended list):
-    * [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-    * [npm](https://marketplace.visualstudio.com/items?itemName=eg2.vscode-npm-script)
-    * [npm Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense)
-    * [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-    * [Visual Studio IntelliCode](https://marketplace.visualstudio.com/items?itemName=visualstudioexptteam.vscodeintellicode)
-    * [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
+    * [ESLint](vscode:extension/dbaeumer.vscode-eslint)
+    * [npm](vscode:extension/eg2.vscode-npm-script)
+    * [npm Intellisense](vscode:extension/christian-kohler.npm-intellisense)
+    * [Prettier](vscode:extension/esbenp.prettier-vscode)
+    * [Visual Studio IntelliCode](vscode:extension/visualstudioexptteam.vscodeintellicode)
+    * [Docker](vscode:extension/ms-azuretools.vscode-docker)
+    * [Remote WSL](vscode:extension/ms-vscode-remote.remote-wsl)
+1. Click on the "Remote icon" in the bottom left corner of the editor.
+![Remote icon](./remote-icon.png)
+
+1. Select "Reopen Folder in WSL" from the context menu that pops up.
+    > Make sure to always open the project in WSL before working on it.
+1. Install all dependencies for both the `frontend` and `backend` folders with the `yarn` command.
 
 ## Running the application
 * Use `make dev` to start the development environment.
