@@ -1,7 +1,8 @@
 version: '3.8'
 
-services: 
+services:
   backend:
+    env_file: ../../.env
     build:
       context: ${BACKEND_ROOT}
       dockerfile: ./Dockerfile
@@ -9,7 +10,8 @@ services:
     tty: true
     volumes:
       - ${BACKEND_ROOT}/src:/usr/local/app-backend/src
+      - ${BACKEND_ROOT}/package.json:/usr/local/app-backend/package.json
+      - ${BACKEND_ROOT}/tsconfig.json:/usr/local/app-backend/tsconfig.json
     ports:
       - '${CORE_DEBUG_PORT}:9229'
       - '3000:3000'
-
