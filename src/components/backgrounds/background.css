@@ -1,0 +1,10 @@
+.out{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.out:hover{
+  cursor: pointer;
+}
+

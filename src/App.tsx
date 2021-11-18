@@ -1,24 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {TextField} from '@mui/material';
+import {Card} from '@mui/material';
+import Background from './components/backgrounds/background';
+import Buttoned from './components/button/button';
+import { red } from '@mui/material/colors';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div id="out" className="App dark background">
+      <Background/>
+      <div className="card">
+        <Card
+          style={{
+            width: "300px",
+            height: "350px",
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <h2>
+            Sign in to PhidippidusChat!
+          </h2>
+          <p>
+            Enter you details below
+          </p>
+          <div className="firstField">
+            <TextField id="outlined-basic" label="Email Adress" variant="outlined" />
+          </div>
+          <div className="secondField">
+            <TextField id="outlined-basic" label="Password" variant="outlined" />
+          </div>
+          <div>
+            <Buttoned url="www.google.com" text="Sign in" 
+            style={{
+            marginTop: 0,
+            marginLeft: 17,
+            borderRadius: "30px",
+            backgroundColor: "red",
+            left: 65
+            }}/>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }
