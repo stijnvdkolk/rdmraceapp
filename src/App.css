@@ -1,6 +1,46 @@
 html, body, #root, .App {
   height: 100%;
 }
+input[type = file]{
+}
+.background{ 
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.red{
+  background-image: url('./background/Background red.svg');
+}
+
+.dark{
+  background-image: url('./background/Background dark.svg');
+}
+
+.card{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+@media only screen and (max-width: 810px){
+  .Signup {padding-top: 20%;}
+}
+@media only screen and (min-width: 811px){
+  .Signup {padding-top: 10%;}
+}
+
+.TextField{
+  margin: 20px;
+  
+  height: 50%;
+  display: flex;
+  
+  flex-direction: column;
+  justify-content: space-between;
+}
+/*
+html, body, #root, .App {
+  height: 100%;
+}
 
 .background{ 
   background-repeat: no-repeat;
@@ -27,25 +67,14 @@ html, body, #root, .App {
 }
 
 .card{
-  /*text-align: center;
-  width: auto;
-  margin: auto;
-  align-items: center;
-  */
-  
-  
   display: flex;
   justify-content: center;
   text-align: center;
-  
-  /*
-  border-radius: 30px;
-  margin-left: 300px;
-  */
 }
-@media only screen and (max-width: 800px){
+@media only screen and (max-width: 810px){
   .card {padding-top: 50%;}
 }
-@media only screen and (min-width: 801px){
+@media only screen and (min-width: 811px){
   .card {padding-top: 15%;}
 }
+*/

@@ -2,7 +2,6 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import React from 'react';
 import './background.css';
 
-// background images won't work yet, might have to do with the card placement.
 export default function Background(){
     function backgroundChange(){
         let navdraw = document.getElementById("out");
