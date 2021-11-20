@@ -9,7 +9,7 @@ import Buttoned from '../../components/button/button';
 export default function Login() {
   return (
     <div id="out" className="App dark background">
-      <Background/>
+      <Background className='out'/>
       <div className="card">
         <Card
           style={{

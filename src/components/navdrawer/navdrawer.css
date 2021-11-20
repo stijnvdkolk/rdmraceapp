@@ -58,7 +58,7 @@
     vertical-align: middle;
 }
 .ICursor{
-    cursor: pointer;    
+    cursor: pointer;
     width: 0px;
     height: 16px;
     top: calc(50% - 16px/2);

@@ -2,13 +2,12 @@ import React from 'react';
 import './App.css';
 import {Card} from '@mui/material';
 import Background from './components/backgrounds/background';
-import { Route } from 'react-router';
 
 
 function App() {
   return (
     <div id="out" className="App red background">
-      <Background/>
+      <Background className='out'/>
       <div className="card Signup">
         <Card
           style={{

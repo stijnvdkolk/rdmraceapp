@@ -2,19 +2,14 @@ import React from 'react';
 import '../../App.css'; //voor app css voor background
 import './Chat.css';
 import Navdrawer from '../../components/navdrawer/navdrawer';
-import { Divider, Link} from '@mui/material';
+import { Divider} from '@mui/material';
 import AccessibleIcon from '@mui/icons-material/Accessible';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import EuroIcon from '@mui/icons-material/Euro';
 import NavListItem from '../../components/navListItem/navListItem';
 import Background from '../../components/backgrounds/background';
-import {
-    BrowserRouter as Router,
-    Route,
-
-    Link as RouterLink,
-  } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 
 export default function Chat() {

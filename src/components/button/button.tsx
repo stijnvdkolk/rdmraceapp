@@ -1,12 +1,10 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { CssBaselineProps } from '@mui/material';
-import { style } from '@mui/system';
+import IProps from '../IProps';
 
-type buttonProps = {
+interface buttonProps extends IProps {
     url?: string;
     text?: string;
-    style?: React.CSSProperties;
 };
 
 export default function Buttoned(props: buttonProps){
@@ -21,9 +19,9 @@ export default function Buttoned(props: buttonProps){
                 <Button 
                     variant="contained" 
                     style={ style }
-                    onClick={() => Pressed(props.url)}
+                    onClick={() => Pressed(url)}
                 >
-                    {props.text}
+                    {text}
                 </Button>
             </div>
         );

@@ -1,19 +1,16 @@
 import React from 'react';
-
 import '../../App.css'; //voor app css voor background
 import './SignUp.css'; //voor Loginpage specific Css
-import {IconButton, Input, TextField} from '@mui/material';
+import {Input, TextField} from '@mui/material';
 import {Card} from '@mui/material';
 import Background from '../../components/backgrounds/background';
 import Buttoned from '../../components/button/button';
 import {Button} from '@mui/material';
-import FilledInput from '@mui/material/FilledInput';
-import { PhotoCamera } from '@mui/icons-material';
 
 export default function SignUp() {
   return (
     <div id="out" className="App dark background">
-      <Background/>
+      <Background className='out'/>
       <div className="card Signup">
         <Card
           style={{

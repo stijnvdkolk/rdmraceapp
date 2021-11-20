@@ -1,6 +1,5 @@
 import React, * as react from 'react';
 import {Drawer,} from '@mui/material';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
 import PersonIcon from '@mui/icons-material/Person';
 import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
