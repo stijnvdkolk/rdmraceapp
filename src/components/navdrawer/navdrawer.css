@@ -53,12 +53,12 @@
     margin: 34px 0px;
 }
 .DMI{
-    float: right;
     order: 4;
+    justify-content: center;
+    vertical-align: middle;
 }
 .ICursor{
-    cursor: pointer;
-    
+    cursor: pointer;    
     width: 0px;
     height: 16px;
     top: calc(50% - 16px/2);
@@ -78,9 +78,6 @@
     person, outline, human, people, face, profile, user, account
     */
     cursor: pointer;
-    
-    width: 52px;
-    height: 52px;
     top: 5px;
     /* Inside Auto Layout */
     flex: none;    

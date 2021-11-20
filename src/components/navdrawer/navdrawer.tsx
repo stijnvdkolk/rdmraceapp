@@ -4,17 +4,13 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import PersonIcon from '@mui/icons-material/Person';
 import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
+import Background from '../../components/backgrounds/background';
+import IProps from '../IProps';
 
-type NavBarProps = {
-    name?: string;
-    children?: React.ReactNode;
-    imageLink?: string;
-
-};
 /*
 * This is the NavBar component.
 */
-export default function NavDrawer(props: NavBarProps) {
+export default function NavDrawer(props: IProps) {
     const { name, children, imageLink } = props;
     //const [open, setOpen] = useState("left");
     const [matches, setMatches] = react.useState(window.matchMedia("(min-width: 1000px)").matches);
@@ -35,7 +31,8 @@ export default function NavDrawer(props: NavBarProps) {
                 PaperProps={{ style: {
                     marginTop: 27,
                     marginLeft: 40,
-                    marginBottom: 2,                      
+                    marginBottom: 2,
+                    height: "95vh",                      
                     background: "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)), #FFFBFE",
                 }}}
                 ModalProps={{
@@ -43,7 +40,7 @@ export default function NavDrawer(props: NavBarProps) {
                 }}>
                 <div className="chattop chatprofile rightlined">
                     <div className="sp-Lockup">
-                        <DarkModeIcon className="DMI"/>
+                        <Background className='DMI'/>
                         <div className="Cursor1 ICursor"></div>
                         <PersonIcon className="PersonIcon" />
                         <img className="profile" width="75" alt="" src={imageLink}/>
@@ -75,7 +72,7 @@ export default function NavDrawer(props: NavBarProps) {
                         <div className="pressables">
                             <MenuIcon className="Hamburger IIcon" onClick={toggle}/>
                             <div className="Cursor2 ICursor"></div>
-                            <DarkModeIcon className="DMI IIcon"/>
+                            <Background className="DMI IIcon"/>
                             <div className="Cursor1 ICursor"></div>
                             <PersonIcon className="PersonIcon IIcon" />
                         </div>

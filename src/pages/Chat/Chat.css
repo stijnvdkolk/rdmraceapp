@@ -1,0 +1,18 @@
+.App {
+    text-align: center;
+    margin-top: -3vh;
+    height: 103vh;
+  }
+  
+.leftside {
+float: left;
+margin-left: 20px;
+text-align: left;
+}
+.NavBar{
+display: block;
+}
+.Content{
+    display: block;
+    margin-top: 4vh;
+}

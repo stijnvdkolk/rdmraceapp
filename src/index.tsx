@@ -5,7 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
 import Login from './pages/Login/Login';
-import SignUp from './pages/SignUp/SignUp'
+import SignUp from './pages/SignUp/SignUp';
+import Chat from './pages/Chat/Chat';
+
 
 ReactDOM.render(
   <Router>
@@ -13,6 +15,7 @@ ReactDOM.render(
       <Route path="/" element={<App />} />
       <Route path="/Login" element={<Login />} />
       <Route path="/SignUp" element={<SignUp />} />
+      <Route path="/Chat" element={<Chat />} />
     </Routes>    
   </Router>,
   document.getElementById('root')
