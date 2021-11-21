@@ -1,24 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
-import Login from './pages/Login/Login';
-import SignUp from './pages/SignUp/SignUp';
-import Chat from './pages/Chat/Chat';
-
+import { BrowserRouter } from 'react-router-dom';
+import Routes from "./Routes";
 
 ReactDOM.render(
-  <Router>
-    <Routes>      
-      <Route path="/" element={<App />} />
-      <Route path="/Login" element={<Login />} />
-      <Route path="/SignUp" element={<SignUp />} />
-      <Route path="/Chat/:channelID" element={<Chat />} />
-      <Route path="/Chat/" element={<Chat />} />
-    </Routes>    
-  </Router>,
+  <BrowserRouter>
+      <Routes />
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
