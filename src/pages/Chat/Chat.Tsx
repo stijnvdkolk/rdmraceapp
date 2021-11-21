@@ -9,7 +9,8 @@ import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import EuroIcon from '@mui/icons-material/Euro';
 import NavListItem from '../../components/navListItem/navListItem';
 import Background from '../../components/backgrounds/background';
-import { Link as RouterLink } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
+import ChatWindow from '../../components/ChatWindow/ChatWindow';
 
 
 export default function Chat() {
@@ -30,7 +31,9 @@ export default function Chat() {
             </div>
             <div className="Content">
                 <h5>Hello World</h5>
-                <RouterLink to="/">Home</RouterLink>
+                
+                <Link to="/Chat/Publiek"/>
+                <ChatWindow/>
             </div>
         </div>
     );

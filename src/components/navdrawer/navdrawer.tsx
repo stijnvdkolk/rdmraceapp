@@ -10,6 +10,27 @@ import IProps from '../IProps';
 * This is the NavBar component.
 */
 export default function NavDrawer(props: IProps) {
+    const [error, setError] = react.useState(null);
+    const [isLoaded, setIsLoaded] = react.useState(false);
+    const [items, setItems] = react.useState("");
+    react.useEffect(() => {
+        fetch("https://localhost:7023/ToDo/Henk") // Debug
+          .then(res => res.json())
+          .then(
+            (result) => {
+              setIsLoaded(true);
+              setItems(result);
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              setIsLoaded(true);
+              setError(error);
+            }
+          )
+      }, [])
+    console.log(items);
     const { name, children, imageLink } = props;
     //const [open, setOpen] = useState("left");
     const [matches, setMatches] = react.useState(window.matchMedia("(min-width: 1000px)").matches);

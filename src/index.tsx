@@ -15,7 +15,8 @@ ReactDOM.render(
       <Route path="/" element={<App />} />
       <Route path="/Login" element={<Login />} />
       <Route path="/SignUp" element={<SignUp />} />
-      <Route path="/Chat" element={<Chat />} />
+      <Route path="/Chat/:channelID" element={<Chat />} />
+      <Route path="/Chat/" element={<Chat />} />
     </Routes>    
   </Router>,
   document.getElementById('root')
