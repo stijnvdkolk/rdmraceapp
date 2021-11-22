@@ -10,7 +10,6 @@ import EuroIcon from '@mui/icons-material/Euro';
 import NavListItem from '../../components/navListItem/navListItem';
 import Background from '../../components/backgrounds/background';
 import {Link} from "react-router-dom";
-import ChatWindow from '../../components/ChatWindow/ChatWindow';
 class Person
 {
     Id : number | undefined;
@@ -25,7 +24,7 @@ export default function Chat() {
 
 
     useEffect(() => {
-        fetch("https://localhost:7023/testing") // Debug
+        fetch("https://localhost:5000/testing") // Debug
             .then(res => res.json())
             .then(
                 (result) => {
@@ -68,7 +67,6 @@ export default function Chat() {
                             <h5>Hello World</h5>
                             
                             <Link to="/Chat/Publiek"/>
-                            <ChatWindow/>
                         </div>
                     </div>
                 ) : (
