@@ -1,7 +1,6 @@
 .App {
     text-align: center;
-    margin-top: -3vh;
-    height: 103vh;
+    height: 100vh;
   }
   
 .leftside {
@@ -14,17 +13,15 @@ display: block;
 }
 .Content{
     display: flex;
-    margin-top: 30px;
     justify-content: center;
-    
+
 }
 .Wide{
-    
+    margin-top: -50px;
     margin-left: 428px;
 }
 .Narrow{
-  height: 80%;
+  height: 75vh;
 }
 .a100{
-  height: 80%;
 }

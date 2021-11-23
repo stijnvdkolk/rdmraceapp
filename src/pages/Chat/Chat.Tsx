@@ -49,6 +49,8 @@ export default function Chat() {
                 isLoaded ? (
                     <div id="out" className="App dark background">
                         <Background/>
+                        
+                        <Toolbar /> 
                         <div className="NavBar">   
                             <Navdrawer name={ items != null ? items![0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }>
                                 <Divider/>
@@ -59,11 +61,8 @@ export default function Chat() {
                                 <NavListItem text="Publiek" icon={<ChildCareIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
                                 <NavListItem text="Team Genoten" icon={<ChildFriendlyIcon />} onClickCommand={() => window.location.href = "chat/team"}/>
                                 <NavListItem text="one more channel cuz why not" icon={<EuroIcon />}/>
-                            </Navdrawer>
-                        </div>
-                        <Toolbar />
-
-                        
+                            </Navdrawer>                           
+                        </div>                        
                         <ChatWindow/>
                     </div>
                     ) 

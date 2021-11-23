@@ -1,5 +1,5 @@
 import React, * as react from 'react';
-import {Drawer, AppBar} from '@mui/material';
+import {Drawer, AppBar, Toolbar} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -28,7 +28,7 @@ export default function NavDrawer(props: IProps) {
                 anchor="left"
                 variant="permanent"
                 PaperProps={{ style: {
-                    marginTop: 27,
+                    marginTop: 42,
                     marginLeft: 40,
                     marginBottom: 2,
                     height: "95vh",                      
@@ -86,7 +86,7 @@ export default function NavDrawer(props: IProps) {
                     {children}  
                 </Drawer>
             </>
-            )}
+            )}   
         </div>
             
     );    
