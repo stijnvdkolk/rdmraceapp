@@ -28,3 +28,6 @@ html, body, #root, .App {
 @media only screen and (min-width: 811px){
   .Signup {padding-top: 20%;}
 }
+.vh{
+  margin-top: 3vh;
+}

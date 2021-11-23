@@ -13,6 +13,18 @@ text-align: left;
 display: block;
 }
 .Content{
-    display: block;
-    margin-top: 4vh;
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+    
+}
+.Wide{
+    
+    margin-left: 428px;
+}
+.Narrow{
+  height: 80%;
+}
+.a100{
+  height: 80%;
 }

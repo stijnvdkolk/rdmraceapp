@@ -4,6 +4,7 @@ import App from "./App";
 import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import Chat from './pages/Chat/Chat';
+import Debug from "./pages/Debug/Debug";
 
 export default function Routes() {
     return (
@@ -12,7 +13,7 @@ export default function Routes() {
             <Route path="/SignUp" component={SignUp} />
             <Route path="/Chat/:channelID" component={Chat} />
             <Route path="/Chat/" component={Chat} />
-            <Route path="/" component={App} />
+            <Route path="/" component={Debug} /> 
         </Switch> 
     )
 }

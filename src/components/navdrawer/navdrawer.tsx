@@ -1,5 +1,5 @@
 import React, * as react from 'react';
-import {Drawer,} from '@mui/material';
+import {Drawer, AppBar} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -51,35 +51,41 @@ export default function NavDrawer(props: IProps) {
             )}
             {/* Hier komt het voor klein scherm  */}
             {!matches && (
-            <Drawer
-                anchor="top"
-                variant="permanent"
-
-                PaperProps={{ style: {
-                    background: "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)), #FFFBFE",
-                }}}
-                ModalProps={{
-                    keepMounted: true,
-                }}
-                sx={{
-                    height: () => isOpen ? 309 : 72,
-                }}>                    
-                <div className="chattop chatprofile fullwidth">
-                    <div className="sp-Lockup">
-                        <img className="profile" width="75" alt="" src={imageLink}/>
-                        <label className="product">{name}</label>
-                        <div className="pressables">
-                            <MenuIcon className="Hamburger IIcon" onClick={toggle}/>
-                            <div className="Cursor2 ICursor"></div>
-                            <Background className="DMI IIcon"/>
-                            <div className="Cursor1 ICursor"></div>
-                            <PersonIcon className="PersonIcon IIcon" />
+            <>
+                <AppBar color="primary">
+                    <div className="chattop chatprofile fullwidth">
+                        <div className="sp-Lockup">
+                            <img className="profile" width="75" alt="" src={imageLink}/>
+                            <label className="product">{name}</label>
+                            <div className="pressables">
+                                <MenuIcon className="Hamburger IIcon" onClick={toggle}/>
+                                <div className="Cursor2 ICursor"></div>
+                                <Background className="DMI IIcon"/>
+                                <div className="Cursor1 ICursor"></div>
+                                <PersonIcon className="PersonIcon IIcon" />
+                            </div>
+                            
                         </div>
-                        
-                    </div>                        
-                </div>
-                { isOpen && children}  
-            </Drawer>
+                    </div>
+                </AppBar>
+                <Drawer
+                    anchor="left"
+                    open={isOpen}
+                    onClose={() => setIsOpen(false)}
+                    PaperProps={{ 
+                        className: "DebugHenk",
+                        style: { background: "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)), #FFFBFE",
+                    }}}
+                    ModalProps={{
+                        keepMounted: true,
+                    }}
+                    sx={{
+                        height: () => isOpen ? 309 : 72,
+                    }}>                    
+                    
+                    {children}  
+                </Drawer>
+            </>
             )}
         </div>
             
