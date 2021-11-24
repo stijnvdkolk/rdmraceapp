@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import '../../App.css';
+import Notification from "../../components/notification/notification";
 export default function Debug() {
   return (
 
@@ -10,6 +11,7 @@ export default function Debug() {
         <Link to="/Invalid">Invalid</Link>
         <Link to="/Chat">Chat</Link>
         <Link to="/Chat/Publiek">Chat/Publiek</Link>
+        <Notification/>
       </div>
     </div>
     );

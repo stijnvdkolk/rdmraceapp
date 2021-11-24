@@ -8,7 +8,6 @@ import ChildCareIcon from '@mui/icons-material/ChildCare';
 import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import EuroIcon from '@mui/icons-material/Euro';
 import NavListItem from '../../components/navListItem/navListItem';
-import Background from '../../components/backgrounds/background';
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
 class Person
 {
@@ -47,7 +46,6 @@ export default function Chat() {
             {
                 isLoaded ? (
                     <div id="out" className="App dark background">
-                        <Background/>
                         
                         <Toolbar /> 
                         <div className="NavBar">   
