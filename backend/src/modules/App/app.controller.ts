@@ -7,7 +7,6 @@ import {
   Post,
   Param,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
 import { AppService } from './app.service';
 
