@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../App.css'; //voor app css voor background
 import './Chat.css';
 import Navdrawer from '../../components/navdrawer/navdrawer';
@@ -9,7 +9,6 @@ import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import EuroIcon from '@mui/icons-material/Euro';
 import NavListItem from '../../components/navListItem/navListItem';
 import Background from '../../components/backgrounds/background';
-import {Link} from "react-router-dom";
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
 class Person
 {
@@ -52,7 +51,7 @@ export default function Chat() {
                         
                         <Toolbar /> 
                         <div className="NavBar">   
-                            <Navdrawer name={ items != null ? items![0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }>
+                            <Navdrawer name={ items != null ? items[0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }>
                                 <Divider/>
                                 <label className="label leftside navbar">Nieuws Kanalen</label>
                                 <NavListItem text="Belangrijk Nieuws" icon={<AccessibleIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
