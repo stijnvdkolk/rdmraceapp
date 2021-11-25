@@ -1,9 +1,7 @@
 import { Card } from "@mui/material";
-import React, * as react from 'react';
-import ReactDOM from "react-dom";
+import * as react from 'react';
 import { useParams } from "react-router-dom";
 import IProps from "../IProps";
-import NavDrawer from "../navdrawer/navdrawer";
 import "./ChatWindow";
 
 export default function ChatWindow(props: IProps){
