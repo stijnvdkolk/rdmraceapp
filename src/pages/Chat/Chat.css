@@ -4,24 +4,27 @@
   }
   
 .leftside {
-float: left;
-margin-left: 20px;
-text-align: left;
+  float: left;
+  margin-left: 20px;
+  text-align: left;
 }
 .NavBar{
-display: block;
+  display: block;
 }
 .Content{
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  /* Chat Drawer */
+
+
+  /* M3/read-only/light/surface1 */
 
 }
 .Wide{
-    margin-top: -50px;
+    margin-top: -22px;
     margin-left: 428px;
 }
 .Narrow{
-  height: 75vh;
-}
-.a100{
+  margin-top: 30px;
+  height: 85vh;
 }

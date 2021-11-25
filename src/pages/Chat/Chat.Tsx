@@ -9,7 +9,7 @@ import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import EuroIcon from '@mui/icons-material/Euro';
 import NavListItem from '../../components/navListItem/navListItem';
 import Background from '../../components/backgrounds/background';
-import {Link} from "react-router-dom";
+import {Link, useHistory, useParams} from "react-router-dom";
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
 class Person
 {
@@ -18,11 +18,18 @@ class Person
     profilePicture : string | undefined;
 }
 
+
 export default function Chat() {
     const [error, setError] = useState<any>(null);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [items, setItems] = useState<Person[] | undefined>(undefined); //Person[]
 
+    let history = useHistory();
+    const redirect = () => {
+        history.push("/chat/publiek");
+    }
+    let channelID = useParams();
+    console.log(channelID);
 
     useEffect(() => {
         fetch("https://localhost:7023/testing") // Debug
@@ -48,7 +55,6 @@ export default function Chat() {
             {
                 isLoaded ? (
                     <div id="out" className="App dark background">
-                        <Background/>
                         
                         <Toolbar /> 
                         <div className="NavBar">   
@@ -58,8 +64,8 @@ export default function Chat() {
                                 <NavListItem text="Belangrijk Nieuws" icon={<AccessibleIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
                                 <Divider />
                                 <label className="label leftside navbar">Chat Kanalen</label>
-                                <NavListItem text="Publiek" icon={<ChildCareIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
-                                <NavListItem text="Team Genoten" icon={<ChildFriendlyIcon />} onClickCommand={() => window.location.href = "chat/team"}/>
+                                <NavListItem text="Publiek" icon={<ChildCareIcon />} onClickCommand={redirect}/>
+                                <NavListItem text="Team Genoten" icon={<ChildFriendlyIcon />} onClickCommand={() => window.location.href = "/team"}/>
                                 <NavListItem text="one more channel cuz why not" icon={<EuroIcon />}/>
                             </Navdrawer>                           
                         </div>                        

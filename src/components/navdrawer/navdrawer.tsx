@@ -1,5 +1,5 @@
 import React, * as react from 'react';
-import {Drawer, AppBar, Toolbar} from '@mui/material';
+import {Drawer, AppBar} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -20,7 +20,27 @@ export default function NavDrawer(props: IProps) {
     const [isOpen,setIsOpen] = react.useState(true);
     const toggle = ()=>setIsOpen((current: any) =>!current);
     // Create a condition that targets viewports at least 768px wide
+    let navbarElements = (
+        <div className="sp-Lockup">
+            <Background className='DMI IIcon'/>
+            <div className="Cursor1 ICursor"></div>
+            <PersonIcon className="PersonIcon IIcon" sx={
+                style => ({
+                    width: "30px",
+                    height: "30px",
+                })
+            }/>
+            <img className="profile" width="75" alt="" src={imageLink}/>
+            <label className="product">{name}</label>
+            {!matches && (                
+                <div className="Cursor2 ICursor"></div>
+            )}
+            {!matches && (                
+                <MenuIcon className="Hamburger IIcon" onClick={toggle}/>
+            )}
 
+        </div>
+    );
     return (        
         <div id="navdraw">
             { matches && (
@@ -38,13 +58,7 @@ export default function NavDrawer(props: IProps) {
                     keepMounted: true,
                 }}>
                 <div className="chattop chatprofile rightlined">
-                    <div className="sp-Lockup">
-                        <Background className='DMI'/>
-                        <div className="Cursor1 ICursor"></div>
-                        <PersonIcon className="PersonIcon" />
-                        <img className="profile" width="75" alt="" src={imageLink}/>
-                        <label className="product">{name}</label>
-                    </div>                        
+                    {navbarElements}                                          
                 </div>
                 {children}          
             </Drawer>
@@ -54,18 +68,8 @@ export default function NavDrawer(props: IProps) {
             <>
                 <AppBar color="primary">
                     <div className="chattop chatprofile fullwidth">
-                        <div className="sp-Lockup">
-                            <img className="profile" width="75" alt="" src={imageLink}/>
-                            <label className="product">{name}</label>
-                            <div className="pressables">
-                                <MenuIcon className="Hamburger IIcon" onClick={toggle}/>
-                                <div className="Cursor2 ICursor"></div>
-                                <Background className="DMI IIcon"/>
-                                <div className="Cursor1 ICursor"></div>
-                                <PersonIcon className="PersonIcon IIcon" />
-                            </div>
-                            
-                        </div>
+                        {navbarElements}
+                        
                     </div>
                 </AppBar>
                 <Drawer

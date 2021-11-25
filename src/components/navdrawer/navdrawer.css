@@ -82,7 +82,8 @@
     /* Inside Auto Layout */
     flex: none;    
     flex-grow: 0;
-    margin: 0px 10px;
+    width: 30px;
+    height: 30px;
 }
 .PersonIcon{
     order: 2;
@@ -109,7 +110,7 @@
 }
 
 .product{
-    
+    width: 65%;
     height: 42px;
     left: 52px;
     right: 94px;
@@ -139,4 +140,8 @@
 }
 .navdraw{
     display: block;
+}
+.Divider{
+    order: 1;
+    float: right;
 }

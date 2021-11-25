@@ -21,7 +21,12 @@ export default function Background(props : BackgroundProps){
     
     return(
         <div className={props.className} onClick={backgroundChange}>
-            <DarkModeIcon/>
+            <DarkModeIcon sx={
+                            style => ({
+                                width: "30px",
+                                height: "30px",
+                            })
+                        }/>
         </div>
     );
 }

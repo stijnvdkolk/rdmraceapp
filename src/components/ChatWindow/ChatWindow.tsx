@@ -24,8 +24,9 @@ export default function ChatWindow(props: IProps){
             <Card
             style={{
                 width: "95%",
-                height: "94vh",
-                borderRadius: "15px",
+                height: "95vh",
+                borderRadius: "16px",
+                background: "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)), #FFFBFE",
             }}
             >
                 <h1>Chat Window</h1>
