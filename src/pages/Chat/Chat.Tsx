@@ -8,8 +8,7 @@ import ChildCareIcon from '@mui/icons-material/ChildCare';
 import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
 import EuroIcon from '@mui/icons-material/Euro';
 import NavListItem from '../../components/navListItem/navListItem';
-import Background from '../../components/backgrounds/background';
-import {Link, useHistory, useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
 class Person
 {
@@ -45,7 +44,22 @@ export default function Chat() {
                 }
             )
     }, [])
-
+    const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
+    const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
+    useEffect(() => {
+        fetch("https://localhost:7023/getPeople/5") // Debug
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setIsCLoaded(true);
+                    setcontacts(result);
+                },
+                (error) => {
+                    setIsCLoaded(true);
+                    setError(error);
+                }
+            )
+    }, [])
     
     console.log(items);
 
@@ -59,6 +73,18 @@ export default function Chat() {
                         <Toolbar /> 
                         <div className="NavBar">   
                             <Navdrawer name={ items != null ? items[0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }>
+                                
+                                {isCLoaded && contacts != null ? (
+                                    <div>
+                                        <Divider />
+                                        {contacts.map(contact => (                                            
+                                            <NavListItem key={contact.Id} text={contact.name} >                                             
+                                                <img className="profile" width="75" alt="" src={contact.profilePicture}/>
+                                            </NavListItem>
+
+                                           
+                                        ))}
+                                    </div>) : (<div/> )}
                                 <Divider/>
                                 <label className="label leftside navbar">Nieuws Kanalen</label>
                                 <NavListItem text="Belangrijk Nieuws" icon={<AccessibleIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
@@ -69,7 +95,7 @@ export default function Chat() {
                                 <NavListItem text="one more channel cuz why not" icon={<EuroIcon />}/>
                             </Navdrawer>                           
                         </div>                        
-                        <ChatWindow/>
+                        <ChatWindow name={items != null ? items[0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }  />
                     </div>
                     ) 
                 : (<CircularProgress />) 

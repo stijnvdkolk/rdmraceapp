@@ -110,7 +110,7 @@
 }
 
 .product{
-    width: 65%;
+    width: 60%;
     height: 42px;
     left: 52px;
     right: 94px;
@@ -137,6 +137,8 @@
     flex: none;
     flex-grow: 0;
     margin: 0px;
+    border-radius: 45px;
+    margin-right: 10px;
 }
 .navdraw{
     display: block;
