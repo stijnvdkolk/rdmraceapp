@@ -1,36 +1,10 @@
 import { ChannelType, PrismaClient, UserRole } from '@prisma/client';
-import readline from 'readline';
-import colors from 'yoctocolors';
+// import colors from 'yoctocolors';
 
 const prisma = new PrismaClient();
 
 async function seed() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  function question(question: string) {
-    return new Promise<string>((resolve) => {
-      rl.question(question, (answer) => {
-        resolve(answer);
-      });
-    });
-  }
-
-  console.log(
-    colors.bold(
-      colors.red('!!! WARNING: This will delete all data in the database !!!'),
-    ),
-  );
-
-  const answer = await question(
-    colors.bgRed(
-      colors.white('Are you sure you want to delete all data? (y/n)'),
-    ),
-  );
-
-  if (answer.toLowerCase() !== 'y') return;
+  console.log('!!! WARNING: This will delete all data in the database !!!');
 
   await prisma.user.deleteMany();
   await prisma.attachment.deleteMany();
@@ -44,7 +18,8 @@ async function seed() {
   const adminUser = await prisma.user.create({
     data: {
       email: 'admin@rdmraceapp.nl',
-      password: 'hash',
+      password:
+        '$argon2i$v=19$m=4096,t=6,p=1$YNmOHY4jm4mM9uFSx4B5sw$8xKLH11tfCcogZjqTOBWwrWxfaBqlgzvB3pcbTyJ6h8', // admin
       username: 'Admin',
       aboutMe: 'I am an admin on this platform!',
       role: UserRole.ADMIN,
