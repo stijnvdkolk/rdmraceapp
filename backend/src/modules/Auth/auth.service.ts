@@ -1,16 +1,12 @@
 import { JwtPayload } from '@lib/interfaces/auth';
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { UserService } from '../User/user.service';
+import { sign, verify } from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
   private jwtSecret: string;
-  constructor(
-    private userService: UserService,
-    private jwtService: JwtService,
-  ) {
+  constructor() {
     this.jwtSecret = process.env.JWT_SECRET;
   }
 
@@ -29,10 +25,7 @@ export class AuthService {
       },
     };
 
-    return this.jwtService.sign(payload, {
-      expiresIn: '12h',
-      secret: this.jwtSecret,
-    });
+    return sign(payload, this.jwtSecret, { expiresIn: '12h' });
   }
 
   /**
@@ -42,11 +35,9 @@ export class AuthService {
    */
   verifyJWT(jwt: string): JwtPayload {
     try {
-      const decodedJwt = this.jwtService.verify<JwtPayload>(jwt, {
-        secret: this.jwtSecret,
-      });
+      const decodedJwt = verify(jwt, this.jwtSecret);
 
-      return decodedJwt;
+      return decodedJwt as JwtPayload;
     } catch (err) {
       throw new Error('invalid token');
     }

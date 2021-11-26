@@ -9,13 +9,11 @@ import {
   HttpStatus,
   Inject,
   Post,
-  UseGuards,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
-import { CurrentUser } from 'src/decorators';
+import { CurrentUser, Public } from '@decorators';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
-import { JwtAuthGuard } from './guards/jwt.guard';
 
 @Controller('/auth')
 export class AuthController {
@@ -27,6 +25,7 @@ export class AuthController {
   ) {}
 
   @Post('/token')
+  @Public()
   async getJwt(@Body() loginBody: SignInDto): Promise<string> {
     const user = await this.userService.findUserByEmail(loginBody.email);
     const isValid = await this.crypto.verifyPassword(
@@ -43,7 +42,6 @@ export class AuthController {
   }
 
   @Get('/@me')
-  @UseGuards(JwtAuthGuard)
   getMe(@CurrentUser() user: User): User {
     return {
       ...user,
