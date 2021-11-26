@@ -20,13 +20,13 @@ export class AppController {
     return 'Do you have some time for tea?';
   }
 
-  @Get('/user/create')
-  async createUser(): Promise<User> {
-    return this.appService.createUser();
-  }
+  // @Get('/user/create')
+  // async createUser(): Promise<User> {
+  //   return this.appService.createUser();
+  // }
 
-  @Get('/user/:email')
-  async getUser(@Param('email') email: string): Promise<User> {
-    return this.appService.getUser(email);
-  }
+  // @Get('/user/:email')
+  // async getUser(@Param('email') email: string): Promise<User> {
+  //   return this.appService.getUser(email);
+  // }
 }
