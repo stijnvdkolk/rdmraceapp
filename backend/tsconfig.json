@@ -22,7 +22,9 @@
       "@lib": ["./src/lib"],
       "@lib/*": ["./src/lib/*"],
       "@modules": ["./src/modules"],
-      "@modules/*": ["./src/modules/*"]
+      "@modules/*": ["./src/modules/*"],
+      "@decorators": ["./src/decorators"],
+      "@decorators/*": ["./src/decorators/*"]
     }
   }
 }

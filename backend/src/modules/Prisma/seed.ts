@@ -1,5 +1,4 @@
 import { ChannelType, PrismaClient, UserRole } from '@prisma/client';
-// import colors from 'yoctocolors';
 
 const prisma = new PrismaClient();
 
