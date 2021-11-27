@@ -10,26 +10,53 @@ import EuroIcon from '@mui/icons-material/Euro';
 import NavListItem from '../../components/navListItem/navListItem';
 import {useHistory, useParams} from "react-router-dom";
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
+import { getPerson } from '../../API/Chat';
 class Person
 {
-    Id : number | undefined;
+    id : number | undefined;
     name : string | undefined;
     profilePicture : string | undefined;
 }
 
+interface UParams{
+    channelID: string | undefined;
+}
 
 export default function Chat() {
     const [error, setError] = useState<any>(null);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [items, setItems] = useState<Person[] | undefined>(undefined); //Person[]
+    const { channelID } = useParams<UParams>();
 
     let history = useHistory();
     const redirect = () => {
         history.push("/chat/publiek");
     }
-    let channelID = useParams();
+    function redirectTo(id: number) {
+        history.push("/chat/" + id);
+        console.log("Redirect to: "+ id);
+    }
+
+    // const location = useLocation();
+
+    // const queryParams = useMemo<UParams>(() => {
+    //     const params = new URLSearchParams(location.search);
+
+    //     return {
+    //         channelID: params.get("channelID"),
+    //     }
+    // }, [location]);
+
     console.log(channelID);
 
+    //#Region Test
+    // const [para, setPara] = useState<UParams>();
+    // const para = useParams<UParams>();
+    // useEffect(() => {
+    //     setPara(useParams<UParams>());
+    // }, [])
+    //#EndRegion
+    
     useEffect(() => {
         fetch("https://localhost:7023/testing") // Debug
             .then(res => res.json())
@@ -60,9 +87,25 @@ export default function Chat() {
                 }
             )
     }, [])
-    
-    console.log(items);
-
+    const [isLoadedDM, setIsLoadedDM] = useState<boolean>(false);
+    const [DM, setDM] = useState<Person | undefined>(undefined); //Person[]
+    useEffect(() => {
+        if (channelID != null) {
+            getPerson(channelID)
+            .then(
+                result => {
+                    console.log(result);
+                    setIsLoadedDM(true);
+                    setDM(result);
+                },
+                error => {
+                    setIsLoadedDM(true);
+                    setError(error);
+                }
+            )
+        }
+    }, [channelID])
+    console.log(DM);
 
     return (
         <>
@@ -78,7 +121,7 @@ export default function Chat() {
                                     <div>
                                         <Divider />
                                         {contacts.map(contact => (                                            
-                                            <NavListItem key={contact.Id} text={contact.name} >                                             
+                                            <NavListItem key={contact.id} text={contact.name} onClickCommand={() => {redirectTo(contact.id!)}} >                                             
                                                 <img className="profile" width="75" alt="" src={contact.profilePicture}/>
                                             </NavListItem>
 
@@ -94,8 +137,11 @@ export default function Chat() {
                                 <NavListItem text="Team Genoten" icon={<ChildFriendlyIcon />} onClickCommand={() => window.location.href = "/team"}/>
                                 <NavListItem text="one more channel cuz why not" icon={<EuroIcon />}/>
                             </Navdrawer>                           
-                        </div>                        
-                        <ChatWindow name={items != null ? items[0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }  />
+                        </div>
+                    {isLoadedDM && DM != null ? (                
+                        <ChatWindow name={DM !== undefined ? DM.name : "Egbert" } imageLink={ DM !== undefined ? DM!.profilePicture : "" }  />
+                    ) : (<div/>)}
+                    
                     </div>
                     ) 
                 : (<CircularProgress />) 

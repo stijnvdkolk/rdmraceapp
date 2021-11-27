@@ -3,6 +3,12 @@ import * as react from 'react';
 import { useParams } from "react-router-dom";
 import IProps from "../IProps";
 import "./ChatWindow.css";
+class Person
+{
+    id : number | undefined;
+    name : string | undefined;
+    profilePicture : string | undefined;
+}
 
 export default function ChatWindow(props: IProps){
     const { name, children, imageLink } = props;
@@ -14,7 +20,9 @@ export default function ChatWindow(props: IProps){
     }, []);
     console.log(channelID);
     
+
     const chatHeaderContainer = ( //we just put all children in a div over here so we don't have to worry about mismatches
+
         <div className="chatContainer">
             <div className="channelHeader">
                 <img className="Iprofile profile" width="75" alt="" src={imageLink}/>

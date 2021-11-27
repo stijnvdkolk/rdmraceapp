@@ -4,7 +4,7 @@ import { ListItem, ListItemIcon, ListItemText} from '@mui/material';
 type NavListItemProps = {
     icon?: React.ReactElement;
     text?: string;
-    onClickCommand?: () => void;
+    onClickCommand?: any;
     children?: React.ReactNode;
     style?: React.CSSProperties;
 };
