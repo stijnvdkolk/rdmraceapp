@@ -11,7 +11,7 @@ export default function Debug() {
         <Link to="/Invalid">Invalid</Link>
         <Link to="/Chat">Chat</Link>
         <Link to="/Chat/Publiek">Chat/Publiek</Link>
-        <Notification/>
+        <Notification message="Invalid email and/or password" notifyType={1}/>
       </div>
     </div>
     );

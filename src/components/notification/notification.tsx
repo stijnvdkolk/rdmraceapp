@@ -4,24 +4,18 @@ import Snackbar from '@mui/material/Snackbar';
 import { Alert } from '@mui/material';
 import IProps from '../IProps';
 
-/*
-export enum notiType{
-    info,
-    error    
-}
-
+// needed: onClick property to determine the click type
 interface NoteProps extends IProps {
-    notifyType: notiType;
+    notifyType?: number;
+    message?: string;
 };
-*/
-//props: NoteProps
-export default function Notification() {
-  const [open, setOpen] = React.useState(false);
 
+export default function Notification(props: NoteProps) {
+  const [open, setOpen] = React.useState(false);
+  const { notifyType, message } = props;
   const handleClick = () => {
     setOpen(true);
   };
-
   const handleClose = (
     event: React.SyntheticEvent | React.MouseEvent,
     reason?: string,
@@ -32,6 +26,24 @@ export default function Notification() {
     setOpen(false);
   };
 
+  let notification;
+  switch (notifyType) {
+    case 1:
+      notification =  (
+      <Alert onClose={handleClose} severity="error">
+        {message}
+      </Alert>)
+      break;
+
+    default:
+      notification =  (
+      <Alert onClose={handleClose} severity="info">
+        {message}
+      </Alert>)
+      break;
+  }
+  
+
   return (
     <div>
       <Button onClick={handleClick}>Open notification</Button>
@@ -41,9 +53,7 @@ export default function Notification() {
         autoHideDuration={5000}
         onClose={handleClose}
         >
-            <Alert onClose={handleClose} severity="info">
-                Invalid email and/or password
-            </Alert>
+          { notification}
         </Snackbar>
     </div>
   );
