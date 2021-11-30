@@ -3,12 +3,6 @@ import * as react from 'react';
 import { useParams } from "react-router-dom";
 import IProps from "../IProps";
 import "./ChatWindow.css";
-class Person
-{
-    id : number | undefined;
-    name : string | undefined;
-    profilePicture : string | undefined;
-}
 
 export default function ChatWindow(props: IProps){
     const { name, children, imageLink } = props;
@@ -49,12 +43,13 @@ export default function ChatWindow(props: IProps){
             }}
             >
                 {chatHeaderContainer}
+                {children}
             </Card>
             </div>
             )}
             
             { !matches && (  
-                <div className="Content Narrow">          
+                <div className="Content Narrow">
                     <Card
                     style={{
                     width: "90%",
@@ -62,6 +57,7 @@ export default function ChatWindow(props: IProps){
                     }}
                     >
                         {chatHeaderContainer}
+                        {children}
                     </Card>      
             </div>  
             )}

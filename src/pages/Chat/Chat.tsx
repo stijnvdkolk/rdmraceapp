@@ -32,31 +32,16 @@ export default function Chat() {
     const redirect = () => {
         history.push("/chat/publiek");
     }
+
+    /*
+    * @param {number} id
+    * dit zet een chat in de history van de browser
+    * de gebruiker kan dan op <- drukken om terug te gaan naar de vorige pagina
+    */
     function redirectTo(id: number) {
         history.push("/chat/" + id);
         console.log("Redirect to: "+ id);
-    }
-
-    // const location = useLocation();
-
-    // const queryParams = useMemo<UParams>(() => {
-    //     const params = new URLSearchParams(location.search);
-
-    //     return {
-    //         channelID: params.get("channelID"),
-    //     }
-    // }, [location]);
-
-    console.log(channelID);
-
-    //#Region Test
-    // const [para, setPara] = useState<UParams>();
-    // const para = useParams<UParams>();
-    // useEffect(() => {
-    //     setPara(useParams<UParams>());
-    // }, [])
-    //#EndRegion
-    
+    }    
     useEffect(() => {
         fetch("https://localhost:7023/testing") // Debug
             .then(res => res.json())
