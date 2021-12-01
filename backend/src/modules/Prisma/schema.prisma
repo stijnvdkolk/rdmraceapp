@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+// User enum
+enum UserRole {
+  ADMIN
+  MARKETING
+  TEAM_MEMBER
+  SPONSOR
+}
+
+enum UserStatus {
+  ONLINE
+  OFFLINE
+}
+
+// User model
+model User {
+  id             String     @id @default(cuid())
+  email          String     @unique
+  username       String
+  password       String
+  profilePicture String     @default("/embed/avatars/default.png") // embed fail
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now()) @updatedAt
+  role           UserRole   @default(TEAM_MEMBER)
+  status         UserStatus @default(OFFLINE)
+  aboutMe        String     @default("Hey there, I am using PhidippidesChat!")
+  channels       Channel[]
+  messages       Message[]
+}
+
+// Channel enum
+enum ChannelType {
+  DM
+  PUBLIC_CHANNEL
+  NEWS_CHANNEL
+  PRIVATE_CHANNEL
+}
+
+// Channel model
+model Channel {
+  id          String      @id @default(cuid())
+  name        String
+  type        ChannelType
+  rolesAccess UserRole[]
+  users       User[]
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(now()) @updatedAt
+  messages    Message[]
+}
+
+// Message model
+model Message {
+  id          String       @id @default(cuid())
+  content     String
+  channelId   String
+  channel     Channel      @relation(fields: [channelId], references: [id])
+  author      User         @relation(fields: [authorId], references: [id])
+  authorId    String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+  attachments Attachment[]
+}
+
+// Attachment model
+model Attachment {
+  id        String   @id @default(cuid())
+  url       String
+  message   Message  @relation(fields: [messageId], references: [id])
+  messageId String
+  createdAt DateTime @default(now())
+}
+
+// To get the last message sent. Look at last message sent in channel, then look at user updatedAt (BEFORE OVERWRITE!)

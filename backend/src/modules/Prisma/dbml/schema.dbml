@@ -1,0 +1,80 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  email String [unique, not null]
+  username String [not null]
+  password String [not null]
+  profilePicture String [not null, default: '/embed/avatars/default.png']
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  role UserRole [not null, default: 'TEAM_MEMBER']
+  status UserStatus [not null, default: 'OFFLINE']
+  aboutMe String [not null, default: 'Hey there, I am using PhidippidesChat!']
+  channels Channel [not null]
+  messages Message [not null]
+}
+
+Table Channel {
+  id String [pk]
+  name String [not null]
+  type ChannelType [not null]
+  rolesAccess UserRole [not null]
+  users User [not null]
+  description String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  messages Message [not null]
+}
+
+Table Message {
+  id String [pk]
+  content String [not null]
+  channelId String [not null]
+  channel Channel [not null]
+  author User [not null]
+  authorId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  attachments Attachment [not null]
+}
+
+Table Attachment {
+  id String [pk]
+  url String [not null]
+  message Message [not null]
+  messageId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table ChannelToUser {
+  channelsId String [ref: > Channel.id]
+  usersId String [ref: > User.id]
+}
+
+Enum UserRole {
+  ADMIN
+  MARKETING
+  TEAM_MEMBER
+  SPONSOR
+}
+
+Enum UserStatus {
+  ONLINE
+  OFFLINE
+}
+
+Enum ChannelType {
+  DM
+  PUBLIC_CHANNEL
+  NEWS_CHANNEL
+  PRIVATE_CHANNEL
+}
+
+Ref: Message.channelId > Channel.id
+
+Ref: Message.authorId > User.id
+
+Ref: Attachment.messageId > Message.id

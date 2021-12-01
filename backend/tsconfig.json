@@ -6,6 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
@@ -19,6 +20,8 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@interfaces/*": ["./src/interfaces/*"],
+      "@lib": ["./src/lib"],
+      "@lib/*": ["./src/lib/*"],
       "@modules": ["./src/modules"],
       "@modules/*": ["./src/modules/*"],
       "@decorators": ["./src/decorators"],

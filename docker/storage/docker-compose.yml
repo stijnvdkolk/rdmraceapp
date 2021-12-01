@@ -5,6 +5,7 @@ x-minio-common: &minio-common
 
 services:
   minio:
+    container_name: rdmchat_storage
     image: minio/minio:latest
     command: server --console-address ':9001' data1
     ports:
