@@ -51,7 +51,7 @@ export default function NavDrawer(props: IProps) {
                     marginTop: 42,
                     marginLeft: 40,
                     marginBottom: 2,
-                    height: "95vh",                      
+                    height: "90vh",                      
                     background: "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)), #FFFBFE",
                 }}}
                 ModalProps={{

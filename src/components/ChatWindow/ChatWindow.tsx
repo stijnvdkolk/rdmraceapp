@@ -16,7 +16,6 @@ export default function ChatWindow(props: IProps){
     
 
     const chatHeaderContainer = ( //we just put all children in a div over here so we don't have to worry about mismatches
-
         <div className="chatContainer">
             <div className="channelHeader">
                 <img className="Iprofile profile" width="75" alt="" src={imageLink}/>
@@ -37,7 +36,7 @@ export default function ChatWindow(props: IProps){
             <Card
             style={{
                 width: "95%",
-                height: "95vh",
+                height: "90vh",
                 borderRadius: "16px",
                 background: "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)), #FFFBFE",
             }}

@@ -26,6 +26,8 @@ export default function Chat() {
     const [error, setError] = useState<any>(null);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [items, setItems] = useState<Person[] | undefined>(undefined); //Person[]
+
+
     const { channelID } = useParams<UParams>();
 
     let history = useHistory();
@@ -42,11 +44,13 @@ export default function Chat() {
         history.push("/chat/" + id);
         console.log("Redirect to: "+ id);
     }    
+
+
+
     useEffect(() => {
         fetch("https://localhost:7023/testing") // Debug
             .then(res => res.json())
-            .then(
-                (result) => {
+            .then((result) => {
                     setIsLoaded(true);
                     setItems(result);
                 },
@@ -56,6 +60,8 @@ export default function Chat() {
                 }
             )
     }, [])
+
+
     const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
     const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
     useEffect(() => {
@@ -72,6 +78,7 @@ export default function Chat() {
                 }
             )
     }, [])
+    
     const [isLoadedDM, setIsLoadedDM] = useState<boolean>(false);
     const [DM, setDM] = useState<Person | undefined>(undefined); //Person[]
     useEffect(() => {
