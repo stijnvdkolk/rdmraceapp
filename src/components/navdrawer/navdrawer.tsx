@@ -10,7 +10,7 @@ import IProps from '../IProps';
 * This is the NavBar component.
 */
 export default function NavDrawer(props: IProps) {
-    const { name, children, imageLink } = props;
+    const { name, children, imageLink, mischellaneous } = props;
     //const [open, setOpen] = useState("left");
     const [matches, setMatches] = react.useState(window.matchMedia("(min-width: 1000px)").matches);
     react.useEffect(() => {
@@ -21,23 +21,25 @@ export default function NavDrawer(props: IProps) {
     const toggle = ()=>setIsOpen((current: any) =>!current);
     // Create a condition that targets viewports at least 768px wide
     let navbarElements = (
+        
         <div className="sp-Lockup">
-            <Background className='DMI IIcon'/>
-            <div className="Cursor1 ICursor"></div>
-            <PersonIcon className="PersonIcon IIcon" sx={
-                style => ({
-                    width: "30px",
-                    height: "30px",
-                })
-            }/>
-            <img className="profile" width="75" alt="" src={imageLink}/>
-            <label className="product">{name}</label>
-            {!matches && (                
-                <div className="Cursor2 ICursor"></div>
-            )}
-            {!matches && (                
-                <MenuIcon className="Hamburger IIcon" onClick={toggle}/>
-            )}
+                <Background className='DMI IIcon'/>
+                <div className="Cursor1 ICursor"></div>
+                <PersonIcon className="PersonIcon IIcon" sx={
+                    style => ({
+                        width: "30px",
+                        height: "30px",
+                    })
+                }/>
+                <img className="profile" width="75" alt="" src={imageLink}/>
+                <label className="product">{name}</label>
+                {!matches && (                
+                    <div className="Cursor2 ICursor"></div>
+                )}
+                {!matches && (                
+                    <MenuIcon className="Hamburger IIcon" onClick={toggle}/>
+                )}
+            
 
         </div>
     );
@@ -57,9 +59,15 @@ export default function NavDrawer(props: IProps) {
                 ModalProps={{
                     keepMounted: true,
                 }}>
-                <div className="chattop chatprofile rightlined">
-                    {navbarElements}                                          
-                </div>
+                {mischellaneous ? (
+                    <div className="chattop chatprofile rightlined">
+                        
+                        {navbarElements}                                          
+                    </div>
+                )
+                : (
+                    <div/>
+                )}
                 {children}          
             </Drawer>
             )}

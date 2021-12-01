@@ -1,0 +1,15 @@
+.options{
+    display: flex;
+    justify-content: center;
+}
+.BgButton{
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+.Admin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

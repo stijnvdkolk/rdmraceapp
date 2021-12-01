@@ -107,7 +107,7 @@ export default function Chat() {
                         
                         <Toolbar /> 
                         <div className="NavBar">   
-                            <Navdrawer name={ items != null ? items[0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }>
+                            <Navdrawer mischellaneous={true} name={ items != null ? items[0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }>
                                 
                                 {isCLoaded && contacts != null ? (
                                     <div>

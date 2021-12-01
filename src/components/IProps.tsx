@@ -6,6 +6,7 @@ interface IProps {
     imageLink?: string;
     darkMode?: boolean;
     onClick?: () => void;
+    mischellaneous?: boolean;
 }
 
 export default IProps;
