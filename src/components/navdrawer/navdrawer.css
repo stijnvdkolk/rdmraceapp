@@ -5,7 +5,6 @@
     justify-content: left;
     /* M3/read-only/light/surface1 */
     
-    background: linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)), #FFFBFE;
     border-radius: 20px;
 }
 
@@ -56,22 +55,31 @@
     order: 4;
     justify-content: center;
     vertical-align: middle;
+    margin-right: 10px;
 }
 .ICursor{
     cursor: pointer;
     width: 0px;
     height: 16px;
     top: calc(50% - 16px/2);
+    
     border: 1px solid #1F1F1F;
     /* Inside Auto Layout */
     flex: none;    
     flex-grow: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+
 }
+@media (prefers-color-scheme: dark) {
+    .ICursor   { border: 1px solid rgb(107, 107, 107); }
+  }
 .Cursor1{
     order: 3;
 }
 .Cursor2{
     order: 5;
+    margin-left: -5px;
 }
 .IIcon{
     /* Icons/person_outline_24px
@@ -113,7 +121,6 @@
     width: 60%;
     height: 42px;
     left: 52px;
-    right: 94px;
     top: calc(50% - 42px/2);
     overflow: hidden;
     font-family: Arial, Helvetica, sans-serif;
@@ -125,8 +132,10 @@
     display: flex;
     align-items: center;
     letter-spacing: 0.1px;
-    color: #1F1F1F;
+
+
 }
+
 .profile{
     /* profile Picture */
     width: 50px;
@@ -147,3 +156,7 @@
     order: 1;
     float: right;
 }
+
+@media (prefers-color-scheme: dark) {
+    .Darkmode   { background-color: #1e1e1e !important; }
+  }

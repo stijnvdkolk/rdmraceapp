@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import '../../App.css'; //voor app css voor background
 import './Chat.css';
 import Navdrawer from '../../components/navdrawer/navdrawer';
-import { CircularProgress, Divider, Toolbar} from '@mui/material';
+import { Avatar, CircularProgress, Divider, Toolbar} from '@mui/material';
 import AccessibleIcon from '@mui/icons-material/Accessible';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
@@ -42,7 +42,6 @@ export default function Chat() {
     */
     function redirectTo(id: number) {
         history.push("/chat/" + id);
-        console.log("Redirect to: "+ id);
     }    
 
 
@@ -97,7 +96,6 @@ export default function Chat() {
             )
         }
     }, [channelID])
-    console.log(DM);
 
     return (
         <>
@@ -107,14 +105,17 @@ export default function Chat() {
                         
                         <Toolbar /> 
                         <div className="NavBar">   
-                            <Navdrawer mischellaneous={true} name={ items != null ? items[0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }>
+                            <Navdrawer OverrideDarkmode={true} mischellaneous={true} name={ items != null ? items[0].name : "" } imageLink={ items != null ? items![0].profilePicture : "" }>
                                 
                                 {isCLoaded && contacts != null ? (
                                     <div>
                                         <Divider />
                                         {contacts.map(contact => (                                            
                                             <NavListItem key={contact.id} text={contact.name} onClickCommand={() => {redirectTo(contact.id!)}} >                                             
-                                                <img className="profile" width="75" alt="" src={contact.profilePicture}/>
+                                                <Avatar alt="" src={contact.profilePicture} sx={{
+                                                    width: "50px",
+                                                    height: "50px",
+                                                }}/>
                                             </NavListItem>
 
                                            
@@ -131,7 +132,9 @@ export default function Chat() {
                             </Navdrawer>                           
                         </div>
                     {isLoadedDM && DM != null ? (                
-                        <ChatWindow name={DM !== undefined ? DM.name : "Egbert" } imageLink={ DM !== undefined ? DM!.profilePicture : "" }  />
+                        <ChatWindow name={DM !== undefined ? DM.name : "Egbert" } imageLink={ DM !== undefined ? DM!.profilePicture : "" }  >
+                                
+                        </ChatWindow>
                     ) : (<div/>)}
                     
                     </div>

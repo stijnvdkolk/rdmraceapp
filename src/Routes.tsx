@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp/SignUp';
 import Chat from './pages/Chat/Chat';
 import Debug from "./pages/Debug/Debug";
 import Admin from "./pages/Admin/admin";
+import Invalid from "./pages/Invalid/invalid";
 
 export default function Routes() {
     return (
@@ -14,7 +15,7 @@ export default function Routes() {
             <Route path="/SignUp" component={SignUp} />
             <Route path="/Chat/:channelID" component={Chat} />
             <Route path="/Chat/" component={Chat} />
-            <Route path="/Invalid/" component={App} /> 
+            <Route path="/Invalid/" component={Invalid} /> 
             <Route path="/Admin/:PersonID" component={Admin} /> 
             <Route path="/Admin/" component={Admin} /> 
             <Route path="/" component={Debug} /> 

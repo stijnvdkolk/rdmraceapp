@@ -1,16 +1,17 @@
 import React, * as react from 'react';
 import {Drawer, AppBar} from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
 import Background from '../../components/backgrounds/background';
 import IProps from '../IProps';
 
+
 /*
 * This is the NavBar component.
 */
 export default function NavDrawer(props: IProps) {
-    const { name, children, imageLink, mischellaneous } = props;
+    const { name, children, imageLink, mischellaneous, OverrideDarkmode } = props;
     //const [open, setOpen] = useState("left");
     const [matches, setMatches] = react.useState(window.matchMedia("(min-width: 1000px)").matches);
     react.useEffect(() => {
@@ -25,10 +26,10 @@ export default function NavDrawer(props: IProps) {
         <div className="sp-Lockup">
                 <Background className='DMI IIcon'/>
                 <div className="Cursor1 ICursor"></div>
-                <PersonIcon className="PersonIcon IIcon" sx={
+                <PersonOutlinedIcon className="PersonIcon IIcon" sx={
                     style => ({
                         width: "30px",
-                        height: "30px",
+                        height: "30px",                        
                     })
                 }/>
                 <img className="profile" width="75" alt="" src={imageLink}/>
@@ -49,12 +50,16 @@ export default function NavDrawer(props: IProps) {
             <Drawer
                 anchor="left"
                 variant="permanent"
-                PaperProps={{ style: {
+                PaperProps={{ 
+                    className: OverrideDarkmode ? "Darkmode" : "",
+                    
+                    style: {
                     marginTop: 42,
                     marginLeft: 40,
                     marginBottom: 2,
-                    height: "90vh",                      
-                    background: "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)), #FFFBFE",
+                    height: "90vh",
+                    
+                    
                 }}}
                 ModalProps={{
                     keepMounted: true,
@@ -74,7 +79,7 @@ export default function NavDrawer(props: IProps) {
             {/* Hier komt het voor klein scherm  */}
             {!matches && (
             <>
-                <AppBar color="primary">
+                <AppBar>
                     <div className="chattop chatprofile fullwidth">
                         {navbarElements}
                         
@@ -85,9 +90,8 @@ export default function NavDrawer(props: IProps) {
                     open={isOpen}
                     onClose={() => setIsOpen(false)}
                     PaperProps={{ 
-                        className: "DebugHenk",
-                        style: { background: "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)), #FFFBFE",
-                    }}}
+                        className: "DebugHenk",                        
+                    }}
                     ModalProps={{
                         keepMounted: true,
                     }}

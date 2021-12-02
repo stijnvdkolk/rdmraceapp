@@ -4,10 +4,11 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from "./Routes";
+import App from './App';
 
 ReactDOM.render(
   <BrowserRouter>
-      <Routes />
+      <App />
   </BrowserRouter>,
   document.getElementById('root')
 );
