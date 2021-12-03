@@ -1,4 +1,4 @@
-import { Card, Divider } from "@mui/material";
+import { Card, Divider, TextField } from "@mui/material";
 import * as react from 'react';
 import { useParams } from "react-router-dom";
 import IProps from "../IProps";
@@ -19,7 +19,7 @@ export default function ChatWindow(props: IProps){
         <div className="chatHeaderContainer">
             <div className="channelHeader">
                 <img className="Iprofile profile" width="75" alt="" src={imageLink}/>
-                <label className="Iproduct product">{name}</label>
+                <label className="Iproduct productChat">{name}</label>
             </div>
             
             <div className="channelTrailing static">
@@ -27,42 +27,28 @@ export default function ChatWindow(props: IProps){
             </div>
         </div>
     );
-
-    return (
-        <div className="a100">
-            { matches && (
-            <div className="Content Wide">
-            
-            <Card
-            style={{
-                width: "95%",
-                height: "90vh",
-                borderRadius: "16px",
-            }}
-            >
-                {chatHeaderContainer}
-                <Divider/>
-                {children}
-            </Card>
+    const SendForm = (
+        <div className="sendForm">
+            <div className="sendFormContainer">
+                <div className="sendFormInner">
+                    <TextField id="outlined-basic" label="Outlined" variant="outlined" className="MessageInput"/>
+                </div>
             </div>
-            )}
-            
-            { !matches && (  
-                <div className="Content Narrow">
-                    <Card
-                    style={{
-                    width: "90%",
-                    height: "90%",
-                    }}
-                    >
-                        {chatHeaderContainer}
-                        <Divider/>
-                        {children}
-                    </Card>      
-            </div>  
-            )}
-            
         </div>
-        
+    )
+
+    return ( //refactored this to just 1 expression easier to read          
+        <div className={matches ? "Content Wide" : "Content Narrow"}>            
+            <Card style={{
+                    width: matches ? "95%" : "90%",
+                    height: matches ? "90vh" : "100%",
+                    borderRadius: "16px",
+                }}>
+                {chatHeaderContainer}
+                <Divider/>                
+                {children /* this is where the chat messages go */}
+                {SendForm /*this is the send input*/}
+            </Card>
+        </div> 
     );
 }

@@ -11,12 +11,9 @@ import NavListItem from '../../components/navListItem/navListItem';
 import {useHistory, useParams} from "react-router-dom";
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
 import { getPerson } from '../../API/Chat';
-class Person
-{
-    id : number | undefined;
-    name : string | undefined;
-    profilePicture : string | undefined;
-}
+import Person from '../../classes/Person';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { green, grey, red, yellow } from '@mui/material/colors';
 
 interface UParams{
     channelID: string | undefined;
@@ -112,10 +109,19 @@ export default function Chat() {
                                         <Divider />
                                         {contacts.map(contact => (                                            
                                             <NavListItem key={contact.id} text={contact.name} onClickCommand={() => {redirectTo(contact.id!)}} >                                             
+                                                <FiberManualRecordIcon  sx={{
+                                                    color: contact.status === "Online" ? green[500] : contact.status === "Away" ? yellow[500] : contact.status === "Do not Disturb" ? red[500] : grey[500],
+                                                    order: 2,
+                                                    marginLeft: "-20px",
+                                                    marginTop: "25px",
+                                                    position: "relative",
+                                                }} />
                                                 <Avatar alt="" src={contact.profilePicture} sx={{
                                                     width: "50px",
                                                     height: "50px",
+
                                                 }}/>
+                                                
                                             </NavListItem>
 
                                            

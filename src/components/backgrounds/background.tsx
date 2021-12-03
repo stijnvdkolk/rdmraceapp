@@ -4,6 +4,7 @@ import IProps from '../IProps';
 import './background.css';
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import { createTheme, useTheme } from '@mui/material';
+import { themes, useThemeContext } from '../theme-context';
 
 class BackgroundProps implements IProps {
     className?: string = "out";
@@ -17,21 +18,23 @@ const defaultTheme = createTheme({
   
 
 export default function Background(props : BackgroundProps){
+    const {theme, toggleDark} = useThemeContext();
     const [darkMode, setDarkMode] = React.useState(false);
-    const [theme, setTheme] = React.useState(defaultTheme);
-    const onClick = () => {
+    // const [theme, setTheme] = React.useState(defaultTheme);
+    // const onClick = () => {
 
-        const isDarkTheme = theme.palette.mode === "dark";
-        console.log(isDarkTheme);
-        setTheme(
-        createTheme({
-            palette: {
-              mode: isDarkTheme ? 'light' : 'dark'
+    //     const isDarkTheme = theme.palette.mode === "dark";
+    //     console.log(isDarkTheme);
+    //     setTheme(
+    //     createTheme({
+    //         palette: {
+    //           mode: isDarkTheme ? 'light' : 'dark'
     
-            },
-          }),
-        );
-    }
+    //         },
+    //       }),
+    //     );
+    // }
+
     function backgroundChange(){        
         let navdraw = document.getElementById("out");
             if (navdraw?.classList?.contains("red")) {
@@ -47,7 +50,7 @@ export default function Background(props : BackgroundProps){
     }
     
     return(
-        <div className={props.className} onClick={onClick}>
+        <div className={props.className} onClick={() => toggleDark!() }>
             {darkMode ?
             <WbSunnyOutlinedIcon sx={
                             style => ({

@@ -24,6 +24,10 @@ export default function NavDrawer(props: IProps) {
     let navbarElements = (
         
         <div className="sp-Lockup">
+            
+            <img className="profile" width="75" alt="" src={imageLink}/>
+            <label className={matches ? "product" : "product2"}>{name}</label>
+            <div className="sp-Lockup2 Order2">
                 <Background className='DMI IIcon'/>
                 <div className="Cursor1 ICursor"></div>
                 <PersonOutlinedIcon className="PersonIcon IIcon" sx={
@@ -32,14 +36,14 @@ export default function NavDrawer(props: IProps) {
                         height: "30px",                        
                     })
                 }/>
-                <img className="profile" width="75" alt="" src={imageLink}/>
-                <label className="product">{name}</label>
                 {!matches && (                
                     <div className="Cursor2 ICursor"></div>
                 )}
                 {!matches && (                
                     <MenuIcon className="Hamburger IIcon" onClick={toggle}/>
                 )}
+            </div>
+            
             
 
         </div>
@@ -57,8 +61,7 @@ export default function NavDrawer(props: IProps) {
                     marginTop: 42,
                     marginLeft: 40,
                     marginBottom: 2,
-                    height: "90vh",
-                    
+                    height: "90vh",                    
                     
                 }}}
                 ModalProps={{
@@ -81,8 +84,7 @@ export default function NavDrawer(props: IProps) {
             <>
                 <AppBar>
                     <div className="chattop chatprofile fullwidth">
-                        {navbarElements}
-                        
+                        {navbarElements}                        
                     </div>
                 </AppBar>
                 <Drawer
