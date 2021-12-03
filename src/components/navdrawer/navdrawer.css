@@ -116,9 +116,8 @@
     flex-direction: row;
     align-items: center;
 }
-
 .product{
-    width: 60%;
+    width: 15em !important;
     height: 42px;
     left: 52px;
     top: calc(50% - 42px/2);
@@ -132,6 +131,26 @@
     display: flex;
     align-items: center;
     letter-spacing: 0.1px;
+    order: 1;
+
+
+}
+.product2{
+    width: 50em !important;
+    height: 42px;
+    left: 52px;
+    top: calc(50% - 42px/2);
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 24px;
+    /* or 96% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1px;
+    order: 1;
 
 
 }
@@ -148,6 +167,7 @@
     margin: 0px;
     border-radius: 45px;
     margin-right: 10px;
+    order: 0;
 }
 .navdraw{
     display: block;
@@ -160,3 +180,26 @@
 @media (prefers-color-scheme: dark) {
     .Darkmode   { background-color: #1e1e1e !important; }
   }
+
+.Order2{
+    order: 2;
+
+}
+.sp-Lockup2{
+    /* 18sp Lockup */
+    /* Auto Layout */
+    float: right;
+    left: auto;
+    right: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    /* Inside Auto Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+.MessageInput{
+    
+}
