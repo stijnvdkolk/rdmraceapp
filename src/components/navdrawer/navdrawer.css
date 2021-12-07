@@ -177,9 +177,7 @@
     float: right;
 }
 
-@media (prefers-color-scheme: dark) {
-    .Darkmode   { background-color: #1e1e1e !important; }
-  }
+.Darkmode   { background-color: #1e1e1e !important; }
 
 .Order2{
     order: 2;
@@ -199,7 +197,4 @@
     flex: none;
     align-self: stretch;
     flex-grow: 0;
-}
-.MessageInput{
-    
 }

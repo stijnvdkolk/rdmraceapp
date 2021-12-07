@@ -6,7 +6,7 @@ import Background from '../../components/backgrounds/background';
 
 function Invalid() {
   return (
-    <div id="out" className="App red background">
+    <>
       <Background className='out'/>
       <div className="card Signup">
         <Card
@@ -23,7 +23,7 @@ function Invalid() {
           </p>
         </Card>
       </div>
-    </div>
+    </>
   );
 }
 export default Invalid;

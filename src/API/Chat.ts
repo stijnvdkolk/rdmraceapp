@@ -10,7 +10,6 @@ export async function getPerson(channelID: string): Promise<{
 }>
 {
     const path = `/getPeople/Person/${channelID}`;
-    console.log(path);
     return get(path);
 }
 
@@ -24,6 +23,5 @@ export async function getChannel(channelID: string): Promise<{
 }>
 {
     const path = `/getPeople/Channel/${channelID}`;
-    console.log(path);
     return get(path);
 }

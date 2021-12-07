@@ -1,27 +1,21 @@
-import React, { useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useContext, useEffect } from 'react';
 import './App.css';
-import {Card, createTheme, ThemeProvider, useMediaQuery} from '@mui/material';
+import {ThemeProvider} from '@mui/material';
 import Routes from './Routes';
-import Background from './components/backgrounds/background';
-import { darkTheme, lightTheme, ThemeProviderH, useThemeContext } from './components/theme-context';
+import { darkTheme, lightTheme, ThemeContext } from './components/theme-context';
+import { useLocalStorage } from 'react-use';
+
 
 
 function App() {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const {theme, toggleDark} = useThemeContext();
-  console.log(theme);
-  console.log("Dark" + prefersDarkMode);
-  useEffect(() => {
-    console.log("Dark" + theme);
-}, [theme]);
-  
-
+  const { changeColorTheme, colorTheme } =  useContext(ThemeContext);
   return (
-    <ThemeProviderH>
-        <ThemeProvider theme={theme}>           
-          <Routes/>
-        </ThemeProvider>      
-    </ThemeProviderH>
+    <ThemeProvider theme={colorTheme === "light" ? lightTheme : darkTheme}>
+      <div id="out" className="App red background">       
+        <Routes />
+      </div>    
+    </ThemeProvider>
   );
 }
 export default App;

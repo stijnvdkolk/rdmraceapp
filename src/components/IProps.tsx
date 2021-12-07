@@ -8,6 +8,7 @@ interface IProps {
     onClick?: () => void;
     mischellaneous?: boolean;
     OverrideDarkmode?: boolean;
+    themeChanger?: () => void;
 }
 
 export default IProps;

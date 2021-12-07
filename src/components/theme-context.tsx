@@ -1,5 +1,6 @@
-import { createTheme, Theme } from "@mui/material";
-import React, { useState, createContext, FC, useContext } from "react";
+import { createTheme } from "@mui/material";
+import React, { FC, useCallback } from "react";
+import { useState } from "react";
 
 export const darkTheme = createTheme({
     palette: {
@@ -15,75 +16,32 @@ export const themes = {
     dark: darkTheme,
     light: lightTheme,
 };
-// export const ThemeContext = React.createContext({
-//     theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? darkTheme : lightTheme, 
-//     toggleTheme: () => {
-//         this.theme === darkTheme ? theme = lightTheme : theme = darkTheme;
-//     }
-// });
 
-// Mode Context - src/context/Mode
-// interface modeProps {    
-//     children?: React.ReactNode;
-//     Mode?: Theme;
-// }
-
-// const ModeContext = React.createContext(undefined);
-
-// const defaultMode = {
-//   theme: "light",
-// };
-
-// export const ModeProvider = ({ children :React.ReactNode , Mode }) => {
-//   const [currentMode, setCurrentMode] = useState(
-//     Mode || defaultMode
-//   );
-
-//   const saveMode = (values) => {
-//    setCurrentMode(values)
-//   };
-
-//   return (
-//     <ModeContext.Provider
-//       value={{ Mode: currentMode, saveMode }}
-//     >
-//       {children}
-//     </ModeContext.Provider>
-//   );
-// };
-
-// export const ModeConsumer = ModeContext.Consumer;
-
-// export default ModeContext;
-
-
-
-interface IThemeContext {
-  theme: Theme;
-  toggleDark?: () => void;
+type themeContextType = {
+  colorTheme: "light" | "dark";
+  changeColorTheme: () => void;
 }
 
-const defaultState = {
-  theme: themes.dark,
-};
 
-const ThemeContext = React.createContext<IThemeContext>(defaultState);
-export default ThemeContext;
+export const ThemeContext = React.createContext<Partial<themeContextType>>({});
+export const ThemeProvider : FC = ({ children  }) => {
+  const [colorTheme, setColorTheme] = useState<"light" | "dark">("light");
 
-export const ThemeProviderH: FC = ({ children }) => {
-  const [theme, setDark] = useState<Theme>(themes.dark);
-
-  const toggleDark = () => {
-    setDark(themes.light);
-    console.log("toggleDark");
-    console.log(theme === themes.dark);
-    console.log(theme === themes.light ? "Light" : "Dark");
-  };
+  const changeColorTheme = useCallback(() => {
+    setColorTheme((prev) => {
+      if (prev === "light") {
+        return "dark";
+      }
+      return "light";
+    })
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleDark }}>
+    <ThemeContext.Provider value={{
+      colorTheme,
+      changeColorTheme,
+    }}>
       {children}
     </ThemeContext.Provider>
-  );
-};
-export const useThemeContext = () =>  useContext(ThemeContext);
+  )
+}

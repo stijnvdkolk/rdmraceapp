@@ -9,7 +9,7 @@ import {Button} from '@mui/material';
 
 export default function SignUp() {
   return (
-    <div id="out" className="App dark background">
+    <>
       <Background className='out'/>
       <div className="card Signup">
         <Card
@@ -52,7 +52,7 @@ export default function SignUp() {
             }}/>
         </Card>
       </div>
-    </div>
+    </>
   );
 }
 

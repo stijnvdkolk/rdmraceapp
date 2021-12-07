@@ -1,11 +1,11 @@
-import Background from "../../components/backgrounds/background";
+//import Background from "../../components/backgrounds/background";
 import {Card} from "@mui/material"
 import "../Admin/admin.css";
 import NavDrawer from '../../components/navdrawer/navdrawer';
 import { useState, useEffect } from "react";
 import {Divider} from "@mui/material";
 import NavListItem from "../../components/navListItem/navListItem";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 class Person
 {
@@ -23,6 +23,7 @@ export default function Admin(){
         console.log("Redirect to: "+ id);
     }  
     
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [error, setError] = useState<any>(null);
     const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
     const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
@@ -43,7 +44,7 @@ export default function Admin(){
 
     
     return(
-        <div id="out" className="App dark background">
+        <>
             <div className="Admin">
                 <div className="Drawer">
                     <NavDrawer>
@@ -76,6 +77,6 @@ export default function Admin(){
                         </Card>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

@@ -8,7 +8,7 @@ import Buttoned from '../../components/button/button';
 
 export default function Login() {
   return (
-    <div id="out" className="App dark background">
+    <>
       <Background className='out'/>
       <div className="card">
         <Card
@@ -41,6 +41,6 @@ export default function Login() {
           </div>
         </Card>
       </div>
-    </div>
+    </>
   );
 }

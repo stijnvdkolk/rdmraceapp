@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import Routes from "./Routes";
 import App from './App';
+import { ThemeProvider } from './components/theme-context';
 
 ReactDOM.render(
-  <BrowserRouter>
-      <App />
-  </BrowserRouter>,
+  <ThemeProvider>
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 

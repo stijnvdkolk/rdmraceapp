@@ -1,71 +1,53 @@
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import React from 'react';
+import React, { useContext } from 'react';
 import IProps from '../IProps';
 import './background.css';
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
-import { createTheme, useTheme } from '@mui/material';
-import { themes, useThemeContext } from '../theme-context';
+import { ThemeContext } from "../theme-context";
 
 class BackgroundProps implements IProps {
     className?: string = "out";
 }
-const defaultTheme = createTheme({
-    palette: {
-      mode: "light",
-    }
-  });
-
-  
 
 export default function Background(props : BackgroundProps){
-    const {theme, toggleDark} = useThemeContext();
-    const [darkMode, setDarkMode] = React.useState(false);
-    // const [theme, setTheme] = React.useState(defaultTheme);
-    // const onClick = () => {
-
-    //     const isDarkTheme = theme.palette.mode === "dark";
-    //     console.log(isDarkTheme);
-    //     setTheme(
-    //     createTheme({
-    //         palette: {
-    //           mode: isDarkTheme ? 'light' : 'dark'
+    const { changeColorTheme, colorTheme } =  useContext(ThemeContext);
     
-    //         },
-    //       }),
-    //     );
-    // }
-
     function backgroundChange(){        
-        let navdraw = document.getElementById("out");
-            if (navdraw?.classList?.contains("red")) {
-                navdraw?.classList?.add("dark");
-                navdraw?.classList?.remove("red");
-                setDarkMode(true);
+        let bg = document.getElementById("out");
+            if (bg?.classList?.contains("red")) {
+                bg?.classList?.add("dark");
+                bg?.classList?.remove("red");
+                if (changeColorTheme != null) {
+                    changeColorTheme();
+                }
             }
             else {
-                navdraw?.classList?.add("red");
-                navdraw?.classList?.remove("dark");
-                setDarkMode(false);
+                bg?.classList?.add("red");
+                bg?.classList?.remove("dark");
+                if (changeColorTheme != null) {
+                    changeColorTheme();
+                }                        
             }
     }
     
     return(
-        <div className={props.className} onClick={() => toggleDark!() }>
-            {darkMode ?
-            <WbSunnyOutlinedIcon sx={
-                            style => ({
-                                width: "30px",
-                                height: "30px",
-                            })
-                        }/>
-            : 
-            <DarkModeOutlinedIcon sx={
-                            style => ({
-                                width: "30px",
-                                height: "30px",
-                            })
-                        }/>
-            }
+        <div className={props.className} onClick={backgroundChange}>
+            {!(colorTheme === 'light') ? (
+                <WbSunnyOutlinedIcon sx={
+                    style => ({
+                        width: "30px",
+                        height: "30px",                        
+                        color: "red",
+                    })
+                }/>
+            ) : (
+                <DarkModeOutlinedIcon sx={
+                    style => ({
+                        width: "30px",
+                        height: "30px",
+                    })
+                }/>
+            )}
         </div>
     );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import '../../App.css'; //voor app css voor background
 import './Chat.css';
@@ -82,7 +83,6 @@ export default function Chat() {
             getPerson(channelID)
             .then(
                 result => {
-                    console.log(result);
                     setIsLoadedDM(true);
                     setDM(result);
                 },
@@ -98,7 +98,7 @@ export default function Chat() {
         <>
             {
                 isLoaded ? (
-                    <div id="out" className="App dark background">
+                    <>
                         
                         <Toolbar /> 
                         <div className="NavBar">   
@@ -143,7 +143,7 @@ export default function Chat() {
                         </ChatWindow>
                     ) : (<div/>)}
                     
-                    </div>
+                    </>
                     ) 
                 : (<CircularProgress />) 
                 

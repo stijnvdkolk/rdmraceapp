@@ -5,13 +5,15 @@ import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
 import Background from '../../components/backgrounds/background';
 import IProps from '../IProps';
+import { useContext } from 'react';
+import { ThemeContext } from '../theme-context';
 
 
 /*
 * This is the NavBar component.
 */
 export default function NavDrawer(props: IProps) {
-    const { name, children, imageLink, mischellaneous, OverrideDarkmode } = props;
+    const { name, children, imageLink, mischellaneous } = props;
     //const [open, setOpen] = useState("left");
     const [matches, setMatches] = react.useState(window.matchMedia("(min-width: 1000px)").matches);
     react.useEffect(() => {
@@ -20,6 +22,7 @@ export default function NavDrawer(props: IProps) {
     }, []);
     const [isOpen,setIsOpen] = react.useState(true);
     const toggle = ()=>setIsOpen((current: any) =>!current);
+    const { colorTheme } =  useContext(ThemeContext);
     // Create a condition that targets viewports at least 768px wide
     let navbarElements = (
         
@@ -36,46 +39,36 @@ export default function NavDrawer(props: IProps) {
                         height: "30px",                        
                     })
                 }/>
-                {!matches && (                
-                    <div className="Cursor2 ICursor"></div>
-                )}
-                {!matches && (                
-                    <MenuIcon className="Hamburger IIcon" onClick={toggle}/>
-                )}
+                {!matches && ( <div className="Cursor2 ICursor"></div>)}
+                {!matches && ( <MenuIcon className="Hamburger IIcon" onClick={toggle}/>)}
             </div>
-            
-            
-
         </div>
     );
     return (        
         <div id="navdraw">
             { matches && (
-            <Drawer
-                anchor="left"
-                variant="permanent"
-                PaperProps={{ 
-                    className: OverrideDarkmode ? "Darkmode" : "",
-                    
-                    style: {
-                    marginTop: 42,
-                    marginLeft: 40,
-                    marginBottom: 2,
-                    height: "90vh",                    
-                    
-                }}}
-                ModalProps={{
-                    keepMounted: true,
-                }}>
-                {mischellaneous ? (
-                    <div className="chattop chatprofile rightlined">
-                        
-                        {navbarElements}                                          
-                    </div>
-                )
-                : (
-                    <div/>
-                )}
+                <Drawer
+                    anchor="left"
+                    variant="permanent"
+                    PaperProps={{ 
+                        className: colorTheme === "dark" ? "Darkmode" : "",                    
+                        style: {
+                        marginTop: 42,
+                        marginLeft: 40,
+                        marginBottom: 2,
+                        height: "90vh",
+                    }}}
+                    ModalProps={{
+                        keepMounted: true,
+                    }}>
+                    {mischellaneous ? (
+                        <div className="chattop chatprofile rightlined">
+                            
+                            {navbarElements}                                          
+                        </div>
+                    )
+                    : (<div/>)
+            }
                 {children}          
             </Drawer>
             )}

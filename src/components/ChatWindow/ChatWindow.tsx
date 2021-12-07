@@ -1,18 +1,17 @@
 import { Card, Divider, TextField } from "@mui/material";
 import * as react from 'react';
-import { useParams } from "react-router-dom";
+//import { useParams } from "react-router-dom";
 import IProps from "../IProps";
 import "./ChatWindow.css";
 
 export default function ChatWindow(props: IProps){
     const { name, children, imageLink } = props;
-    let  {channelID}  = useParams<{channelID : string}>();
+    //let  {channelID}  = useParams<{channelID : string}>();
     const [matches, setMatches] = react.useState(window.matchMedia("(min-width: 1000px)").matches);
     react.useEffect(() => {
         const handler = (e: any) => setMatches( e.matches );
         window.matchMedia("(min-width: 1000px)").addListener(handler);
     }, []);
-    console.log(channelID);
     
 
     const chatHeaderContainer = ( //we just put all children in a div over here so we don't have to worry about mismatches
