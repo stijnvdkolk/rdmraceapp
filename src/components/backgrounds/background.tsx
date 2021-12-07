@@ -26,7 +26,7 @@ export default function Background(props : BackgroundProps){
                 bg?.classList?.remove("dark");
                 if (changeColorTheme != null) {
                     changeColorTheme();
-                }                        
+                }
             }
     }
     
