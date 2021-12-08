@@ -1,6 +1,6 @@
 import { NotFoundError } from '@lib/errors';
 import { Injectable } from '@nestjs/common';
-import { Channel } from '@prisma/client';
+import { Channel, User } from '@prisma/client';
 import { PrismaService } from '../Prisma/prisma.service';
 
 @Injectable()
@@ -31,11 +31,38 @@ export class ChannelService {
     }
   }
 
-  async FindChannelByUserRole(userId: string): Promise<Channel[]> {
+  async findChannelByUserId(userId: User['id']): Promise<Channel[]> {
     try {
       return this.prisma.channel.findMany({
         where: { users: { some: { id: userId } } },
       });
+    } catch (error) {
+      throw new NotFoundError('channel_not_found');
+    }
+  }
+
+  async createChannel(channel: Channel): Promise<Channel> {
+    try {
+      return this.prisma.channel.create({ data: channel });
+    } catch (error) {
+      throw new NotFoundError('channnel_already_exists');
+    }
+  }
+
+  // async updateChannel(channelUpd: Channel): Promise<Channel> {
+  //   try {
+  //     return this.prisma.channel.update({
+  //       where: { id: channelUpd['id'] },
+  //       data: { channelUpd },
+  //     });
+  //   } catch (error) {
+  //     throw new NotFoundError('channel_not_found');
+  //   }
+  // }
+
+  async deleteChannel(channelId: Channel['id']): Promise<Channel> {
+    try {
+      return this.prisma.channel.delete({ where: { id: channelId } });
     } catch (error) {
       throw new NotFoundError('channel_not_found');
     }
