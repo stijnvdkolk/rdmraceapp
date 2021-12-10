@@ -16,7 +16,7 @@
     order: 0;
 }
 .productChat{
-    width: 10em;
+    width: 9.5em;
     height: 50px;
     left: 52px;
     right: 94px;
@@ -49,6 +49,88 @@
     height: 56px;
     left: 12px;
 }
-.channelHeader{
+
+.MessageInput{
+    width: 95%;
+}
+
+.conversation{
+    overflow-y: scroll;
+    grid-row: 3;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    width: 95%;
+}
+.messageParent{
+    margin-bottom: 10px;
+}
     
+.message{  
+    
+    margin-right: 10px;
+   
+    margin-left: 15px;  
+    display: grid;
+    grid-template-columns: 60px auto auto;
+    grid-template-rows: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+}
+.lightmessage:hover{
+    background-color: #f5f5f5;
+}
+.darkmessage:hover{
+    background-color: #2e2e2e;
+}
+.message-info{
+    grid-column: 2 /span 3;
+    grid-row: 1;
+    display: flex;
+
+}
+.message-text{ 
+    grid-column: 2 /span 3;
+    grid-row: 2;
+    text-align: start;
+    margin-right: 10px;
+}
+.message-image{
+    grid-column: 1;
+    grid-row: 1 / span 3;
+}
+.message-sender{ /*authorname*/
+    order: 1;
+    margin-right: 10px;
+}
+
+.message-time{
+    order: 2;
+    font-size: small;
+}
+
+.message-image-content{
+    margin-top: 10px;
+    grid-column: 2 / span 3;
+    grid-row: 4;
+    display: flex;
+
+}
+.message-image-content-1{
+    margin-top: 10px;
+    grid-column: 2 / span 3;
+    grid-row: 5;
+    display: flex;
+
+}
+.CompleteChat{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 72px auto auto auto;
+}
+.chatHeaderContainer{
+    grid-row: 1;
+    grid-column: 1 ;
+}
+.sendForm{
+    grid-row: 4;
+    grid-column: 1;
+    margin-bottom: 10px;
 }
