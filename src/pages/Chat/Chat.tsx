@@ -11,10 +11,11 @@ import EuroIcon from '@mui/icons-material/Euro';
 import NavListItem from '../../components/navListItem/navListItem';
 import {useHistory, useParams} from "react-router-dom";
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
-import { getPerson } from '../../API/Chat';
+import { getMessage, getPerson } from '../../API/Chat';
 import Person from '../../classes/Person';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { green, grey, red, yellow } from '@mui/material/colors';
+import Message from '../../classes/Message';
 
 interface UParams{
     channelID: string | undefined;
@@ -74,8 +75,8 @@ export default function Chat() {
                     setError(error);
                 }
             )
-    }, [])
-    
+    }, []);
+
     const [isLoadedDM, setIsLoadedDM] = useState<boolean>(false);
     const [DM, setDM] = useState<Person | undefined>(undefined); //Person[]
     useEffect(() => {
@@ -138,7 +139,7 @@ export default function Chat() {
                             </Navdrawer>                           
                         </div>
                     {isLoadedDM && DM != null ? (                
-                        <ChatWindow name={DM !== undefined ? DM.name : "Egbert" } imageLink={ DM !== undefined ? DM!.profilePicture : "" }  >
+                        <ChatWindow name={DM !== undefined ? DM.name : "Egbert" } imageLink={ DM !== undefined ? DM!.profilePicture : "" } >
                                 
                         </ChatWindow>
                     ) : (<div/>)}
