@@ -10,6 +10,7 @@ interface NoteProps extends IProps {
     message?: string;
 };
 
+// shows a notification at the bottom of the screen
 export default function Notification(props: NoteProps) {
   const [open, setOpen] = React.useState(false);
   const { notifyType, message } = props;
@@ -26,6 +27,7 @@ export default function Notification(props: NoteProps) {
     setOpen(false);
   };
 
+  // determine the notification type with a number representing the type
   let notification;
   switch (notifyType) {
     case 1:
