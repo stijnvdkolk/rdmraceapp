@@ -7,6 +7,7 @@ interface buttonProps extends IProps {
     text?: string;
 };
 
+// makes a button. needs a url, button text, and also needs to be styled to fit mock-ups
 export default function Buttoned(props: buttonProps){
     const { url, text, style } = props;
     function Pressed(url: string | URL | undefined) {

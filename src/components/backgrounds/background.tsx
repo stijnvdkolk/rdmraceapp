@@ -9,6 +9,7 @@ class BackgroundProps implements IProps {
     className?: string = "out";
 }
 
+// function to change the background from dark to red mode and back
 export default function Background(props : BackgroundProps){
     const { changeColorTheme, colorTheme } =  useContext(ThemeContext);
     

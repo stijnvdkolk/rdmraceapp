@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import {Divider} from "@mui/material";
 import NavListItem from "../../components/navListItem/navListItem";
 import {useHistory} from "react-router-dom";
+import AdminList from "../../components/adminList/adminList";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 class Person
 {
@@ -72,9 +74,10 @@ export default function Admin(){
                             marginRight: "10px",
                             marginLeft: "25vw",
                         }}>
-                            
-
-                        </Card>
+                            <h2 style={{ paddingLeft: '5%' }}><AccountCircleIcon/>Users</h2>
+                            <Divider variant="middle"/> 
+                            <AdminList/>
+                    </Card>
                 </div>
             </div>
         </>
