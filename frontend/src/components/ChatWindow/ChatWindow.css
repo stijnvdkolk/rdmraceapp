@@ -1,0 +1,54 @@
+.profile{
+    /* profile Picture */
+    width: 50px;
+    height: 50px;
+    left: 0px;
+    top: 0px;
+    /* Inside Auto Layout */
+    flex: none;
+    flex-grow: 0;
+    margin: 0px;
+    border-radius: 45px;
+    margin-right: 10px;
+    float: left;
+}
+.Iprofile{
+    order: 0;
+}
+.productChat{
+    width: 10em;
+    height: 50px;
+    left: 52px;
+    right: 94px;
+    top: calc(50% - 42px/2);
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 24px;
+    /* or 96% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1px;
+    float: left;
+}
+.Iproduct{
+    order: 1;
+}
+.chatHeaderContainer{
+    /* Product Lockup */
+    right: 100px;
+    /* Auto Layout */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8px 8px 8px 16px;
+    height: 56px;
+    left: 12px;
+}
+.channelHeader{
+    
+}

@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useContext } from 'react';
 import './App.css';
+import {ThemeProvider} from '@mui/material';
+import Routes from './Routes';
+import { darkTheme, lightTheme, ThemeContext } from './components/theme-context';
 
-function App() {
+
+
+function App() 
+{
+  const {colorTheme} =  useContext(ThemeContext); // Dit is De content Provider Voor DarkMode en LightMode
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={colorTheme === "light" ? lightTheme : darkTheme}> 
+    {/* Dit is de Content Provider voor de DarkMode LightMode */}
+
+      <div id="out" className="App red background">    {/*Dit is onze Background dit 
+                                                          is dat alles wordt onthouden 
+                                                          als je van pagine switcht */}
+        <Routes /> {/* Dit is de WebRoutes zoals /Chat of /Login  dit staat in ./Routes.tsx  */}
+      </div>    
+    </ThemeProvider>
   );
 }
-
 export default App;
+
