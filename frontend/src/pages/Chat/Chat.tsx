@@ -146,8 +146,7 @@ export default function Chat() {
                     
                     </>
                     ) 
-                : (<CircularProgress />) 
-                
+                : (<CircularProgress />)                 
             }
         </>
         

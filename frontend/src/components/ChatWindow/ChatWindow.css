@@ -53,13 +53,20 @@
 .MessageInput{
     width: 95%;
 }
+.MessageInput2{
+    width: 100%;
+    margin-bottom: 10px;
+}
+.sendFormInner{
+    width: 100%;
+}
 
 .conversation{
     overflow-y: scroll;
     grid-row: 3;
     margin-top: 25px;
     margin-bottom: 10px;
-    width: 95%;
+    width: 100%;
 }
 .messageParent{
     margin-bottom: 10px;
@@ -96,6 +103,11 @@
     grid-column: 1;
     grid-row: 1 / span 3;
 }
+
+.Picture:active{
+    width: 500px;
+}
+
 .message-sender{ /*authorname*/
     order: 1;
     margin-right: 10px;
