@@ -18,7 +18,7 @@ export default function Notification(props: NoteProps) {
     setOpen(true);
   };
   const handleClose = (
-    event: React.SyntheticEvent | React.MouseEvent,
+    event: React.SyntheticEvent<any, any> | React.MouseEvent<any, any> | Event,
     reason?: string,
   ) => {
     if (reason === 'clickaway') {

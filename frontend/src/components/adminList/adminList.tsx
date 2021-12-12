@@ -7,7 +7,7 @@ const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 10 },
     { field: 'userName', headerName: 'Username', width: 180 },
     { field: 'email', headerName: 'Email', width: 220 },
-    { field: 'role', headerName: 'Roles', width: 190, sortable: false },
+    { field: 'role', headerName: 'Roles', width: 190 },
     { field: 'manage', headerName: 'Manage', width: 200, sortable: false },
 ];
 // the actual values that will be passed on to the AdminList
