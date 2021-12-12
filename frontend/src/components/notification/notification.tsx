@@ -1,14 +1,14 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import { Alert } from '@mui/material';
-import IProps from '../IProps';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import { Alert } from "@mui/material";
+import IProps from "../IProps";
 
 // needed: onClick property to determine the click type
 interface NoteProps extends IProps {
-    notifyType?: number;
-    message?: string;
-};
+  notifyType?: number;
+  message?: string;
+}
 
 // shows a notification at the bottom of the screen
 export default function Notification(props: NoteProps) {
@@ -18,10 +18,10 @@ export default function Notification(props: NoteProps) {
     setOpen(true);
   };
   const handleClose = (
-    event: React.SyntheticEvent | React.MouseEvent,
-    reason?: string,
+    event: React.SyntheticEvent<any, any> | React.MouseEvent<any, any> | Event,
+    reason?: string
   ) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -31,32 +31,33 @@ export default function Notification(props: NoteProps) {
   let notification;
   switch (notifyType) {
     case 1:
-      notification =  (
-      <Alert onClose={handleClose} severity="error">
-        {message}
-      </Alert>)
+      notification = (
+        <Alert onClose={handleClose} severity="error">
+          {message}
+        </Alert>
+      );
       break;
 
     default:
-      notification =  (
-      <Alert onClose={handleClose} severity="info">
-        {message}
-      </Alert>)
+      notification = (
+        <Alert onClose={handleClose} severity="info">
+          {message}
+        </Alert>
+      );
       break;
   }
-  
 
   return (
     <div>
       <Button onClick={handleClick}>Open notification</Button>
       <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={open}
         autoHideDuration={5000}
         onClose={handleClose}
-        >
-          { notification}
-        </Snackbar>
+      >
+        {notification}
+      </Snackbar>
     </div>
   );
 }

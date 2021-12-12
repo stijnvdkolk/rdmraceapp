@@ -1,0 +1,68 @@
+.homepageContainer {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(44, 34, 34);
+}
+
+/* Box + contents */
+.AppBonks {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+
+.phidippides-logo {
+  height: 20vmin;
+  pointer-events: none;
+  top: 10px;
+}
+
+.appTitle {
+  /* PhidippidesChat */
+  font-style: normal;
+  font-weight: bold;
+  font-size: 50px;
+  line-height: 20px;
+
+  /* Super blauw - Phid */
+  color: #2c256b;
+}
+
+.appSub {
+  /* Stay informed, get status updates and more! */
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 20px;
+
+  /* Iets minder super blauw - ippi */
+  color: #414189;
+}
+
+/* Footer */
+.App-Footer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.privacyTos {
+  color: #d9d9d9;
+  position: absolute;
+  bottom: 0;
+}
+.DMT {
+  position: fixed;
+  right: 1vw;
+  top: 2vh;
+}
