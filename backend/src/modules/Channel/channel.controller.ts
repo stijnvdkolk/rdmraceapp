@@ -21,4 +21,22 @@ export class ChannelController {
   async getChannel(@Param('id') id: string) {
     return this.channelService.getChannelById(id);
   }
+
+  // TODO: auth check!!!
+  @Get('/:id/messages')
+  async getChannelMessages(
+    @CurrentUser() user: User,
+    @Param('id') id: string,
+    @Query() query: PaginationQueryInput,
+  ) {
+    return this.channelService.getMessagesFromChannel(id, query);
+  }
+
+  @Get('/:id/messages/:messageId')
+  async getChannelMessage(
+    @Param('id') channelId: string,
+    @Param('messageId') messageId: string,
+  ) {
+    return this.channelService.getMessageFromChannel(channelId, messageId);
+  }
 }

@@ -23,7 +23,7 @@ export class ChannelService {
     }
   }
 
-  async getDirectMessageChannelsOfUser(userId: User['id']): Promise<Channel[]> {
+  async getDirectMessageChannelsOfUser(userId: User['id']) {
     return this.prisma.channel.findMany({
       where: {
         users: {
@@ -32,6 +32,32 @@ export class ChannelService {
           },
         },
         type: ChannelType.DM,
+      },
+      select: {
+        id: true,
+        messages: false,
+        name: true,
+        type: true,
+        createdAt: true,
+        description: false,
+        rolesAccess: false,
+        updatedAt: false,
+        users: {
+          select: {
+            aboutMe: true,
+            profilePicture: true,
+            status: true,
+            username: true,
+            role: true,
+            id: true,
+            email: false,
+            channels: false,
+            createdAt: true,
+            updatedAt: true,
+            messages: false,
+            password: false,
+          },
+        },
       },
     });
   }
@@ -92,5 +118,129 @@ export class ChannelService {
       },
     });
     return channel;
+  }
+
+  async getMessagesFromChannel(
+    channelId: Channel['id'],
+    query: PaginationQueryInput,
+  ) {
+    try {
+      const {
+        pagination: { skip, take },
+        where,
+        orderBy,
+      } = this.queryBuilder.build(query);
+      return this.prisma.message.findMany({
+        skip,
+        take,
+        orderBy,
+        where: {
+          ...where,
+          channel: {
+            id: channelId,
+          },
+        },
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          updatedAt: true,
+          author: {
+            select: {
+              id: true,
+              username: true,
+              profilePicture: true,
+              status: true,
+              aboutMe: true,
+              role: true,
+              channels: false,
+              messages: false,
+              createdAt: true,
+              updatedAt: false,
+              email: false,
+              password: false,
+            },
+          },
+          attachments: {
+            select: {
+              id: true,
+              url: true,
+            },
+          },
+          channel: {
+            select: {
+              id: true,
+              name: true,
+              type: true,
+              createdAt: true,
+              description: false,
+              rolesAccess: false,
+              updatedAt: false,
+              users: false,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw new NotFoundError('channel_not_found');
+    }
+  }
+
+  async getMessageFromChannel(
+    channelId: Channel['id'],
+    messageId: Message['id'],
+  ) {
+    try {
+      return this.prisma.message.findFirst({
+        where: {
+          channel: {
+            id: channelId,
+          },
+          id: messageId,
+        },
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          updatedAt: true,
+          author: {
+            select: {
+              id: true,
+              username: true,
+              profilePicture: true,
+              status: true,
+              aboutMe: true,
+              role: true,
+              channels: false,
+              messages: false,
+              createdAt: true,
+              updatedAt: false,
+              email: false,
+              password: false,
+            },
+          },
+          attachments: {
+            select: {
+              id: true,
+              url: true,
+            },
+          },
+          channel: {
+            select: {
+              id: true,
+              name: true,
+              type: true,
+              createdAt: true,
+              description: false,
+              rolesAccess: false,
+              updatedAt: false,
+              users: false,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw new NotFoundError('channel_not_found');
+    }
   }
 }
