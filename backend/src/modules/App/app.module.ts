@@ -1,4 +1,5 @@
 import { AuthGuard } from '@modules/Auth/guards/auth.guard';
+import { ChannelModule } from '@modules/Channel/channel.module';
 import { PrismaModule } from '@modules/Prisma/prima.module';
 import { ProviderModule } from '@modules/providers/provider.module';
 import { UserModule } from '@modules/User/user.module';
@@ -9,7 +10,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  imports: [PrismaModule, ProviderModule, AuthModule, UserModule],
+  imports: [
+    PrismaModule,
+    ProviderModule,
+    AuthModule,
+    UserModule,
+    ChannelModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
