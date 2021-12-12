@@ -15,7 +15,7 @@ export class ChannelService {
     >,
   ) {}
 
-  async findChannelById(channelId: Channel['id']): Promise<Channel> {
+  async getChannelById(channelId: Channel['id']): Promise<Channel> {
     try {
       return this.prisma.channel.findUnique({ where: { id: channelId } });
     } catch (error) {
