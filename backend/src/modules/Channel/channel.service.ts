@@ -1,11 +1,19 @@
 import { NotFoundError } from '@lib/errors';
+import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
+import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';
 import { Injectable } from '@nestjs/common';
-import { Channel, ChannelType, User, UserRole } from '@prisma/client';
+import { Channel, ChannelType, Message, Prisma, User } from '@prisma/client';
 import { PrismaService } from '../Prisma/prisma.service';
 
 @Injectable()
 export class ChannelService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private queryBuilder: PaginationQueryBuilder<
+      Prisma.ChannelWhereInput,
+      Prisma.ChannelOrderByWithRelationInput
+    >,
+  ) {}
 
   async findChannelById(channelId: Channel['id']): Promise<Channel> {
     try {
@@ -28,10 +36,19 @@ export class ChannelService {
     });
   }
 
-  async getChannels(): Promise<Channel[]> {
+  async getChannels(query: PaginationQueryInput) {
     try {
+      const {
+        pagination: { skip, take },
+        where,
+        orderBy,
+      } = this.queryBuilder.build(query);
       return this.prisma.channel.findMany({
+        skip,
+        take,
+        orderBy,
         where: {
+          ...where,
           type: {
             in: [
               ChannelType.NEWS_CHANNEL,
@@ -40,9 +57,20 @@ export class ChannelService {
             ],
           },
         },
+        select: {
+          id: true,
+          messages: false,
+          name: true,
+          type: true,
+          createdAt: true,
+          description: true,
+          rolesAccess: true,
+          updatedAt: false,
+          users: false,
+        },
       });
     } catch (error) {
-      throw new NotFoundError('channel_not_found');
+      throw new NotFoundError('channels_not_found');
     }
   }
 
