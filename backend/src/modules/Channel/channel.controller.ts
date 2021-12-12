@@ -17,4 +17,8 @@ export class ChannelController {
     return this.channelService.getChannels(query);
   }
 
+  @Get('/:id')
+  async getChannel(@Param('id') id: string) {
+    return this.channelService.getChannelById(id);
+  }
 }
