@@ -46,7 +46,7 @@ export default function Chat() {
 
 
     useEffect(() => {
-        fetch("https://localhost:7023/testing") // Debug
+        fetch("https://test20211213170850.azurewebsites.net/testing") // Debug
             .then(res => res.json())
             .then((result) => {
                     setIsLoaded(true);
@@ -63,7 +63,7 @@ export default function Chat() {
     const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
     const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
     useEffect(() => {
-        fetch("https://localhost:7023/getPeople/5") // Debug
+        fetch("https://test20211213170850.azurewebsites.net/getPeople/5") // Debug
             .then(res => res.json())
             .then(
                 (result) => {
