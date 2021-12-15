@@ -23,6 +23,7 @@ export class ChannelService {
     }
   }
 
+  // Returns the DM channel of specific user, given an user ID
   async getDirectMessageChannelsOfUser(userId: User['id']) {
     return this.prisma.channel.findMany({
       where: {
@@ -62,6 +63,7 @@ export class ChannelService {
     });
   }
 
+  // Returns all the channels, given the correct QueryInput
   async getChannels(query: PaginationQueryInput) {
     try {
       const {
@@ -100,6 +102,7 @@ export class ChannelService {
     }
   }
 
+  // Creates a new DM channel between two users
   async createDMChannel(creator: User, otherUser: User): Promise<Channel> {
     const channel = await this.prisma.channel.create({
       data: {
@@ -120,6 +123,7 @@ export class ChannelService {
     return channel;
   }
 
+  // Returns all the messages from a channel, given the channel ID and optional QueryInput
   async getMessagesFromChannel(
     channelId: Channel['id'],
     query: PaginationQueryInput,
@@ -186,6 +190,7 @@ export class ChannelService {
     }
   }
 
+  // Creates a new message in a channel, given the channel ID and the message content
   async getMessageFromChannel(
     channelId: Channel['id'],
     messageId: Message['id'],
