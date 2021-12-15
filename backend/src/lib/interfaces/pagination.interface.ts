@@ -18,7 +18,7 @@ export interface PaginationQueryInput {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortDirection: Prisma.SortOrder;
+  sortDirection?: Prisma.SortOrder;
   startDate?: string;
   endDate?: string;
 }
