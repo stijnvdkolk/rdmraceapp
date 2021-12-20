@@ -7,6 +7,7 @@ services:
   minio:
     container_name: rdmchat_storage
     image: minio/minio:latest
+    env_file: ../../.env
     command: server --console-address ':9001' data1
     ports:
       - '8123:9000'
