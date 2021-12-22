@@ -20,6 +20,3 @@ dev-minimal:
 
 db:
 	@tools/scripts/compose-db.sh up
-
-storage:
-	@tools/scripts/compose-storage.sh up
