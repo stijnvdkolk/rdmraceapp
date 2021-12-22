@@ -34,4 +34,18 @@ export class SpacesProvider {
       })
       .promise();
   }
+
+  // TODO: cache old attachment? slow delete?!
+  async deleteAttachment(
+    message: Pick<Message, 'channelId' | 'id'>,
+    fileName: string,
+  ) {
+    const name = `attachments/${message.channelId}/${message.id}/${fileName}`;
+    return this.s3
+      .deleteObject({
+        Bucket: process.env.SPACES_BUCKET,
+        Key: name,
+      })
+      .promise();
+  }
 }
