@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Message } from '@prisma/client';
+import { Message, User } from '@prisma/client';
 import { S3 } from 'aws-sdk';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class SpacesProvider {
@@ -41,6 +42,37 @@ export class SpacesProvider {
     fileName: string,
   ) {
     const name = `attachments/${message.channelId}/${message.id}/${fileName}`;
+    return this.s3
+      .deleteObject({
+        Bucket: process.env.SPACES_BUCKET,
+        Key: name,
+      })
+      .promise();
+  }
+
+  async uploadProfilePicture(
+    user: Pick<User, 'id'>,
+    file: Express.Multer.File,
+  ) {
+    const profilePicture = `${uuidv4()}.${file.originalname.split('.').pop()}`;
+    const name = `avatars/${user.id}/${profilePicture}`;
+    return {
+      upload: await this.s3
+        .upload({
+          Bucket: process.env.SPACES_BUCKET,
+          Key: name,
+          ACL: 'public-read',
+          Body: file.buffer,
+          ContentType: file.mimetype,
+        })
+        .promise(),
+      profilePictureId: profilePicture,
+    };
+  }
+
+  // TODO: cache old profilepicture? slow delete?!
+  async deleteProfilePicture(user: Pick<User, 'profilePicture' | 'id'>) {
+    const name = `avatars/${user.id}/${user.profilePicture}`;
     return this.s3
       .deleteObject({
         Bucket: process.env.SPACES_BUCKET,
