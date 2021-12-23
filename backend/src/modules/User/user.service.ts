@@ -80,14 +80,12 @@ export class UserService {
     password,
     profilePicture = null,
     role,
-    aboutMe,
   }: {
     email: User['email'];
     username: User['username'];
     password: User['password'];
     profilePicture?: User['profilePicture'];
     role: UserRole;
-    aboutMe: User['aboutMe'];
   }) {
     try {
       return this.prisma.user.create({
@@ -97,7 +95,6 @@ export class UserService {
           password: password,
           profilePicture: profilePicture,
           role: role,
-          aboutMe: aboutMe,
         },
       });
     } catch (error) {
