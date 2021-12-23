@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Message, User } from '@prisma/client';
+import { Attachment, Message, User } from '@prisma/client';
 import { S3 } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,34 +18,33 @@ export class SpacesProvider {
     message: Pick<Message, 'channelId' | 'id'>,
     file: Express.Multer.File,
   ) {
-    const name = `attachments/${message.channelId}/${
+    const path = `attachments/${message.channelId}/${
       message.id
     }/${file.originalname
       .replace(/[\/\?<>\\:\*\|"]/g, '_')
       .replace(/[\x00-\x1f\x80-\x9f]/g, '_')
       .replace(/^\.+$/, '_')
       .replace(/[\. ]+$/, '_')}`;
-    return this.s3
-      .upload({
-        Bucket: process.env.SPACES_BUCKET,
-        Key: name,
-        ACL: 'public-read',
-        Body: file.buffer,
-        ContentType: file.mimetype,
-      })
-      .promise();
+    return {
+      upload: await this.s3
+        .upload({
+          Bucket: process.env.SPACES_BUCKET,
+          Key: path,
+          ACL: 'public-read',
+          Body: file.buffer,
+          ContentType: file.mimetype,
+        })
+        .promise(),
+      path,
+    };
   }
 
   // TODO: cache old attachment? slow delete?!
-  async deleteAttachment(
-    message: Pick<Message, 'channelId' | 'id'>,
-    fileName: string,
-  ) {
-    const name = `attachments/${message.channelId}/${message.id}/${fileName}`;
+  async deleteAttachment(attachment: Attachment) {
     return this.s3
       .deleteObject({
         Bucket: process.env.SPACES_BUCKET,
-        Key: name,
+        Key: attachment.url,
       })
       .promise();
   }
