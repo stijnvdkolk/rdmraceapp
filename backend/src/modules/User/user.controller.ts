@@ -1,6 +1,16 @@
 import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Body,
+  Query,
+} from '@nestjs/common';
 import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('/users')
 export class UserController {
@@ -14,5 +24,18 @@ export class UserController {
   @Get('/')
   async getUsers(@Query() query: PaginationQueryInput) {
     return this.userService.findUsersPagination(query);
+  }
+
+  @Post()
+  async createUser(@Body() userData: CreateUserDto) {
+    return this.userService.createUser(userData);
+  }
+  @Put('/:userId')
+  async updateUser(@Param('userId') id: string) {
+    return this.userService.editUser(id);
+  }
+  @Delete('/:userId')
+  async deleteUser(@Param('userId') id: string) {
+    return this.userService.deleteUser(id);
   }
 }
