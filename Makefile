@@ -20,3 +20,6 @@ dev-minimal:
 
 db:
 	@tools/scripts/compose-db.sh up
+
+staging:
+	@tools/scripts/compose-staging.sh up -d
