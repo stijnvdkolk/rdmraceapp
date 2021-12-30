@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.css"; //voor app css voor background
 import "./Chat.css";
 import Navdrawer from "../../components/navdrawer/navdrawer";
@@ -11,28 +11,26 @@ import EuroIcon from "@mui/icons-material/Euro";
 import NavListItem from "../../components/navListItem/navListItem";
 import { useHistory, useParams } from "react-router-dom";
 import ChatWindow from "../../components/ChatWindow/ChatWindow";
-import { getMessage, getPerson } from "../../API/Chat";
+import { getMessage, getPeople, getPerson, getSelf } from "../../API/Chat";
 import Person from "../../classes/Person";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { green, grey, red, yellow } from "@mui/material/colors";
 import Message from "../../classes/Message";
+import { ConsumeEffect } from "../../API/ApiCalls";
 
 interface UParams {
   channelID: string | undefined;
 }
-
 export default function Chat() {
   const [error, setError] = useState<any>(null);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [items, setItems] = useState<Person[] | undefined>(undefined); //Person[]
-
+  const [selfProfile, setselfProfile] = useState<Person | undefined>(undefined); //Person[]
   const { channelID } = useParams<UParams>();
 
   let history = useHistory();
   const redirect = () => {
     history.push("/chat/publiek");
   };
-
   /*
    * @param {number} id
    * dit zet een chat in de history van de browser
@@ -41,56 +39,40 @@ export default function Chat() {
   function redirectTo(id: number) {
     history.push("/chat/" + id);
   }
-
+  //#region APICalls
+  
   useEffect(() => {
-    fetch("https://test20211213170850.azurewebsites.net/testing") // Debug
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+    ConsumeEffect(setIsLoaded, setselfProfile, () => {return getSelf();} );
   }, []);
 
+  //Dit is Debug voor het aantal mensen te laten zien
   const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
   const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
   useEffect(() => {
-    fetch("https://test20211213170850.azurewebsites.net/getPeople/5") // Debug
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsCLoaded(true);
-          setcontacts(result);
-        },
-        (error) => {
-          setIsCLoaded(true);
-          setError(error);
-        }
-      );
+      ConsumeEffect(setIsCLoaded, setcontacts, () => {return getPeople(5);} );
   }, []);
-
+  // useEffect(() => {
+  //   getPeople(5).then(
+  //       (result) => {
+  //         setIsCLoaded(true);
+  //         setcontacts(result);
+  //       },
+  //       (error) => {
+  //         setIsCLoaded(true);
+  //         setError(error);
+  //       }
+  //     );
+  // }, []);
   const [isLoadedDM, setIsLoadedDM] = useState<boolean>(false);
   const [DM, setDM] = useState<Person | undefined>(undefined); //Person[]
+
   useEffect(() => {
     if (channelID != null) {
-      getPerson(channelID).then(
-        (result) => {
-          setIsLoadedDM(true);
-          setDM(result);
-        },
-        (error) => {
-          setIsLoadedDM(true);
-          setError(error);
-        }
-      );
+      ConsumeEffect(setIsLoadedDM, setDM, () => {return getPerson(channelID);} );
     }
   }, [channelID]);
 
+  //#endregion
   return (
     <>
       {isLoaded ? (
@@ -99,8 +81,8 @@ export default function Chat() {
           <div className="NavBar">
             <Navdrawer
               mischellaneous={true}
-              name={items != null ? items[0].name : ""}
-              imageLink={items != null ? items![0].profilePicture : ""}
+              name={selfProfile != null ? selfProfile.name : ""}
+              imageLink={selfProfile != null ? selfProfile!.profilePicture : ""}
             >
               {isCLoaded && contacts != null ? (
                 <div>
@@ -183,3 +165,5 @@ export default function Chat() {
     </>
   );
 }
+
+

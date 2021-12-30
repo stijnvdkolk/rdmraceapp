@@ -6,6 +6,7 @@ export async function get(url: string) {
     }).then(parseJson).then((response) => {
         if (response.ok) {
             return response.json;
+
         }
         throw new Error("message");
     });      
@@ -42,4 +43,19 @@ async function parseJson(response: Response) {
         ok: response.ok,
         json: {},
     };
+}
+///This Consumes an effect so there won't be 500 lines of code in Pages 
+export function ConsumeEffect(loader : React.Dispatch<React.SetStateAction<boolean>>, 
+                            setter : React.Dispatch<React.SetStateAction<any>>, 
+                            callback : () => Promise<any>) {
+    callback().then(
+        (result) => {
+            setter(result);
+            loader(true);
+        },
+        (error) => {
+            setter(error);
+            loader(true);
+        }
+    );
 }

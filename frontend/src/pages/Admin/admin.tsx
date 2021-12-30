@@ -11,6 +11,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { green, grey, red, yellow } from "@mui/material/colors";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import Person from "../../classes/Person";
+import { ConsumeEffect } from "../../API/ApiCalls";
+import { getPeople, getSelf } from "../../API/Chat";
 
 export default function Admin() {
   let history = useHistory();
@@ -22,18 +24,7 @@ export default function Admin() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [items, setItems] = useState<Person[] | undefined>(undefined); //Person[]
   useEffect(() => {
-    fetch("https://test20211213170850.azurewebsites.net/testing") // Debug
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+    ConsumeEffect(setIsLoaded, setItems, () => {return getSelf();} );
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -41,18 +32,7 @@ export default function Admin() {
   const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
   const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
   useEffect(() => {
-    fetch("https://test20211213170850.azurewebsites.net/getPeople/5") // Debug
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsCLoaded(true);
-          setcontacts(result);
-        },
-        (error) => {
-          setIsCLoaded(true);
-          setError(error);
-        }
-      );
+    ConsumeEffect(setIsCLoaded, setcontacts, () => {return getPeople(5);} );
   }, []);
 
   return (
