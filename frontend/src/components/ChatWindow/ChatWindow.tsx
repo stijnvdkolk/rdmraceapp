@@ -1,4 +1,4 @@
-import { Avatar, Card, Divider, FormControl, InputAdornment, TextField } from "@mui/material";
+import { Avatar, Card, Checkbox, Divider, FormControl, InputAdornment, TextField } from "@mui/material";
 import * as react from 'react';
 import { useContext, useEffect, useState } from "react";
 import { getMessages } from "../../API/Chat";
@@ -114,6 +114,7 @@ export default function ChatWindow(props: IProps){
                     <Divider sx={{
                         marginBottom: "10px",
                     }}/>
+                    {/* TODO: Outline Color theme color in Both modes */}
                     <FormControl className="MessageInput">
                         <TextField 
                             id="outlined-basic" 
@@ -123,13 +124,17 @@ export default function ChatWindow(props: IProps){
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <EmojiEmotionsOutlinedIcon/>
+                                        <EmojiEmotionsOutlinedIcon className="Emoji"/>
                                     </InputAdornment>
                                 ),
                                 endAdornment:(
                                     <InputAdornment position="end">
-                                        <AttachFileIcon/>
-                                        <ArrowForwardIcon/>
+                                        <div className="animatedAttachment11">
+                                            <AttachFileIcon className="animatedAttachment"/>
+                                        </div>
+                                        <div>
+                                            <ArrowForwardIcon className="animatedSend"/>
+                                        </div>
                                     </InputAdornment>
                                 )
                             }}
@@ -156,6 +161,7 @@ export default function ChatWindow(props: IProps){
                 <Divider style={{gridRow: 2}} />                
                 {conversation /* this is where the chat messages go */}
                 {SendForm /*this is the send input*/}
+                
             </Card>
         </div> 
     );

@@ -18,9 +18,35 @@ export async function getPerson(channelID: string): Promise<{
     aboutMe : string | undefined;
 }>
 {
-    const path = `/getPeople/Person/${channelID}`;
+    const path = `getPeople/Person/${channelID}`;
     return get(path);
 }
+export async function getPeople(amount: number): Promise<{
+    id : number | undefined;
+    name : string | undefined;
+    profilePicture : string | undefined;
+    role : string | undefined;
+    status : string | undefined;
+    aboutMe : string | undefined;
+}[]>
+{
+    const path = `getPeople/${amount}`;
+    return get(path);
+}
+
+export async function getSelf(): Promise<{
+    id : number | undefined;
+    name : string | undefined;
+    profilePicture : string | undefined;
+    role : string | undefined;
+    status : string | undefined;
+    aboutMe : string | undefined;
+}>
+{
+    const path = "testing";
+    return get(path);
+}
+
 
 export async function getChannel(channelID: string): Promise<{
     id : number | undefined;
@@ -31,7 +57,7 @@ export async function getChannel(channelID: string): Promise<{
     aboutMe : string | undefined;
 }>
 {
-    const path = `/getPeople/Channel/${channelID}`;
+    const path = `getPeople/Channel/${channelID}`;
     return get(path);
 }
 export async function getMessage(): Promise<{
@@ -45,8 +71,7 @@ export async function getMessage(): Promise<{
     attachments: string[] | undefined;
 }>
 {
-    const path = `/messages/singleton`;
-    console.log(get(path));
+    const path = `messages/singleton`;
     return get(path);
 }
 export async function getMessages(num: number): Promise<{
@@ -60,7 +85,6 @@ export async function getMessages(num: number): Promise<{
     attachments: string[] | undefined;
 }[]>
 {
-    const path = `/messages/group/${num}`;
-    console.log(get(path));
+    const path = `messages/group/${num}`;
     return get(path);
 }
