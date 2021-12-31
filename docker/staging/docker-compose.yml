@@ -28,5 +28,3 @@ services:
     env_file: ../../.env
     volumes:
       - ./postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
-    logging:
-      driver: none
