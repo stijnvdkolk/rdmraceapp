@@ -2,14 +2,51 @@ import { createTheme } from "@mui/material";
 import React, { FC, useCallback } from "react";
 import { useState } from "react";
 
+
+const RMain = '#c62828';
+const RDark = '#8e0000';
+const RLight = '#ff5f52';
+const RcontrastText = '#ffffff';
+
+const BMain = '#3f51b5';
+const BDark = '#002984';
+const BLight = '#757de8';
+const BcontrastText = '#ffffff';
+
+
+
 export const darkTheme = createTheme({
     palette: {
-      mode: 'dark'
+      mode: 'dark',
+      primary: {
+        light: BLight,
+        main: BMain,
+        dark: BDark,
+        contrastText: BcontrastText,
+      },  
+      secondary: {
+        light: RLight,
+        main: RMain,
+        dark: RDark,
+        contrastText: RcontrastText,
+      },
     },
 });
 export const lightTheme = createTheme({
     palette: {
-      mode: 'light'
+      mode: 'light',
+      primary: {
+        light: RLight,
+        main: RMain,
+        dark: RDark,
+        contrastText: RcontrastText,
+      },
+      secondary: {
+        light: BLight,
+        main: BMain,
+        dark: BDark,
+        contrastText: BcontrastText,
+      },      
     },
 });
 export const themes = {
