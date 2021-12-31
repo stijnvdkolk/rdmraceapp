@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  postgres:
+    container_name: rdmchat_db
+    image: 'postgres:latest'
+    env_file: ../../.env
+    volumes:
+      - ./postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+      - postgres-staging:/var/lib/postgresql/data
   backend:
     container_name: rdmchat_backend
     env_file: ../../.env
@@ -22,13 +29,6 @@ services:
   #   tty: true
   #   ports:
   #     - '3001:3000'
-  postgres:
-    container_name: rdmchat_db
-    image: 'postgres:latest'
-    env_file: ../../.env
-    volumes:
-      - ./postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
-      - postgres-staging:/var/lib/postgresql/data
 
 volumes:
   postgres-staging:
