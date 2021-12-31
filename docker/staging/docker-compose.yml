@@ -28,3 +28,7 @@ services:
     env_file: ../../.env
     volumes:
       - ./postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+      - postgres-staging:/var/lib/postgresql/data
+
+volumes:
+  postgres-staging:
