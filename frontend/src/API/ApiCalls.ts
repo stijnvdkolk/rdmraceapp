@@ -72,7 +72,7 @@ export function ConsumeEffect(loader : React.Dispatch<React.SetStateAction<boole
         },
         (error) => {
             setter(error);
-            loader(true);
+            loader(false);
         }
     );
 }

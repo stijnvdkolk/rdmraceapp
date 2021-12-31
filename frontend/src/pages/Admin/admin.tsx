@@ -21,7 +21,9 @@ export default function Admin() {
     console.log("Redirect to: " + id);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [items, setItems] = useState<Person[] | undefined>(undefined); //Person[]
   useEffect(() => {
     ConsumeEffect(setIsLoaded, setItems, () => {return getSelf();} );
@@ -52,7 +54,7 @@ export default function Admin() {
                 {contacts.map((contact) => (
                   <NavListItem
                     key={contact.id}
-                    text={contact.name}
+                    text={contact.username}
                     onClickCommand={() => {
                       redirectTo(contact.id!);
                     }}

@@ -1,4 +1,4 @@
-import { Avatar, Card, Checkbox, Divider, FormControl, InputAdornment, TextField } from "@mui/material";
+import { Avatar, Card, Divider, FormControl, InputAdornment, TextField } from "@mui/material";
 import * as react from 'react';
 import { useContext, useEffect, useState } from "react";
 import { getMessages } from "../../API/Chat";
@@ -10,16 +10,22 @@ import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import "./ChatWindow.css";
+import { ConsumeEffect } from "../../API/ApiCalls";
+import { useParams } from "react-router-dom";
 
 function FkDateTime(date: Date) {
     var dtm: Date	= new Date(date);
     var retVal: string = `${dtm.getDate()}/${dtm.getMonth() + 1}/${dtm.getFullYear()} ${dtm.getHours()}:${dtm.getMinutes()}:${dtm.getSeconds()}`;
     return retVal;
 }
+interface UParams {
+    channelID: string | undefined;
+}
 
 export default function ChatWindow(props: IProps){
     const { colorTheme } =  useContext(ThemeContext);
     const { name, imageLink } = props;
+    const { channelID } = useParams<UParams>();
     //#region MediaQuery
     const [matches, setMatches] = react.useState(window.matchMedia("(min-width: 1000px)").matches);
     useEffect(() => {
@@ -33,20 +39,9 @@ export default function ChatWindow(props: IProps){
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isMessageLoaded, setIsMessageLoaded] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[] | undefined>(undefined); //Message
-    useEffect(() => {       
-        getMessages(20)
-        .then(
-            (result) => {
-                setIsMessageLoaded(true);
-                setMessages(result);
-            },
-            (error) => {
-                setIsMessageLoaded(true);
-                setError(error);
-            }
-        )
-        
-    }, [name, setError]);
+    useEffect(() => {       //bruh?
+       ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelID!);} );        
+    }, [channelID, name, setError]);
     //#endregion
     //#region Message
     const conversation = (
@@ -63,7 +58,7 @@ export default function ChatWindow(props: IProps){
                                 { FkDateTime(berichten.createdAt as Date) } 
                             </div>
                             <div className="message-sender">
-                                {berichten?.author?.name}
+                                {berichten?.author?.username}
                             </div>
                         </div>
                         <div className="message-image">
