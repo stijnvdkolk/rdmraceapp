@@ -1,3 +1,5 @@
+import { useHistory } from "react-router-dom";
+
 const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export async function get(url: string) {
@@ -22,6 +24,10 @@ export async function getJWT(url: string) {
         if (response.ok) {
             return response.json;
         }
+        else if(response.status === 401){
+            localStorage.removeItem("DogeToken");
+            window.location.href = "/Login";   
+        }
         throw new Error("message");
     });      
 }
@@ -40,7 +46,22 @@ export async function postJson(url: string, data : any) {
         if (response.ok) {
             return response.json;
         }
-        console.error("error");
+        else{
+            return response.json;
+        }
+    });
+}
+export async function postTokenJson(url: string, data : any) {
+    return fetch(baseUrl + url, {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then(response => response.json())
+    .then((response) => {
+        return response;
+        //bruh
     });
 }
 

@@ -42,14 +42,12 @@ export default function SignUp() {
             <TextField type="password" required={true} id="outlined-basic" label="Password" variant="outlined" />
             <TextField type="password" required={true} id="outlined-basic" label="Confirm Password" variant="outlined" />
           </div>
-          <Buttoned url="www.google.com" text="Sign up" 
-            style={{
-            marginTop: 0,
-            marginLeft: 17,
-            borderRadius: "30px",
-            backgroundColor: "#CF0E47",
-            left: 65
-            }}/>
+          <Button variant="contained" sx={{
+                  width: "50%",
+                  borderRadius: "30px",
+                }}>
+              Sign Up
+          </Button>
         </Card>
       </div>
     </>
