@@ -11,6 +11,23 @@ export async function get(url: string) {
         throw new Error("message");
     });      
 }
+export async function getJWT(url: string) {
+    return fetch(baseUrl + url, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Bearer ${localStorage.getItem("DogeToken")}`,
+        },        
+    }).then(parseJson).then((response) => {
+        if (response.ok) {
+            return response.json;
+        }
+        throw new Error("message");
+    });      
+}
+
+
+
 
 export async function postJson(url: string, data : any) {
     return fetch(baseUrl + url, {

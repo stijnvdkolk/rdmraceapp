@@ -47,3 +47,25 @@ export const ThemeProvider : FC = ({ children  }) => {  //FC = Function Componen
     </ThemeContext.Provider>
   )
 }
+
+type TokenContextType = {
+  token: string;
+  setToken: (token: string) => void;
+}
+
+export const TokenContext = React.createContext<Partial<TokenContextType>>({});
+export const TokenProvider : FC = ({ children  }) => {  //FC = Function Component // Theme Provider maakt een <> aan
+  const [token, setToken] = useState<string>("");
+  //const setTokenContext = useCallback(() => { 
+
+
+  return (
+    <TokenContext.Provider value={{
+      token,
+      setToken,
+    }}>
+      {children}
+    </TokenContext.Provider>
+  )
+}
+   
