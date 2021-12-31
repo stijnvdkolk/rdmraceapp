@@ -16,7 +16,7 @@ import Person from "../../classes/Person";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { green, grey, red, yellow } from "@mui/material/colors";
 import Message from "../../classes/Message";
-import { ConsumeEffect } from "../../API/ApiCalls";
+import { ConsumeEffect, getJWT } from "../../API/ApiCalls";
 
 interface UParams {
   channelID: string | undefined;
@@ -40,7 +40,7 @@ export default function Chat() {
     history.push("/chat/" + id);
   }
   //#region APICalls
-  
+
   useEffect(() => {
     ConsumeEffect(setIsLoaded, setselfProfile, () => {return getSelf();} );
   }, []);
