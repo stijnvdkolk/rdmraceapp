@@ -23,3 +23,6 @@ db:
 
 staging:
 	@tools/scripts/compose-staging.sh up -d
+
+staging-down:
+	@tools/scripts/compose-staging.sh down
