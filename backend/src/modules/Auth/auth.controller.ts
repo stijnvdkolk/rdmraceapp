@@ -26,7 +26,9 @@ export class AuthController {
 
   @Post('/token')
   @Public()
-  async getJwt(@Body() loginBody: SignInDto): Promise<string> {
+  async getJwt(@Body() loginBody: SignInDto): Promise<{
+    token: string;
+  }> {
     const user = await this.userService.findUserByEmail(loginBody.email);
     const isValid = await this.crypto.verifyPassword(
       user.password,
@@ -38,7 +40,9 @@ export class AuthController {
         HttpStatus.UNAUTHORIZED,
       );
     }
-    return this.authService.signUserJWT(user);
+    return {
+      token: this.authService.signUserJWT(user),
+    };
   }
 
   @Get('/@me')
