@@ -1,5 +1,3 @@
-import { useHistory } from "react-router-dom";
-
 const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export async function get(url: string) {
@@ -11,7 +9,7 @@ export async function get(url: string) {
 
         }
         throw new Error("message");
-    });      
+    });
 }
 export async function getJWT(url: string) {
     return fetch(baseUrl + url, {
@@ -19,24 +17,23 @@ export async function getJWT(url: string) {
         headers: {
             "content-type": "application/json",
             "authorization": `${localStorage.getItem("DogeToken")}`,
-        },        
+        },
     }).then(parseJson).then((response) => {
         if (response.ok) {
             return response.json;
-        }
-        else if(response.status === 401){
+        } else if (response.status === 401) {
             localStorage.removeItem("DogeToken");
             window.location.href = "/Login";
-            return;   
+            return;
         }
         throw new Error("bruh");
-    });      
+    });
 }
 
 
 
 
-export async function postJson(url: string, data : any) {
+export async function postJson(url: string, data: any) {
     return fetch(baseUrl + url, {
         method: "POST",
         headers: {
@@ -47,23 +44,22 @@ export async function postJson(url: string, data : any) {
         if (response.ok) {
             console.log(response.json);
             return response.json;
-        }
-        else{
+        } else {
             return response.json;
         }
     });
 }
-export async function postTokenJson(url: string, data : any) {
+export async function postTokenJson(url: string, data: any) {
     return fetch(baseUrl + url, {
-        method: "POST",
-        headers: {
-            "content-type": "application/json",
-        },
-        body: JSON.stringify(data),
-    }).then(response => response.json())
-    .then((response) => {
-        return response;
-    });
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(data),
+        }).then(response => response.json())
+        .then((response) => {
+            return response;
+        });
 }
 
 async function parseJson(response: Response) {
@@ -84,9 +80,9 @@ async function parseJson(response: Response) {
     };
 }
 ///This Consumes an effect so there won't be 500 lines of code in Pages 
-export function ConsumeEffect(loader : React.Dispatch<React.SetStateAction<boolean>>, 
-                            setter : React.Dispatch<React.SetStateAction<any>>, 
-                            callback : () => Promise<any>) {
+export function ConsumeEffect(loader: React.Dispatch < React.SetStateAction < boolean >> ,
+    setter: React.Dispatch < React.SetStateAction < any >> ,
+    callback: () => Promise < any > ) {
     callback().then(
         (result) => {
             setter(result);

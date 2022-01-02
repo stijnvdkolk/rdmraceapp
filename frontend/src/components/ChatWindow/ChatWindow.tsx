@@ -46,7 +46,7 @@ export default function ChatWindow(props: IProps){
     //#region Message
     const conversation = (
         <div className="conversation">
-            {messages !== undefined && messages.length != 0 && (
+            {messages !== undefined && messages.length !== 0 && (
                  messages.map((berichten, index) => (
                 
                 <div key={index} className={colorTheme  === "dark" ? "messageParent darkmessage" : "messageParent lightmessage"} >
@@ -155,7 +155,7 @@ export default function ChatWindow(props: IProps){
                 }} >
                 {chatHeaderContainer}
                 <Divider style={{gridRow: 2}} />                
-                {messages?.length != 0 && conversation  /* this is where the chat messages go */}
+                {messages?.length !== 0 && conversation  /* this is where the chat messages go */}
                 {SendForm /*this is the send input*/}
                 
             </Card>
