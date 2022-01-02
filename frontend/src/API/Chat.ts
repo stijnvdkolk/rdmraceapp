@@ -2,7 +2,7 @@ import Channel from "../classes/Channel";
 import Message from "../classes/Message";
 import Person from "../classes/Person";
 import Token from "../classes/Token";
-import { get, getJWT, postJson, postTokenJson } from "./ApiCalls";
+import { get, getJWT, postJson } from "./ApiCalls";
 
 export async function getPerson(channelID: string): Promise<{person : Person}>
 {
