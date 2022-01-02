@@ -51,13 +51,13 @@ export default function Login() {
             height: "350px",
           }}>
           <h2>
-            {error ? "Incorrect login details" : "Sign in to PhidippidusChat!"}
+            {error ? "Incorrect login details" : "Sign in to PhidippidesChat!"}
           </h2>
           <p>
             Enter you details below.
           </p>
           <div className="firstField">
-            <TextField id="emailInput" value={email} onChange={e=> setEmail(e.target.value)} label="Email Adress"
+            <TextField id="emailInput" value={email} onChange={e=> setEmail(e.target.value)} label="Email Address"
               variant="outlined" name='Email' />
           </div>
           <div className="secondField">

@@ -42,9 +42,6 @@ export async function postJson(url: string, data: any) {
         body: JSON.stringify(data),
     }).then(parseJson).then((response) => {
         if (response.ok) {
-            console.log(response.json);
-            return response.json;
-        } else {
             return response.json;
         }
     });
