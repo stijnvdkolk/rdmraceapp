@@ -40,13 +40,14 @@ export default function ChatWindow(props: IProps){
     const [isMessageLoaded, setIsMessageLoaded] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[] | undefined>(undefined); //Message
     useEffect(() => {       //bruh?
-       ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelID!);} );        
+       ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelID!);} );
     }, [channelID, name, setError]);
     //#endregion
     //#region Message
     const conversation = (
         <div className="conversation">
-            {messages && messages.map((berichten, index) => (
+            {messages !== undefined && messages.length != 0 && (
+                 messages.map((berichten, index) => (
                 
                 <div key={index} className={colorTheme  === "dark" ? "messageParent darkmessage" : "messageParent lightmessage"} >
                     <div className={"message"}> 
@@ -62,7 +63,7 @@ export default function ChatWindow(props: IProps){
                             </div>
                         </div>
                         <div className="message-image">
-                            <Avatar src={berichten?.author?.profilePicture} alt="" sx={{
+                            <Avatar src={"https://cdn.rdmraceapp.nl" + berichten?.author?.profilePicture} alt="" sx={{
                                 width: "50px",
                                 height: "50px",
                             }}
@@ -75,7 +76,7 @@ export default function ChatWindow(props: IProps){
                         ))}
                     </div>
                 </div>
-            ))}
+            )))}
             {/* <div className="message">
                 <div className="message-text">
                     {messages && messages.content}
@@ -154,7 +155,7 @@ export default function ChatWindow(props: IProps){
                 }} >
                 {chatHeaderContainer}
                 <Divider style={{gridRow: 2}} />                
-                {conversation /* this is where the chat messages go */}
+                {messages?.length != 0 && conversation  /* this is where the chat messages go */}
                 {SendForm /*this is the send input*/}
                 
             </Card>

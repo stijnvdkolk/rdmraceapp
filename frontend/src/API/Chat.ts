@@ -1,6 +1,7 @@
 import Channel from "../classes/Channel";
 import Message from "../classes/Message";
 import Person from "../classes/Person";
+import Token from "../classes/Token";
 import { get, getJWT, postJson, postTokenJson } from "./ApiCalls";
 
 export async function getPerson(channelID: string): Promise<{person : Person}>
@@ -31,15 +32,15 @@ export async function getChannel(id : string): Promise<{channel : Channel}>
 export async function getMessage(ChannelId: string, MessageId: string): Promise<{message : Message}>
 {
     const path = `/channels/${ChannelId}/messages/${MessageId}`;
-    return get(path);
+    return getJWT(path);
 }
 export async function getMessages(ChannelId: string): Promise<{ message : Message}[]>
 {
     const path = `/channels/${ChannelId}/messages/`;
-    return get(path);
+    return getJWT(path);
 }
-export async function getToken(email: string, password: string)
+export async function getToken(email: string, password: string) : Promise <{token : Token}>
 {
     const path = "/auth/token";
-    return await postTokenJson(path, {email, password});
+    return postJson(path, {email, password});
 }

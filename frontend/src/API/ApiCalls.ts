@@ -18,7 +18,7 @@ export async function getJWT(url: string) {
         method: "GET",
         headers: {
             "content-type": "application/json",
-            "authorization": `Bearer ${localStorage.getItem("DogeToken")}`,
+            "authorization": `${localStorage.getItem("DogeToken")}`,
         },        
     }).then(parseJson).then((response) => {
         if (response.ok) {
@@ -26,9 +26,10 @@ export async function getJWT(url: string) {
         }
         else if(response.status === 401){
             localStorage.removeItem("DogeToken");
-            window.location.href = "/Login";   
+            window.location.href = "/Login";
+            return;   
         }
-        throw new Error("message");
+        throw new Error("bruh");
     });      
 }
 
@@ -44,6 +45,7 @@ export async function postJson(url: string, data : any) {
         body: JSON.stringify(data),
     }).then(parseJson).then((response) => {
         if (response.ok) {
+            console.log(response.json);
             return response.json;
         }
         else{
@@ -61,7 +63,6 @@ export async function postTokenJson(url: string, data : any) {
     }).then(response => response.json())
     .then((response) => {
         return response;
-        //bruh
     });
 }
 
