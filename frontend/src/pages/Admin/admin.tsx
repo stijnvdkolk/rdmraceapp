@@ -18,7 +18,6 @@ export default function Admin() {
   let history = useHistory();
   function redirectTo(id: number) {
     history.push("/Admin/" + id);
-    console.log("Redirect to: " + id);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

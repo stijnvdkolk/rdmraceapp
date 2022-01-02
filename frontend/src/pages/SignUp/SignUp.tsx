@@ -16,7 +16,7 @@ export default function SignUp() {
             height: "550px",
           }}>
           <h2>
-            Welcome to PhidippidusChat!
+            Welcome to PhidippidesChat!
           </h2>
           <p>
             Enter you details below to create an account.
@@ -34,7 +34,7 @@ export default function SignUp() {
           </label>
 
           <div className="TextField">
-            <TextField id="outlined-basic" required={true} label="Email Adress" variant="outlined" />
+            <TextField id="outlined-basic" required={true} label="Email Address" variant="outlined" />
             <TextField id="outlined-basic" required={true} label="Username" variant="outlined" />
             <TextField type="password" required={true} id="outlined-basic" label="Password" variant="outlined" />
             <TextField type="password" required={true} id="outlined-basic" label="Confirm Password"

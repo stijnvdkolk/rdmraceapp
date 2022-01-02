@@ -46,9 +46,9 @@ export default function Chat() {
   }
   //#region APICalls
   
-  useEffect(() => {
-    console.log(getChannels());
-  }, []);
+  // useEffect(() => {
+  //   console.log(getChannels());
+  // }, []);
 
   useEffect(() => {
     ConsumeEffect(setIsLoaded, setselfProfile, () => {return getSelf();} );
@@ -76,7 +76,6 @@ export default function Chat() {
   const [Conversation, setConversation] = useState<Channel | undefined>(undefined); //Person[]
 
   useEffect(() => {
-    console.log(channelID);
     if (channelID != null) {
       ConsumeEffect(setIsLoadedConversation, setConversation, () => {return getChannel(channelID);} );
     }
