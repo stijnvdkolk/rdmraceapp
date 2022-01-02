@@ -12,7 +12,7 @@ import EuroIcon from "@mui/icons-material/Euro";
 import NavListItem from "../../components/navListItem/navListItem";
 import { useHistory, useParams } from "react-router-dom";
 import ChatWindow from "../../components/ChatWindow/ChatWindow";
-import { getChannels, getMessage, getPeople, getPerson, getSelf } from "../../API/Chat";
+import { getChannel, getChannels, getMessage, getPeople, getPerson, getSelf } from "../../API/Chat";
 import Person from "../../classes/Person";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { green, grey, red, yellow } from "@mui/material/colors";
@@ -72,12 +72,13 @@ export default function Chat() {
   //       }
   //     );
   // }, []);
-  const [isLoadedDM, setIsLoadedDM] = useState<boolean>(false);
-  const [DM, setDM] = useState<Person | undefined>(undefined); //Person[]
+  const [isLoadedConversation, setIsLoadedConversation] = useState<boolean>(false);
+  const [Conversation, setConversation] = useState<Channel | undefined>(undefined); //Person[]
 
   useEffect(() => {
+    console.log(channelID);
     if (channelID != null) {
-      ConsumeEffect(setIsLoadedDM, setDM, () => {return getPerson(channelID);} );
+      ConsumeEffect(setIsLoadedConversation, setConversation, () => {return getChannel(channelID);} );
     }
   }, [channelID]);
 
@@ -91,7 +92,7 @@ export default function Chat() {
             <Navdrawer
               mischellaneous={true}
               name={selfProfile != null ? selfProfile.username : ""}
-              imageLink={selfProfile != null ? selfProfile!.profilePicture : ""}
+              imageLink={selfProfile != null ? "https://cdn.rdmraceapp.nl" + selfProfile!.profilePicture : ""}
             >
               {isCLoaded && channels != null && channels !== undefined ? (
                 <div>
@@ -189,10 +190,9 @@ export default function Chat() {
               )}
             </Navdrawer>
           </div>
-          {isLoadedDM && DM != null ? (
+          {isLoadedConversation && Conversation != null ? (
             <ChatWindow
-              name={DM !== undefined ? DM.username : "Egbert"}
-              imageLink={DM !== undefined ? DM!.profilePicture : ""}
+              imageLink="https://cdn.rdmraceapp.nl/profilePictures/default.png"
             ></ChatWindow>
           ) : (
             <div />
