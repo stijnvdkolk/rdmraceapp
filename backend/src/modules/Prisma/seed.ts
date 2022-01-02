@@ -49,7 +49,7 @@ async function seed() {
       name: 'Marketing',
       description: 'This is the marketing channel',
       type: ChannelType.PRIVATE_CHANNEL,
-      rolesAccess: [UserRole.MARKETING],
+      rolesAccess: [UserRole.MARKETING, UserRole.ADMIN],
     },
   });
 
@@ -59,7 +59,7 @@ async function seed() {
       name: 'Team',
       description: 'This is the team channel',
       type: ChannelType.PRIVATE_CHANNEL,
-      rolesAccess: [UserRole.TEAM_MEMBER],
+      rolesAccess: [UserRole.TEAM_MEMBER, UserRole.MARKETING, UserRole.ADMIN],
     },
   });
 
