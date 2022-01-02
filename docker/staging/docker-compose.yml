@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: rdmchat_db
+    image: 'postgres:latest'
+    env_file: ../../.env
+    volumes:
+      - ./postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+      - postgres-staging:/var/lib/postgresql/data
+  backend:
+    container_name: rdmchat_backend
+    env_file: ../../.env
+    build:
+      context: ${BACKEND_ROOT}
+      dockerfile: ./Dockerfile
+    command: yarn start:prod
+    tty: true
+    ports:
+      - '3000:3000'
+  # TODO: frontend docker stuff
+  # frontend:
+  #   container_name: rdmchat_frontend
+  #   env_file: ../../.env
+  #   build:
+  #     context: ${FRONTEND_ROOT}
+  #     dockerfile: ./Dockerfile
+  #   command: yarn start:debug
+  #   tty: true
+  #   ports:
+  #     - '3001:3000'
+
+volumes:
+  postgres-staging:
