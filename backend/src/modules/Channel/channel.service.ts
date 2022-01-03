@@ -1,9 +1,16 @@
 import { NotFoundError } from '@lib/errors';
 import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';
+import { PrismaService } from '@modules/Prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { Channel, ChannelType, Message, Prisma, User } from '@prisma/client';
-import { PrismaService } from '../Prisma/prisma.service';
+import {
+  Attachment,
+  Channel,
+  ChannelType,
+  Message,
+  Prisma,
+  User,
+} from '@prisma/client';
 
 @Injectable()
 export class ChannelService {
@@ -168,7 +175,7 @@ export class ChannelService {
           attachments: {
             select: {
               id: true,
-              url: true,
+              name: true,
             },
           },
           channel: {
@@ -227,7 +234,7 @@ export class ChannelService {
           attachments: {
             select: {
               id: true,
-              url: true,
+              name: true,
             },
           },
           channel: {
@@ -242,6 +249,107 @@ export class ChannelService {
               users: false,
             },
           },
+        },
+      });
+    } catch (error) {
+      throw new NotFoundError('channel_not_found');
+    }
+  }
+
+  async createMessage(
+    channelId: Channel['id'],
+    authorId: User['id'],
+    content: string,
+    attachments: {
+      name: Attachment['name'];
+    }[],
+  ) {
+    try {
+      return this.prisma.message.create({
+        data: {
+          content,
+          author: {
+            connect: {
+              id: authorId,
+            },
+          },
+          channel: {
+            connect: {
+              id: channelId,
+            },
+          },
+          attachments: {
+            createMany: {
+              data: attachments,
+            },
+          },
+        },
+        include: {
+          attachments: true,
+          channel: true,
+          author: {
+            select: {
+              aboutMe: true,
+              profilePicture: true,
+              status: true,
+              username: true,
+              role: true,
+              id: true,
+              email: false,
+              channels: false,
+              createdAt: true,
+              updatedAt: true,
+              messages: false,
+              password: false,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw new NotFoundError('channel_not_found');
+    }
+  }
+
+  async updateMessage(messageId: string, data: { content: string }) {
+    try {
+      return this.prisma.message.update({
+        where: {
+          id: messageId,
+        },
+        data: {
+          content: data.content,
+        },
+        include: {
+          attachments: true,
+          channel: true,
+          author: {
+            select: {
+              aboutMe: true,
+              profilePicture: true,
+              status: true,
+              username: true,
+              role: true,
+              id: true,
+              email: false,
+              channels: false,
+              createdAt: true,
+              updatedAt: true,
+              messages: false,
+              password: false,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw new NotFoundError('channel_not_found');
+    }
+  }
+
+  async deleteMessage(messageId: string) {
+    try {
+      return this.prisma.message.delete({
+        where: {
+          id: messageId,
         },
       });
     } catch (error) {
