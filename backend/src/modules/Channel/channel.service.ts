@@ -252,7 +252,7 @@ export class ChannelService {
         },
       });
     } catch (error) {
-      throw new NotFoundError('channel_not_found');
+      throw new NotFoundError('channel_or_message_not_found');
     }
   }
 
@@ -341,7 +341,7 @@ export class ChannelService {
         },
       });
     } catch (error) {
-      throw new NotFoundError('channel_not_found');
+      throw new NotFoundError('channel_or_message_not_found');
     }
   }
 
@@ -353,7 +353,7 @@ export class ChannelService {
         },
       });
     } catch (error) {
-      throw new NotFoundError('channel_not_found');
+      throw new NotFoundError('channel_or_message_not_found');
     }
   }
 }
