@@ -45,7 +45,10 @@ export class ChannelController {
     @Query() query: PaginationQueryInput,
   ) {
     const channel = await this.channelService.getChannelById(id);
-    if (!channel.rolesAccess.includes(user.role))
+    if (
+      channel.rolesAccess.length > 0 &&
+      !channel.rolesAccess.includes(user.role)
+    )
       return new ForbiddenException('not_allowed');
     return this.channelService.getMessagesFromChannel(id, query);
   }
@@ -57,7 +60,10 @@ export class ChannelController {
     @Param('messageId') messageId: string,
   ) {
     const channel = await this.channelService.getChannelById(channelId);
-    if (!channel.rolesAccess.includes(user.role))
+    if (
+      channel.rolesAccess.length > 0 &&
+      !channel.rolesAccess.includes(user.role)
+    )
       return new ForbiddenException('not_allowed');
     return this.channelService.getMessageFromChannel(channelId, messageId);
   }
@@ -77,7 +83,10 @@ export class ChannelController {
     @Body() data: { content?: string },
   ) {
     const channel = await this.channelService.getChannelById(channelId);
-    if (!channel.rolesAccess.includes(user.role))
+    if (
+      channel.rolesAccess.length > 0 &&
+      !channel.rolesAccess.includes(user.role)
+    )
       return new ForbiddenException('not_allowed');
     files = files.map((file) => ({
       ...file,
@@ -114,7 +123,10 @@ export class ChannelController {
     @Body() data: { content: string },
   ) {
     const channel = await this.channelService.getChannelById(channelId);
-    if (!channel.rolesAccess.includes(user.role))
+    if (
+      channel.rolesAccess.length > 0 &&
+      !channel.rolesAccess.includes(user.role)
+    )
       return new ForbiddenException('not_allowed');
     const message = await this.channelService.getMessageFromChannel(
       channelId,
@@ -133,7 +145,10 @@ export class ChannelController {
     @CurrentUser() user: User,
   ) {
     const channel = await this.channelService.getChannelById(channelId);
-    if (!channel.rolesAccess.includes(user.role))
+    if (
+      channel.rolesAccess.length > 0 &&
+      !channel.rolesAccess.includes(user.role)
+    )
       return new ForbiddenException('not_allowed');
     const message = await this.channelService.getMessageFromChannel(
       channelId,
