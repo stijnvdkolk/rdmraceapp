@@ -21,5 +21,8 @@ dev-minimal:
 db:
 	@tools/scripts/compose-db.sh up
 
-storage:
-	@tools/scripts/compose-storage.sh up
+staging:
+	@tools/scripts/compose-staging.sh up -d
+
+staging-down:
+	@tools/scripts/compose-staging.sh down

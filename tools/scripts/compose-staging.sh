@@ -3,5 +3,5 @@
 docker-compose \
 -p chatapp \
 --env-file .env \
--f ./docker/storage/docker-compose.yml \
+-f ./docker/staging/docker-compose.yml \
 "$@"
