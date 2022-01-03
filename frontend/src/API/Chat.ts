@@ -1,66 +1,46 @@
-import { get } from "./ApiCalls";
+import Channel from "../classes/Channel";
+import Message from "../classes/Message";
+import Person from "../classes/Person";
+import Token from "../classes/Token";
+import { get, getJWT, postJson } from "./ApiCalls";
 
-class person{
-    id : number | undefined;
-    name : string | undefined;
-    profilePicture : string | undefined;
-    role : string | undefined;
-    status : string | undefined;
-    aboutMe : string | undefined;
-}
-
-export async function getPerson(channelID: string): Promise<{
-    id : number | undefined;
-    name : string | undefined;
-    profilePicture : string | undefined;
-    role : string | undefined;
-    status : string | undefined;
-    aboutMe : string | undefined;
-}>
+export async function getPerson(channelID: string): Promise<{person : Person}>
 {
-    const path = `/getPeople/Person/${channelID}`;
+    const path = `getPeople/Person/${channelID}`;
     return get(path);
 }
-
-export async function getChannel(channelID: string): Promise<{
-    id : number | undefined;
-    name : string | undefined;
-    profilePicture : string | undefined;
-    role : string | undefined;
-    status : string | undefined;
-    aboutMe : string | undefined;
-}>
+export async function getPeople(amount: number): Promise<{person: Person[]}>
 {
-    const path = `/getPeople/Channel/${channelID}`;
+    const path = `getPeople/${amount}`;
     return get(path);
 }
-export async function getMessage(): Promise<{
-    id: string | undefined;
-    content: string | undefined;
-    channelId: string | undefined;
-    author: person | undefined;
-    authorId: string | undefined;
-    createdAt: Date | undefined;
-    updatedAt: Date | undefined;
-    attachments: string[] | undefined;
-}>
+export async function getSelf(): Promise<{person : Person}>
 {
-    const path = `/messages/singleton`;
-    console.log(get(path));
-    return get(path);
+    const path = "/auth/@me";
+    return getJWT(path);
 }
-export async function getMessages(num: number): Promise<{
-    id: string | undefined;
-    content: string | undefined;
-    channelId: string | undefined;
-    author: person | undefined;
-    authorId: string | undefined;
-    createdAt: Date | undefined;
-    updatedAt: Date | undefined;
-    attachments: string[] | undefined;
-}[]>
+export async function getChannels(): Promise<{channel : Channel}[]>
 {
-    const path = `/messages/group/${num}`;
-    console.log(get(path));
-    return get(path);
+    const path = `/channels/`;
+    return getJWT(path);
+}
+export async function getChannel(id : string): Promise<{channel : Channel}>
+{
+    const path = `/channels/${id}`;
+    return getJWT(path);
+}
+export async function getMessage(ChannelId: string, MessageId: string): Promise<{message : Message}>
+{
+    const path = `/channels/${ChannelId}/messages/${MessageId}`;
+    return getJWT(path);
+}
+export async function getMessages(ChannelId: string): Promise<{ message : Message}[]>
+{
+    const path = `/channels/${ChannelId}/messages/`;
+    return getJWT(path);
+}
+export async function getToken(email: string, password: string) : Promise <{token : Token}>
+{
+    const path = "/auth/token";
+    return postJson(path, {email, password});
 }

@@ -12,14 +12,11 @@ import { Button } from "@mui/material";
 
 const datagridButton = (params: GridRenderCellParams) => {
   const api: GridApi = params.api;
-  console.log(params);
   return (
     <Button
-      variant="contained"
       onClick={() => {
         alert("clicked");
       }}
-      sx={{ borderRadius: "20px" }}
     >
       {params.value}
     </Button>
@@ -47,56 +44,56 @@ const rows = [
     userName: "Stijn",
     email: "stijn@rdmraceapp.nl",
     role: "Admin",
-    manage: "manage user",
+    manage: <Buttoned text="manage user" />,
   }, // need to figure out a way to make the button usable in the datagrid
   {
     id: 2,
     userName: "Melissa",
     email: "Melissa@rdmraceapp.nl",
     role: "Marketing",
-    manage: "manage user",
+    manage: <Buttoned text="manage user" />,
   },
   {
     id: 3,
     userName: "Hugo",
     email: "hugo@rdmraceapp.nl",
     role: "Sponsor",
-    manage: "manage user",
+    manage: <Buttoned text="manage user" />,
   },
   {
     id: 4,
     userName: "David",
     email: "david@rdmraceapp.nl",
     role: "Team member",
-    manage: "manage user",
+    manage: <Buttoned text="manage user" />,
   },
   {
     id: 5,
     userName: "Bjorn",
     email: "bjorn@rdmraceapp.nl",
     role: "Team member",
-    manage: "manage user",
+    manage: <Buttoned text="manage user" />,
   },
   {
     id: 6,
     userName: "Henk",
     email: "henk@rdmraceapp.nl",
     role: "Team member",
-    manage: "manage user",
+    manage: <Buttoned text="manage user" />,
   },
   {
     id: 7,
     userName: "Daimon",
     email: "daimon@rdmraceapp.nl",
     role: "Sponsor",
-    manage: "manage user",
+    manage: <Buttoned text="manage user" />,
   },
   {
     id: 8,
     userName: "Emily",
     email: "emily@rdmraceapp.nl",
     role: "Admin",
-    manage: "manage user",
+    manage: <Buttoned text="manage user" />,
   },
 ];
 
