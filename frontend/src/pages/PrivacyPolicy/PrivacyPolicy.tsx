@@ -20,13 +20,10 @@ export default function PrivacyPolicy(props: IProps) {
     /*Background*/
     <div className="PrivacyPolicyContainer">
       <Container
+        className="PrivacyPolicyContainerDEBUG"
         sx={{
-          marginRight: 0,
-          paddingRight: 0,
-          marginLeft: 0,
-          paddingLeft: 0,
-
-          width: "80vw",
+          height: "100%",
+          width: "90%",
         }}
       >
         <div className="DMT">
@@ -36,12 +33,11 @@ export default function PrivacyPolicy(props: IProps) {
         <Card
           className="PrivacyPolicyBox"
           sx={{
-            marginTop: 0,
-            height: "80vh",
+            height: "90vh",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginRight: 0,
+            overflowY: "scroll",
           }}
         >
           <Typography
@@ -158,7 +154,7 @@ export default function PrivacyPolicy(props: IProps) {
             className="appBody"
             sx={{ fontSize: "4vh" }}
           >
-            Deviant Systems maakt gebruik van zorgvuldige veiligheidsprocedures
+            PhidippedesChat maakt gebruik van zorgvuldige veiligheidsprocedures
             voor de bescherming van de verwerkte gegevens, onder meer om te
             voorkomen dat onbevoegden zich onbedoeld toegang kunnen verschaffen
             tot deze gegevens. Zo zorgen wij dat alleen de noodzakelijke

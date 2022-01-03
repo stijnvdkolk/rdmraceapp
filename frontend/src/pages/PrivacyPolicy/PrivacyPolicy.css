@@ -1,5 +1,5 @@
 .PrivacyPolicyContainer {
-  text-align: left;
+  text-align: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -30,6 +30,7 @@
 
 .appTitle {
   /* PhidippidesChat */
+  margin-top: 10px;
   font-style: normal;
   font-weight: bold;
   font-size: 50px;
@@ -45,6 +46,7 @@
   font-weight: bold;
   font-size: 25px;
   line-height: 20px;
+  text-align: center;
 
   /* Super blauw - Phid */
   color: #2c256b;
@@ -56,6 +58,8 @@
   font-weight: bold;
   font-size: 18px;
   line-height: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 
   /* Iets minder super blauw - ippi */
   color: #414189;
