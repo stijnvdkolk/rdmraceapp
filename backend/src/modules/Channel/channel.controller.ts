@@ -49,7 +49,7 @@ export class ChannelController {
       channel.rolesAccess.length > 0 &&
       !channel.rolesAccess.includes(user.role)
     )
-      return new ForbiddenException('not_allowed');
+      throw new ForbiddenException('not_allowed');
     return this.channelService.getMessagesFromChannel(id, query);
   }
 
@@ -64,7 +64,7 @@ export class ChannelController {
       channel.rolesAccess.length > 0 &&
       !channel.rolesAccess.includes(user.role)
     )
-      return new ForbiddenException('not_allowed');
+      throw new ForbiddenException('not_allowed');
     return this.channelService.getMessageFromChannel(channelId, messageId);
   }
 
@@ -87,7 +87,7 @@ export class ChannelController {
       channel.rolesAccess.length > 0 &&
       !channel.rolesAccess.includes(user.role)
     )
-      return new ForbiddenException('not_allowed');
+      throw new ForbiddenException('not_allowed');
     files = files.map((file) => ({
       ...file,
       filename: file.originalname
@@ -127,7 +127,7 @@ export class ChannelController {
       channel.rolesAccess.length > 0 &&
       !channel.rolesAccess.includes(user.role)
     )
-      return new ForbiddenException('not_allowed');
+      throw new ForbiddenException('not_allowed');
     const message = await this.channelService.getMessageFromChannel(
       channelId,
       messageId,
@@ -149,7 +149,7 @@ export class ChannelController {
       channel.rolesAccess.length > 0 &&
       !channel.rolesAccess.includes(user.role)
     )
-      return new ForbiddenException('not_allowed');
+      throw new ForbiddenException('not_allowed');
     const message = await this.channelService.getMessageFromChannel(
       channelId,
       messageId,
