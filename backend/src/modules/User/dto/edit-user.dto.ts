@@ -9,7 +9,5 @@ export class EditUserDto {
   @IsNotEmpty()
   username: string;
 
-  profilePicture: string;
-
   about: string;
 }

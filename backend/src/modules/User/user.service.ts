@@ -15,9 +15,25 @@ export class UserService {
     >,
   ) {}
 
-  async findUserById(userId: User['id']): Promise<User> {
+  async findUserById(userId: User['id'], includeSensitiveInformation = false) {
     try {
-      return this.prisma.user.findUnique({ where: { id: userId } });
+      return this.prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+          id: true,
+          aboutMe: true,
+          email: includeSensitiveInformation,
+          profilePicture: true,
+          password: false,
+          username: true,
+          role: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
+          channels: false,
+          messages: false,
+        },
+      });
     } catch (error) {
       throw new NotFoundError('user_not_found');
     }
