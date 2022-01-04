@@ -191,7 +191,7 @@ export default function Chat() {
           </div>
           {isLoadedConversation && Conversation != null ? (
             <ChatWindow
-              imageLink="https://cdn.rdmraceapp.nl/profilePictures/default.png"
+              imageLink="https://cdn.rdmraceapp.nl/embed/avatars/default.png"
             ></ChatWindow>
           ) : (
             <div />
