@@ -146,3 +146,94 @@
     grid-column: 1;
     margin-bottom: 10px;
 }
+.animatedSend:hover{
+    fill: red;
+    animation: rotate 1s forwards;
+}
+.animatedSend{
+    animation: unrotate 0.5s forwards;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(270deg);
+    }    
+}
+@keyframes unrotate {
+    from {
+        transform: rotate(270deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }    
+}
+
+.animatedAttachment:hover{
+    fill: red;
+    animation: popup 0.25s forwards;
+}
+.animatedAttachment{
+    
+    animation: unpopup 0.25s forwards;
+}
+
+@keyframes popup {
+   0%
+    {
+         transform: translateY(0px);
+    }
+    25%
+    {
+         transform: translateY(-2.5px);
+         height: 24px;
+    }
+    50%
+    {
+         transform: translateY(-5px);
+         height: 29px;
+    }
+    75%
+    {
+         transform: translateY(-7.5px);
+         height: 31px;
+    }
+    100%
+    {
+         transform: translateY(-10px);
+         height: 34px;
+    }
+}
+@keyframes unpopup {
+    0%
+     {
+          transform: translateY(-10px);
+          height: 34px;
+     }
+     25%
+     {
+          transform: translateY(-7.5px);
+          height: 31px;
+     }
+     50%
+     {
+          transform: translateY(-5px);
+          height: 29px;
+     }
+     75%
+     {
+          transform: translateY(-2.5px);
+          height: 24px;
+     }
+     100%
+     {
+          transform: translateY(0px);
+     }
+ }
+ .Emoji:hover{ 
+    fill: red;
+    animation: popup 0.25s forwards;
+
+ }

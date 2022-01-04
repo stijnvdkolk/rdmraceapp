@@ -43,7 +43,7 @@ Table Message {
 
 Table Attachment {
   id String [pk]
-  url String [not null]
+  name String [not null]
   message Message [not null]
   messageId String [not null]
   createdAt DateTime [default: `now()`, not null]
