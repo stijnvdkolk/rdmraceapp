@@ -1,9 +1,10 @@
 import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';
 import { NotFoundError } from '@lib/errors';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Prisma, User, UserRole } from '@prisma/client';
 import { PrismaService } from '../Prisma/prisma.service';
+import { SpacesProvider } from '@modules/providers/spaces.provider';
 
 @Injectable()
 export class UserService {
@@ -13,6 +14,7 @@ export class UserService {
       Prisma.UserWhereInput,
       Prisma.UserOrderByWithRelationInput
     >,
+    @Inject('SPACES') private spaces: SpacesProvider,
   ) {}
 
   async findUserById(userId: User['id'], includeSensitiveInformation = false) {
@@ -127,14 +129,38 @@ export class UserService {
           username: user.username,
           password: user.password,
           profilePicture: user.profilePicture,
-          status: user.status,
           aboutMe: user.aboutMe,
-          role: user.role,
+        },
+        select: {
+          password: false,
+          email: true,
+          username: true,
+          profilePicture: true,
+          aboutMe: true,
+          status: true,
+          role: true,
+          messages: false,
+          channels: false,
+          id: true,
         },
       });
     } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new BadRequestException('email_address_already_in_use');
+      }
       throw new NotFoundError('user_not_found');
     }
+  }
+
+  async uploadProfilePicture(
+    id: string,
+    file: Express.Multer.File,
+  ): Promise<string> {
+    const data = await this.spaces.uploadProfilePicture({ id }, file);
+    return data.profilePictureId;
   }
 
   async deleteUser(id: string) {
