@@ -9,12 +9,15 @@ import validator from 'validator';
 export function isStrongPassword(value: unknown): boolean {
   return (
     typeof value === 'string' &&
-    !value.toLowerCase().includes('tribecamp') &&
-    !value.toLowerCase().includes('tribe') &&
-    !value.toLowerCase().includes('tc') &&
+    !value.toLowerCase().includes('welkom') &&
+    !value.toLowerCase().includes('phidippides') &&
+    !value.toLowerCase().includes('hogeschool') &&
+    !value.toLowerCase().includes('welcome') &&
+    !value.toLowerCase().includes('phidippi') &&
+    !value.toLowerCase().includes('rdm') &&
     validator.isStrongPassword(value, {
-      minLength: 8,
-      minNumbers: 1,
+      minLength: 10,
+      minNumbers: 2,
       minLowercase: 2,
       minUppercase: 2,
       minSymbols: 1,
