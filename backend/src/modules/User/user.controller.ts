@@ -9,12 +9,17 @@ import {
   Body,
   Query,
   ForbiddenException,
+  UseInterceptors,
+  UploadedFile,
+  Patch,
+  UnsupportedMediaTypeException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { EditUserDto } from './dto/edit-user.dto';
 import { CurrentUser, Roles } from '@decorators';
 import { User, UserRole } from '@prisma/client';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('/users')
 export class UserController {
@@ -37,17 +42,45 @@ export class UserController {
     return this.userService.createUser(userData);
   }
 
-  @Put('/:userId')
+  @Patch('/:userId')
+  @UseInterceptors(
+    FileInterceptor('profilepicture', {
+      limits: {
+        fileSize: 10000000,
+      },
+      fileFilter: (req, file, callback) => {
+        if (file.mimetype.includes('image')) {
+          callback(null, true);
+        } else {
+          callback(new UnsupportedMediaTypeException(), false);
+        }
+      },
+    }),
+  )
   async updateUser(
-    @CurrentUser() user: User,
+    @CurrentUser() currentUser: User,
     @Param('userId') id: string,
     @Body() userData: EditUserDto,
+    @UploadedFile() profilepicture: Express.Multer.File,
   ) {
+    const user: Partial<User> = userData;
     if (id === '@me') {
-      return this.userService.editUser(user.id, userData);
+      if (profilepicture) {
+        user.profilePicture = await this.userService.uploadProfilePicture(
+          currentUser.id,
+          profilepicture,
+        );
+      }
+      return this.userService.editUser(currentUser.id, user);
     }
-    if (user.role == UserRole.ADMIN) {
-      return this.userService.editUser(id, userData);
+    if (currentUser.role == UserRole.ADMIN) {
+      if (profilepicture) {
+        user.profilePicture = await this.userService.uploadProfilePicture(
+          user.id,
+          profilepicture,
+        );
+      }
+      return this.userService.editUser(id, user);
     }
     throw new ForbiddenException('not_allowed');
   }

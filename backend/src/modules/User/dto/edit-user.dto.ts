@@ -1,13 +1,21 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsStrongPassword } from '@lib/validator/validator';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class EditUserDto {
   @IsEmail()
-  @IsNotEmpty()
+  @IsOptional()
   email: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   username: string;
 
+  @IsString()
+  @IsOptional()
   about: string;
+
+  @IsString()
+  @IsStrongPassword()
+  @IsOptional()
+  password: string;
 }
