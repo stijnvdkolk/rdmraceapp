@@ -16,7 +16,7 @@ export async function getPeople(amount: number): Promise<{person: Person[]}>
 }
 export async function getSelf(): Promise<{person : Person}>
 {
-    const path = "/auth/@me";
+    const path = "/users/@me";
     return getJWT(path);
 }
 export async function getChannels(): Promise<{channel : Channel}[]>

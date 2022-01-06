@@ -1,12 +1,14 @@
 const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
+// fetch("https://api.rdmraceapp.nl/auth/@me");
+// fetch("localhost:8080/auth/@me");
+
 export async function get(url: string) {
     return fetch(baseUrl + url, {
         method: "GET",
     }).then(parseJson).then((response) => {
         if (response.ok) {
             return response.json;
-
         }
         throw new Error("message");
     });
