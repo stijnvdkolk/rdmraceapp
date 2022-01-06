@@ -1,6 +1,6 @@
 
 export default class Person {
-    id : number | undefined;
+    id : string | undefined;
     email: string | undefined;
     username : string | undefined;    
     profilePicture : string | undefined;
