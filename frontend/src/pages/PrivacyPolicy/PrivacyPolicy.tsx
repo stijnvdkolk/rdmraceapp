@@ -53,16 +53,14 @@ export default function PrivacyPolicy(props: IProps) {
             sx={{ fontSize: "4vh" }}
           >
             Bij PhidippidesChat, toegankelijk via link.nl, is een van onze
-            belangrijkste prioriteiten de privacy van onze bezoekers. Dit
-            Privacybeleid-document bevat soorten informatie die wordt verzameld
-            en vastgelegd door PhidippidesChat en hoe we deze gebruiken. Als u
-            nog vragen heeft of meer informatie wenst over ons privacybeleid,
-            aarzel dan niet om contact met ons op te nemen. Dit privacybeleid is
-            alleen van toepassing op onze online activiteiten en is geldig voor
+            belangrijkste prioriteiten de privacy van onze bezoekers. Deze
+            Privacybeleid-page bevat soorten informatie die wordt verzameld en
+            vastgelegd door PhidippidesChat en hoe we deze gebruiken. Als u nog
+            vragen heeft of meer informatie wenst over ons privacybeleid, aarzel
+            dan niet om contact met ons op te nemen. Dit privacybeleid is alleen
+            van toepassing op onze online activiteiten en is geldig voor
             bezoekers van onze website met betrekking tot de informatie die ze
-            hebben gedeeld en/of verzameld in PhidippidesChat. Dit beleid is
-            niet van toepassing op informatie die offline of via andere kanalen
-            dan deze website wordt verzameld.
+            hebben gedeeld en/of verzameld in PhidippidesChat.
           </Typography>
 
           <Typography
@@ -94,10 +92,10 @@ export default function PrivacyPolicy(props: IProps) {
             sx={{ fontSize: "4vh" }}
           >
             We gebruiken de informatie die we verzamelen op verschillende
-            manieren, waaronder: Onze website aanbieden, beheren en onderhouden
+            manieren, waaronder: Onze website aanbieden, beheren en onderhouden.
             Onze website verbeteren. Met u communiceren, om u updates en andere
-            informatie met betrekking tot de website te verstrekken, voor
-            marketing- en promotiedoeleinden en om mails te sturen.
+            informatie met betrekking tot de website te verstrekken en om mails
+            te sturen.
           </Typography>
 
           <Typography
@@ -121,8 +119,7 @@ export default function PrivacyPolicy(props: IProps) {
             bericht en/of de bijlagen die u ons stuurt, en alle andere
             informatie die u mogelijk wilt verstrekken. Wanneer u zich
             registreert voor een Account, kunnen we om uw contactgegevens
-            vragen, inclusief items zoals naam, bedrijfsnaam, adres, e-mailadres
-            en telefoonnummer.
+            vragen, inclusief items zoals naam en e-mailadres.
           </Typography>
 
           <Typography
@@ -154,7 +151,7 @@ export default function PrivacyPolicy(props: IProps) {
             className="appBody"
             sx={{ fontSize: "4vh" }}
           >
-            PhidippedesChat maakt gebruik van zorgvuldige veiligheidsprocedures
+            PhidippidesChat maakt gebruik van zorgvuldige veiligheidsprocedures
             voor de bescherming van de verwerkte gegevens, onder meer om te
             voorkomen dat onbevoegden zich onbedoeld toegang kunnen verschaffen
             tot deze gegevens. Zo zorgen wij dat alleen de noodzakelijke

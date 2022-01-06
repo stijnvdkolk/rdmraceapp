@@ -8,6 +8,7 @@ import Invalid from "./pages/Invalid/invalid";
 import IProps from "./components/IProps";
 import HomePage from "./pages/Home/HomePage";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService/TermsOfService";
 
 export default function Routes(props: IProps) {
   return (
@@ -16,6 +17,7 @@ export default function Routes(props: IProps) {
       <Route path="/SignUp" component={SignUp} />
       <Route path="/Homepage" component={HomePage} />
       <Route path="/Privacy" component={PrivacyPolicy} />
+      <Route path="/terms" component={TermsOfService} />
       <Route path="/Chat/:channelID" component={Chat} />
       <Route path="/Chat/" component={Chat} />
       <Route path="/Invalid/" component={Invalid} />
