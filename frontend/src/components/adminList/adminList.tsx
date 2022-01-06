@@ -12,7 +12,6 @@ import { Button } from "@mui/material";
 
 const datagridButton = (params: GridRenderCellParams) => {
   const api: GridApi = params.api;
-  console.log(params);
   return (
     <Button
       onClick={() => {

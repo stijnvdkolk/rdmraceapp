@@ -10,16 +10,22 @@ import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import "./ChatWindow.css";
+import { ConsumeEffect } from "../../API/ApiCalls";
+import { useParams } from "react-router-dom";
 
 function FkDateTime(date: Date) {
     var dtm: Date	= new Date(date);
     var retVal: string = `${dtm.getDate()}/${dtm.getMonth() + 1}/${dtm.getFullYear()} ${dtm.getHours()}:${dtm.getMinutes()}:${dtm.getSeconds()}`;
     return retVal;
 }
+interface UParams {
+    channelID: string | undefined;
+}
 
 export default function ChatWindow(props: IProps){
     const { colorTheme } =  useContext(ThemeContext);
     const { name, imageLink } = props;
+    const { channelID } = useParams<UParams>();
     //#region MediaQuery
     const [matches, setMatches] = react.useState(window.matchMedia("(min-width: 1000px)").matches);
     useEffect(() => {
@@ -33,25 +39,15 @@ export default function ChatWindow(props: IProps){
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isMessageLoaded, setIsMessageLoaded] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[] | undefined>(undefined); //Message
-    useEffect(() => {       
-        getMessages(20)
-        .then(
-            (result) => {
-                setIsMessageLoaded(true);
-                setMessages(result);
-            },
-            (error) => {
-                setIsMessageLoaded(true);
-                setError(error);
-            }
-        )
-        
-    }, [name, setError]);
+    useEffect(() => {       //bruh?
+       ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelID!);} );
+    }, [channelID, name, setError]);
     //#endregion
     //#region Message
     const conversation = (
         <div className="conversation">
-            {messages && messages.map((berichten, index) => (
+            {messages !== undefined && messages.length !== 0 && (
+                 messages.map((berichten, index) => (
                 
                 <div key={index} className={colorTheme  === "dark" ? "messageParent darkmessage" : "messageParent lightmessage"} >
                     <div className={"message"}> 
@@ -63,11 +59,11 @@ export default function ChatWindow(props: IProps){
                                 { FkDateTime(berichten.createdAt as Date) } 
                             </div>
                             <div className="message-sender">
-                                {berichten?.author?.name}
+                                {berichten?.author?.username}
                             </div>
                         </div>
                         <div className="message-image">
-                            <Avatar src={berichten?.author?.profilePicture} alt="" sx={{
+                            <Avatar src={"https://cdn.rdmraceapp.nl" + berichten?.author?.profilePicture} alt="" sx={{
                                 width: "50px",
                                 height: "50px",
                             }}
@@ -80,7 +76,7 @@ export default function ChatWindow(props: IProps){
                         ))}
                     </div>
                 </div>
-            ))}
+            )))}
             {/* <div className="message">
                 <div className="message-text">
                     {messages && messages.content}
@@ -114,6 +110,7 @@ export default function ChatWindow(props: IProps){
                     <Divider sx={{
                         marginBottom: "10px",
                     }}/>
+                    {/* TODO: Outline Color theme color in Both modes */}
                     <FormControl className="MessageInput">
                         <TextField 
                             id="outlined-basic" 
@@ -123,13 +120,17 @@ export default function ChatWindow(props: IProps){
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <EmojiEmotionsOutlinedIcon/>
+                                        <EmojiEmotionsOutlinedIcon className="Emoji"/>
                                     </InputAdornment>
                                 ),
                                 endAdornment:(
                                     <InputAdornment position="end">
-                                        <AttachFileIcon/>
-                                        <ArrowForwardIcon/>
+                                        <div className="animatedAttachment11">
+                                            <AttachFileIcon className="animatedAttachment"/>
+                                        </div>
+                                        <div>
+                                            <ArrowForwardIcon className="animatedSend"/>
+                                        </div>
                                     </InputAdornment>
                                 )
                             }}
@@ -154,8 +155,9 @@ export default function ChatWindow(props: IProps){
                 }} >
                 {chatHeaderContainer}
                 <Divider style={{gridRow: 2}} />                
-                {conversation /* this is where the chat messages go */}
+                {messages?.length !== 0 && conversation  /* this is where the chat messages go */}
                 {SendForm /*this is the send input*/}
+                
             </Card>
         </div> 
     );

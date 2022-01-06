@@ -80,7 +80,7 @@ model Message {
 // Attachment model
 model Attachment {
   id        String   @id @default(cuid())
-  url       String
+  name      String
   message   Message  @relation(fields: [messageId], references: [id])
   messageId String
   createdAt DateTime @default(now())
