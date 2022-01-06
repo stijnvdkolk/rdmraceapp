@@ -16,7 +16,7 @@ import { getPeople, getSelf } from "../../API/Chat";
 
 export default function Admin() {
   let history = useHistory();
-  function redirectTo(id: number) {
+  function redirectTo(id: string) {
     history.push("/Admin/" + id);
   }
 
