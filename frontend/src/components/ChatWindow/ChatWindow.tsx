@@ -12,7 +12,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import "./ChatWindow.css";
 import { ConsumeEffect } from "../../API/ApiCalls";
 import { useParams } from "react-router-dom";
-import { ChildCare, SaveAltOutlined, ThumbUp, ThumbUpOutlined } from "@mui/icons-material";
+import { SaveAltOutlined, ThumbUpOutlined } from "@mui/icons-material";
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 
 
@@ -64,16 +64,16 @@ export default function ChatWindow(props: IProps){
     };
 
 
-    const [contextMenu2, setContextMenu2] = react.useState<{
+    const [ImageContext, setImageContext] = react.useState<{
         mouseX: number;
         mouseY: number;
       } | null>(null);
     
-      const handleContextMenu2 = (event: React.MouseEvent) => {
+      const handleImageContext = (event: React.MouseEvent) => {
         event.preventDefault();
         
-        setContextMenu2(
-          contextMenu2 === null
+        setImageContext(
+          ImageContext === null
             ? {
                 mouseX: event.clientX - 2,
                 mouseY: event.clientY - 4,
@@ -86,23 +86,23 @@ export default function ChatWindow(props: IProps){
         
       };
 
-    const handleClose2 = () => {
+    const CloseImageContext = () => {
         
-        setContextMenu2(null);
+        setImageContext(null);
     };
 
     //TODO: REFACTOR THIS CODE
     //TODO: Voeg PFP Click
-    const [contextMenu3, setContextMenu3] = react.useState<{
+    const [ProfilePictureContext, SetProfilePictureContext] = react.useState<{
         mouseX: number;
         mouseY: number;
       } | null>(null);
     
-      const handleContextMenu3 = (event: React.MouseEvent) => {
+      const handleProfilePictureContext = (event: React.MouseEvent) => {
         event.preventDefault();
         
-        setContextMenu3(
-          contextMenu3 === null
+        SetProfilePictureContext(
+          ProfilePictureContext === null
             ? {
                 mouseX: event.clientX - 2,
                 mouseY: event.clientY - 4,
@@ -115,9 +115,8 @@ export default function ChatWindow(props: IProps){
         
       };
 
-    const handleClose3 = () => {
-        
-        setContextMenu3(null);
+    const CloseProfilePictureContext = () => {
+        SetProfilePictureContext(null);
     };
     //#endregion
 
@@ -157,46 +156,71 @@ export default function ChatWindow(props: IProps){
                                 {berichten?.author?.username}
                             </div>
                         </div>
-                        <div className="message-image">
+                        <div className="message-image"
+                            onContextMenu={handleProfilePictureContext}
+                            style={{cursor: "context-menu"}}>
+                        
                             <Avatar src={"https://cdn.rdmraceapp.nl" + berichten?.author?.profilePicture} alt="" sx={{
                                 width: "50px",
                                 height: "50px",
                             }}
                                 />
+                            <Menu
+                                open={ProfilePictureContext !== null}
+                                onClose={CloseProfilePictureContext}
+                                anchorReference="anchorPosition"
+                                anchorPosition={
+                                    ProfilePictureContext !== null ?
+                                    {top: ProfilePictureContext!.mouseY, left: ProfilePictureContext!.mouseX} :
+                                    undefined
+                                }>
+                                <MenuItem onClick={CloseProfilePictureContext}>
+                                    <div className="MenuItemWithIcon">
+                                        <AttachFileIcon/>
+                                        {"Copy Image"}
+                                    </div>                                            
+                                </MenuItem>
+                                <MenuItem onClick={CloseProfilePictureContext}>
+                                    <div className="MenuItemWithIcon">
+                                        <SaveAltOutlined/>
+                                        {"Save Image"}
+                                    </div>                                            
+                                </MenuItem>                                
+                            </Menu>
                         </div>
                         {berichten.attachments && berichten.attachments.map((attachment, index) => (
                                 <div key={index} className={`message-image-content`} 
                                     style={{gridRow: index+4, cursor: "context-menu"}}
-                                    onContextMenu={handleContextMenu2}>
+                                    onContextMenu={handleImageContext}>
                                     <img src={`https://cdn.rdmraceapp.nl/attachments/${channelID}/${berichten.id}/${attachment.name}`} width={200} alt="" className="Picture" />
                                     <Menu
-                                        open={contextMenu2 !== null}
-                                        onClose={handleClose2}
+                                        open={ImageContext !== null}
+                                        onClose={CloseImageContext}
                                         anchorReference="anchorPosition"
                                         anchorPosition={
-                                            contextMenu2 !== null ?
-                                            {top: contextMenu2!.mouseY, left: contextMenu2!.mouseX} :
+                                            ImageContext !== null ?
+                                            {top: ImageContext!.mouseY, left: ImageContext!.mouseX} :
                                             undefined
                                         }>
-                                        <MenuItem onClick={handleClose2}>
+                                        <MenuItem onClick={CloseImageContext}>
                                             <div className="MenuItemWithIcon">
                                                 <AttachFileIcon/>
                                                 {"Copy Image"}
                                             </div>                                            
                                         </MenuItem>
-                                        <MenuItem onClick={handleClose2}>
+                                        <MenuItem onClick={CloseImageContext}>
                                             <div className="MenuItemWithIcon">
                                                 <SaveAltOutlined/>
                                                 {"Save Image"}
                                             </div>                                            
                                         </MenuItem>
-                                        <MenuItem onClick={handleClose}> {/*TODO: Copy to clipboard*/}
+                                        <MenuItem onClick={CloseImageContext}> {/*TODO: Copy to clipboard*/}
                                             <div className="MenuItemWithIcon">
                                                 <PersonOutlinedIcon/>
                                                 {"Author Profile"}
                                             </div>                                            
                                         </MenuItem>
-                                        <MenuItem onClick={handleClose}> 
+                                        <MenuItem onClick={CloseImageContext}> 
                                             <div className="MenuItemWithIcon">
                                                 <ThumbUpOutlined/>
                                                 {"Nice Embed Bro"}
@@ -245,14 +269,6 @@ export default function ChatWindow(props: IProps){
                 
             
             )}
-            {/* <div className="message">
-                <div className="message-text">
-                    {messages && messages.content}
-                </div>
-                <div className="message-time">
-                    {messages && messages.createdAt}
-                </div>
-            </div> */}
         </div>
     );
     //#endregion  
@@ -319,7 +335,7 @@ export default function ChatWindow(props: IProps){
                     borderRadius: "16px",
                     display: "grid",
                     gridTemplateColumns: "auto",
-                    gridTemplateRows: "72px 2px auto 10vh",
+                    gridTemplateRows: "72px 2px auto 1px 72px ",
                 }} >
                 {chatHeaderContainer}
                 <Divider style={{gridRow: 2}} />                
