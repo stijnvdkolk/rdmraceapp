@@ -61,18 +61,7 @@ export default function Chat() {
   useEffect(() => {
       ConsumeEffect(setIsCLoaded, setchannels, () => {return getChannels();} );
   }, []);
-  // useEffect(() => {
-  //   getPeople(5).then(
-  //       (result) => {
-  //         setIsCLoaded(true);
-  //         setcontacts(result);
-  //       },
-  //       (error) => {
-  //         setIsCLoaded(true);
-  //         setError(error);
-  //       }
-  //     );
-  // }, []);
+
   const [isLoadedConversation, setIsLoadedConversation] = useState<boolean>(false);
   const [Conversation, setConversation] = useState<Channel | undefined>(undefined); //Person[]
 
