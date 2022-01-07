@@ -43,7 +43,7 @@ export class AuthGuard implements CanActivate {
       throw new HttpException('invalid token', 401);
     }
 
-    const user = await this.userService.findUserById(token.sub);
+    const user = await this.userService.findUserById(token.sub, true);
 
     if (!user) {
       throw new HttpException('invalid token', 401);

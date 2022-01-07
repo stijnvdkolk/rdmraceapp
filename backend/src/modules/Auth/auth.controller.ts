@@ -44,14 +44,4 @@ export class AuthController {
       token: this.authService.signUserJWT(user),
     };
   }
-
-  @Get('/@me')
-  getMe(@CurrentUser() user: User): User {
-    return {
-      ...user,
-      password: undefined,
-      createdAt: undefined,
-      updatedAt: undefined,
-    };
-  }
 }
