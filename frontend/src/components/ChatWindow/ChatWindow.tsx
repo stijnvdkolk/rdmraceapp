@@ -16,7 +16,6 @@ import { useParams } from "react-router-dom";
 import { SaveAltOutlined, ThumbUpOutlined } from "@mui/icons-material";
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import Pfp from "../../classes/profilePicture";
-import { type } from "os";
 
 
 function FkDateTime(date: Date) {
@@ -176,20 +175,10 @@ export default function ChatWindow(props: IProps){
             LastClicked !== undefined ? download() : fill();
             close();
         }
+        //Filler test Functie
         function fill(){
-            
+            //empty is voor als er geen Image in buffer staat
         }
-
-        const clickEvent = (event: React.MouseEvent) => {
-            event.preventDefault();
-        }
-
-        async function GetImage(url: string) {
-            await toDataURL(url).then((response) => {
-                return response;
-            });            
-        }
-
         //#endregion
 
 
@@ -364,11 +353,14 @@ export default function ChatWindow(props: IProps){
     //#endregion
     //#region messageInput
     const [input, setInput] = useState("");
-    const [attachments, setAttachments] = useState<File[]>([]);
+    
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [attachments, setAttachments] = useState<File[]>([]); //TODO: Add attachments to message input
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function SendMessage(){
         if (input !== "") {
-
+            //Begin van message Input
         }
     }
 
