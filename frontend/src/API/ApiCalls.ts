@@ -31,6 +31,23 @@ export async function getJWT(url: string) {
         throw new Error("bruh");
     });
 }
+export async function getfromURL(query: string) {
+    return fetch(baseUrl+query, {
+        method: "GET",
+        headers: {
+            "authorization": `${localStorage.getItem("DogeToken")}`,
+        },
+    }).then(parseJson).then((response) => {
+        if (response.ok) {
+            return response.json;
+        } else if (response.status === 401) {
+            localStorage.removeItem("DogeToken");
+            window.location.href = "/Login";
+            return;
+        }
+        throw new Error("bruh");
+    });
+}
 
 
 

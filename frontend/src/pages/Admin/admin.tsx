@@ -45,8 +45,7 @@ export default function Admin() {
             name={"Admin"}
             imageLink={
               "https://raymanpc.com/wiki/script-en/images/1/15/Admin.png"
-            }
-          >
+            }>
             {isCLoaded && contacts != null ? (
               <div>
                 <Divider />

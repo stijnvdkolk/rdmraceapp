@@ -19,7 +19,24 @@
         - returned JSON {message}; edit een message met :messageId als param
     - DELETE /:id/messages/:messageId
         - returned JSON {message}; verwijderd een bericht met :messageId als param
-
+- /users
+    - GET /:id
+        - returned als ID 'me' is dan geef mezelf terug
+        - andere returned de user met het ID
+    - GET /
+        - returned alle users gePagineerd
+    - POST /
+        - Authorization ADMIN
+        - Maakt nieuwe user en returned deze
+    - PATCH /userId
+        - (supports Profile Picture)
+        - als requester = "me" is EN heeft profiel foto, dan  voeg pfp toe en edit profiel
+        - ANDERS voeg nieuwe info toe aan user
+        - Als authorization ADMIN, kan andere mensen hun pfp toevoegen en user editen
+        - Anders NOT ALLOWED
+    - DELETE /userId
+        - Authorization ADMIN
+        - Verwijderd user met userID
 ## Page routes
 
 -  /Login
