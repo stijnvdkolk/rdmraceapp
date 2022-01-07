@@ -96,13 +96,11 @@ export class UserService {
     email,
     username,
     password,
-    profilePicture = null,
     role,
   }: {
     email: User['email'];
     username: User['username'];
     password: User['password'];
-    profilePicture?: User['profilePicture'];
     role: UserRole;
   }) {
     try {
@@ -111,7 +109,6 @@ export class UserService {
           email: email,
           username: username,
           password: password,
-          profilePicture: profilePicture,
           role: role,
         },
       });
