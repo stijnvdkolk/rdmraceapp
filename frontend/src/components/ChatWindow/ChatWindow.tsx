@@ -39,17 +39,12 @@ export default function ChatWindow(props: IProps){
         window.matchMedia("(min-width: 1000px)").addListener(handler);
     }, [setMatches]);
     //#endregion
+    const [channelNumber, setChannelNumber] = useState(channelID);
 
-    //#region MessageLoader
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [error, setError] = react.useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [isMessageLoaded, setIsMessageLoaded] = useState<boolean>(false);
-    const [messages, setMessages] = useState<Message[] | undefined>(undefined); //Message
-    useEffect(() => {       //bruh?
-       ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelID!);} );
-    }, [channelID, name, setError]);
-    //#endregion
+    useEffect(() => {
+        setChannelNumber(channelID);
+    }, [channelID]);
+   
     //#region Message
         //#region Context Menu Bad Code
             //TODO Refactor
@@ -152,13 +147,13 @@ export default function ChatWindow(props: IProps){
                     return URL.createObjectURL(blob);
                 });
         }
-        function ToBlob(url : string) {
-            return fetch(url).then((response) => {
-                    return response.blob();
-                });
-        }
-        function ToCopyImage() {
-        }
+        // function ToBlob(url : string) {
+        //     return fetch(url).then((response) => {
+        //             return response.blob();
+        //         });
+        // }
+        // function ToCopyImage() {
+        // }
 
         //TODO: Copy image to clipboard
 
@@ -199,14 +194,24 @@ export default function ChatWindow(props: IProps){
 
 
         //#endregion
-
+     //#region MessageLoader
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [error, setError] = react.useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [isMessageLoaded, setIsMessageLoaded] = useState<boolean>(false);
+    const [messages, setMessages] = useState<Message[] | undefined>(undefined); //Message
+    useEffect(() => {       //bruh?
+       ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelNumber!);} );
+    }, [channelNumber]);
+    //#endregion
+    const [conv, setConv] = useState<JSX.Element | undefined>(undefined);
     const conversation = (
         <div className="conversation">
             {messages !== undefined && messages.length !== 0 ? (
                 messages.map((berichten, index) => {
                     return (
-                        <>
-                            <div key={index}
+                        <div key={index}>
+                            <div 
                                 className={colorTheme === "dark" ? "messageParent darkmessage" : "messageParent lightmessage"}
                             >
 
@@ -259,9 +264,8 @@ export default function ChatWindow(props: IProps){
                                         <div key={index} className={`message-image-content`}
                                             style={{ gridRow: index + 4, cursor: "context-menu" }}
                                             onContextMenu={handleImageContext}>
-                                            <img src={`https://cdn.rdmraceapp.nl/attachments/${channelID}/${berichten.id}/${attachment.name}`} width={200} alt="" className="Picture" />
-                                            <a className={`https://cdn.rdmraceapp.nl/attachments/${channelID}/${berichten.id}/${attachment.name}` } 
-                                                href={`https://cdn.rdmraceapp.nl/attachments/${channelID}/${berichten.id}/${attachment.name}`} download></a>
+
+                                                <img src={`https://cdn.rdmraceapp.nl/attachments/${channelNumber}/${berichten.id}/${attachment.name}`} width={200} alt="" className="Picture" />
                                             <Menu
                                                 open={ImageContext !== null}
                                                 onClose={CloseImageContext}
@@ -269,7 +273,7 @@ export default function ChatWindow(props: IProps){
                                                 anchorPosition={ImageContext !== null ?
                                                     { top: ImageContext!.mouseY, left: ImageContext!.mouseX } :
                                                     undefined}>
-                                                <MenuItem onClick={()=>ToCopyImage()}>
+                                                <MenuItem onClick={()=>fill() /*TODO: FIX */}>
                                                     <div className="MenuItemWithIcon">
                                                         <AttachFileIcon />
                                                         {"Copy Image"}
@@ -321,7 +325,7 @@ export default function ChatWindow(props: IProps){
                                     </div>
                                 </MenuItem>
                             </Menu>
-                        </>
+                        </div>
                     );
                 })):(<></>)} {/* Bruh */}
             {messages !== undefined && messages!.length === 0 && (
@@ -337,6 +341,12 @@ export default function ChatWindow(props: IProps){
             )}
         </div>
     );
+    useEffect(() => {
+        if (messages !== undefined) {
+            setConv(conversation);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages]);
     //#endregion  
     //#region WindowHeader
     const chatHeaderContainer = ( //we just put all children in a div over here so we don't have to worry about mismatches
@@ -353,6 +363,15 @@ export default function ChatWindow(props: IProps){
     );
     //#endregion
     //#region messageInput
+    const [input, setInput] = useState("");
+    const [attachments, setAttachments] = useState<File[]>([]);
+
+    function SendMessage(){
+        if (input !== "") {
+
+        }
+    }
+
     const SendForm = (
         <div className="sendForm">
             <div className="sendFormContainer">
@@ -367,6 +386,8 @@ export default function ChatWindow(props: IProps){
                             label="Send Message" 
                             variant="outlined" 
                             className="MessageInput2" 
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -378,7 +399,7 @@ export default function ChatWindow(props: IProps){
                                         <div className="animatedAttachment11">
                                             <AttachFileIcon className="animatedAttachment"/>
                                         </div>
-                                        <div>
+                                        <div onClick={() => fill()}>
                                             <ArrowForwardIcon className="animatedSend"/>
                                         </div>
                                     </InputAdornment>
@@ -393,6 +414,7 @@ export default function ChatWindow(props: IProps){
     );
     //#endregion
     //#region RETURN
+    
     return ( //refactored this to just 1 expression easier to read          
         <div className={matches ? "Content Wide" : "Content Narrow"}>            
             <Card style={{
@@ -405,7 +427,7 @@ export default function ChatWindow(props: IProps){
                 }} >
                 {chatHeaderContainer}
                 <Divider style={{gridRow: 2}} />                
-                {conversation  /* this is where the chat messages go */}
+                {conv  /* this is where the chat messages go */}
                 {SendForm /*this is the send input*/}
                 
             </Card>
