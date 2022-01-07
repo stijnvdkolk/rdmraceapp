@@ -140,7 +140,9 @@ export class UserService {
         data: {
           email: user.email,
           username: user.username,
-          password: await this.crypto.hashPassword(user.password),
+          password: user.password
+            ? await this.crypto.hashPassword(user.password)
+            : undefined,
           profilePicture: user.profilePicture,
           aboutMe: user.aboutMe,
         },
