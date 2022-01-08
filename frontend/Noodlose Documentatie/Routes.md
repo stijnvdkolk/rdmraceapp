@@ -21,7 +21,7 @@
         - returned JSON {message}; verwijderd een bericht met :messageId als param
 - /users
     - GET /:id
-        - returned als ID 'me' is dan geef mezelf terug
+        - returned als ID '@me' is dan geef mezelf terug
         - andere returned de user met het ID
     - GET /
         - returned alle users gePagineerd
@@ -30,7 +30,7 @@
         - Maakt nieuwe user en returned deze
     - PATCH /userId
         - (supports Profile Picture)
-        - als requester = "me" is EN heeft profiel foto, dan  voeg pfp toe en edit profiel
+        - als requester = "@me" is EN heeft profiel foto, dan  voeg pfp toe en edit profiel
         - ANDERS voeg nieuwe info toe aan user
         - Als authorization ADMIN, kan andere mensen hun pfp toevoegen en user editen
         - Anders NOT ALLOWED
