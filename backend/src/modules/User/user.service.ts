@@ -51,16 +51,6 @@ export class UserService {
     }
   }
 
-  async findUsersById(userIds: User['id'][]) {
-    try {
-      return await this.prisma.user.findMany({
-        where: { id: { in: userIds } },
-      });
-    } catch (e) {
-      throw new NotFoundError('users_not_found');
-    }
-  }
-
   // Returns all the users, given the correct QueryInput
   async findUsersPagination(query: PaginationQueryInput) {
     try {
