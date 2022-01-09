@@ -2,7 +2,7 @@ import Channel from "../classes/Channel";
 import Message from "../classes/Message";
 import Person from "../classes/Person";
 import Token from "../classes/Token";
-import { get, getfromURL, getJWT, postJson } from "./ApiCalls";
+import { get, getfromURL, getJWT, postJson, sendData } from "./ApiCalls";
 
 export async function getPerson(personId: string): Promise<{person : Person}>
 {
@@ -36,11 +36,16 @@ export async function getMessage(ChannelId: string, MessageId: string): Promise<
 }
 export async function getMessages(ChannelId: string): Promise<{ message : Message}[]>
 {
-    const path = `/channels/${ChannelId}/messages/`;
+    const path = `/channels/${ChannelId}/messages?limit=100&sortBy=createdAt&sortDirection=asc`;
     return getJWT(path);
 }
 export async function getToken(email: string, password: string) : Promise <{token : Token}>
 {
     const path = "/auth/token";
     return postJson(path, {email, password});
+}
+export async function SendMessage(channelID : string ,data: any) : Promise<{message : Message}>
+{
+    const path = `/channels/${channelID}/messages/`;
+    return await sendData(path, data);
 }

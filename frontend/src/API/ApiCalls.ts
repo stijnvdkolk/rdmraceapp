@@ -110,3 +110,34 @@ export function ConsumeEffect(loader: React.Dispatch < React.SetStateAction < bo
         }
     );
 }
+export async function sendData(url : string, data : FormData) {
+    // const formData  = new FormData();
+  
+    // for(const name in data) {
+    //   formData.append(name, data[name]);
+    // }
+    console.log(data);
+    return fetch(baseUrl + url, {
+        method: 'POST',
+        headers: {
+            "Authorization": `${localStorage.getItem("DogeToken")}`,
+        },
+        body: data
+    }).then(parseJson).then(data => {
+        if (data.ok) {
+            console.log("ok");
+            return data.json;
+        }
+        else if (data.status === 401) {
+            localStorage.removeItem("DogeToken");
+            window.location.href = "/Login";
+            return;
+        }
+        else if(data.status === 500) {
+            console.log("500");
+        }
+        else{
+            return "Bad Request";
+        }
+    });
+}

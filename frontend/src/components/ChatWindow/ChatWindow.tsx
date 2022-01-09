@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import { Avatar, Card, Divider, FormControl, InputAdornment, Menu, MenuItem, TextField } from "@mui/material";
+import { Avatar, Card, Divider, FormControl, IconButton, InputAdornment, Menu, MenuItem, TextField } from "@mui/material";
 import * as react from 'react';
 import { useContext, useEffect, useState } from "react";
-import { getMessages } from "../../API/Chat";
+import { getMessages, SendMessage } from "../../API/Chat";
 import Message from "../../classes/Message";
 //import { useParams } from "react-router-dom";
 import IProps from "../IProps";
@@ -15,7 +15,8 @@ import { ConsumeEffect } from "../../API/ApiCalls";
 import { useParams } from "react-router-dom";
 import { SaveAltOutlined, ThumbUpOutlined } from "@mui/icons-material";
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import Pfp from "../../classes/profilePicture";
+import Pfp, { tryAttachment } from "../../classes/profilePicture";
+import {sendData} from "../../API/ApiCalls";
 
 
 function FkDateTime(date: Date) {
@@ -30,6 +31,26 @@ interface UParams {
 export default function ChatWindow(props: IProps){
     const { colorTheme } =  useContext(ThemeContext);
     const { name, imageLink } = props;
+
+    // useEffect(() => {
+    //     // const formData  = new FormData();
+    //     // var input = document.createElement('input');
+    //     // input.type = 'file';
+    //     // input.click();
+    //     // while (input.files === null && input.files === undefined) {
+    //     //     //wait for the file to be selected
+    //     // }
+    //     // if (input!.files!.length !== 0) {
+    //     //     var files = input!.files;
+    //     //     console.log(files);
+    //     //     formData.append('files', files![0]);
+    //     //     formData.append('content', "test");
+    //     //     console.log(sendData("https://api.rdmraceapp.nl/channels/ckxyt9lhu0043hlpmxm56rrf7/messages", 
+    //     //     formData));
+    //     // }      
+        
+    // }, []);
+
     const { channelID } = useParams<UParams>();
     //#region MediaQuery
     const [matches, setMatches] = react.useState(window.matchMedia("(min-width: 1000px)").matches);
@@ -43,7 +64,6 @@ export default function ChatWindow(props: IProps){
     useEffect(() => {
         setChannelNumber(channelID);
     }, [channelID]);
-   
     //#region Message
         //#region Context Menu Bad Code
             //TODO Refactor
@@ -186,156 +206,169 @@ export default function ChatWindow(props: IProps){
      //#region MessageLoader
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [error, setError] = react.useState(false);
+    const [reload, setReload] = react.useState(false);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isMessageLoaded, setIsMessageLoaded] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[] | undefined>(undefined); //Message
-    useEffect(() => {       //bruh?
-       ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelNumber!);} );
-    }, [channelNumber]);
+    useEffect(() => {
+        setMessages(undefined);       //bruh?
+        ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelID!);} );
+        
+    }, [channelID, reload]);
     //#endregion
     const [conv, setConv] = useState<JSX.Element | undefined>(undefined);
     const conversation = (
         <div className="conversation">
-            {messages !== undefined && messages.length !== 0 ? (
-                messages.map((berichten, index) => {
-                    return (
-                        <div key={index}>
-                            <div 
-                                className={colorTheme === "dark" ? "messageParent darkmessage" : "messageParent lightmessage"}
-                            >
-
-                                <div className={"message"}>
-                                    <div className="message-text"
-                                        onContextMenu={handleContextMenu}
-                                        style={{ cursor: "context-menu" }}>
-                                        {berichten.content}
-                                    </div>
-                                    <div className="message-info"
-                                        onContextMenu={handleContextMenu}
-                                        style={{ cursor: "context-menu" }}>
-                                        <div className="message-time">
-                                            {FkDateTime(berichten.createdAt as Date)}
+            {isMessageLoaded ? (
+                messages !== undefined && messages.length !== 0 ? (
+                    <>
+                    {messages.map((berichten, index) => {
+                        return (
+                            <div key={index}>
+                                <div 
+                                    className={colorTheme === "dark" ? "messageParent darkmessage" : "messageParent lightmessage"}
+                                >
+                                    <div className={"message"}>
+                                        <div className="message-text"
+                                            onContextMenu={handleContextMenu}
+                                            style={{ cursor: "context-menu" }}>
+                                            {berichten.content}
                                         </div>
-                                        <div className="message-sender">
-                                            {berichten?.author?.username}
+                                        <div className="message-info"
+                                            onContextMenu={handleContextMenu}
+                                            style={{ cursor: "context-menu" }}>
+                                            <div className="message-time">
+                                                {FkDateTime(berichten.createdAt as Date)}
+                                            </div>
+                                            <div className="message-sender">
+                                                {berichten?.author?.username}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="message-image"
-                                        onContextMenu={handleProfilePictureContext}
-                                        style={{ cursor: "context-menu" }}>
+                                        
+                                        <div className="message-image"
+                                            onContextMenu={handleProfilePictureContext}
+                                            style={{ cursor: "context-menu" }}>
 
-                                        <Avatar src={Pfp(berichten.author?.id!, berichten.author?.profilePicture!)} alt="" sx={{
-                                            width: "50px",
-                                            height: "50px",
-                                        }} />
-    	                                <Menu
-                                            open={ProfilePictureContext !== null}
-                                            onClose={CloseProfilePictureContext}
-                                            anchorReference="anchorPosition"
-                                            anchorPosition={ProfilePictureContext !== null ?
-                                                { top: ProfilePictureContext!.mouseY, left: ProfilePictureContext!.mouseX } :
-                                                undefined}>
-                                            <MenuItem onClick={CloseProfilePictureContext}>
-                                                <div className="MenuItemWithIcon">
-                                                    <AttachFileIcon />
-                                                    {"Copy Image"}
-                                                </div>
-                                            </MenuItem>
-                                            <MenuItem onClick={() => downloadImage(CloseProfilePictureContext)}>
-                                                <div className="MenuItemWithIcon">
-                                                    <SaveAltOutlined />
-                                                    {"Save Image"}
-                                                </div>
-                                            </MenuItem>
-                                        </Menu>
-                                    </div>
-                                    {berichten.attachments && berichten.attachments.map((attachment, index) => (
-                                        <div key={index} className={`message-image-content`}
-                                            style={{ gridRow: index + 4, cursor: "context-menu" }}
-                                            onContextMenu={handleImageContext}>
-
-                                                <img src={`https://cdn.rdmraceapp.nl/attachments/${channelNumber}/${berichten.id}/${attachment.name}`} width={200} alt="" className="Picture" />
+                                            <Avatar src={Pfp(berichten.author?.id!, berichten.author?.profilePicture!)} alt="" sx={{
+                                                width: "50px",
+                                                height: "50px",
+                                            }} />
                                             <Menu
-                                                open={ImageContext !== null}
-                                                onClose={CloseImageContext}
+                                                open={ProfilePictureContext !== null}
+                                                onClose={CloseProfilePictureContext}
                                                 anchorReference="anchorPosition"
-                                                anchorPosition={ImageContext !== null ?
-                                                    { top: ImageContext!.mouseY, left: ImageContext!.mouseX } :
+                                                anchorPosition={ProfilePictureContext !== null ?
+                                                    { top: ProfilePictureContext!.mouseY, left: ProfilePictureContext!.mouseX } :
                                                     undefined}>
-                                                <MenuItem onClick={()=>fill() /*TODO: FIX */}>
+                                                <MenuItem onClick={CloseProfilePictureContext}>
                                                     <div className="MenuItemWithIcon">
                                                         <AttachFileIcon />
                                                         {"Copy Image"}
                                                     </div>
                                                 </MenuItem>
-                                                <MenuItem onClick={() => downloadImage(CloseImageContext)}>
-                                                    <div className="MenuItemWithIcon Debug2">
+                                                <MenuItem onClick={() => downloadImage(CloseProfilePictureContext)}>
+                                                    <div className="MenuItemWithIcon">
                                                         <SaveAltOutlined />
                                                         {"Save Image"}
                                                     </div>
                                                 </MenuItem>
-                                                <MenuItem onClick={CloseImageContext}> {/*TODO: Copy to clipboard*/}
-                                                    <div className="MenuItemWithIcon">
-                                                        <PersonOutlinedIcon />
-                                                        {"Author Profile"}
-                                                    </div>
-                                                </MenuItem>
-                                                <MenuItem onClick={CloseImageContext}>
-                                                    <div className="MenuItemWithIcon">
-                                                        <ThumbUpOutlined />
-                                                        {"Nice Embed Bro"}
-                                                    </div>
-                                                </MenuItem>
                                             </Menu>
                                         </div>
-                                    ))}
+                                        {berichten.attachments && berichten.attachments.map((attachment, index) => (
+                                            <div key={index} className={`message-image-content`}
+                                                style={{ gridRow: index + 4, cursor: "context-menu" }}
+                                                onContextMenu={handleImageContext}>
+                                                    <img src={tryAttachment(channelNumber!, berichten!.id!, attachment!.name!)} width={200} alt="" className="Picture" />
+                                                <Menu
+                                                    open={ImageContext !== null}
+                                                    onClose={CloseImageContext}
+                                                    anchorReference="anchorPosition"
+                                                    anchorPosition={ImageContext !== null ?
+                                                        { top: ImageContext!.mouseY, left: ImageContext!.mouseX } :
+                                                        undefined}>
+                                                    <MenuItem onClick={()=>fill() /*TODO: FIX */}>
+                                                        <div className="MenuItemWithIcon">
+                                                            <AttachFileIcon />
+                                                            {"Copy Image"}
+                                                        </div>
+                                                    </MenuItem>
+                                                    <MenuItem onClick={() => downloadImage(CloseImageContext)}>
+                                                        <div className="MenuItemWithIcon Debug2">
+                                                            <SaveAltOutlined />
+                                                            {"Save Image"}
+                                                        </div>
+                                                    </MenuItem>
+                                                    <MenuItem onClick={CloseImageContext}> {/*TODO: Copy to clipboard*/}
+                                                        <div className="MenuItemWithIcon">
+                                                            <PersonOutlinedIcon />
+                                                            {"Author Profile"}
+                                                        </div>
+                                                    </MenuItem>
+                                                    <MenuItem onClick={CloseImageContext}>
+                                                        <div className="MenuItemWithIcon">
+                                                            <ThumbUpOutlined />
+                                                            {"Nice Embed Bro"}
+                                                        </div>
+                                                    </MenuItem>
+                                                </Menu>
+                                            </div>
+                                        ))}
 
+                                    </div>
                                 </div>
+                                <Menu
+                                    id="TextMenu"
+                                    open={contextMenu !== null}
+                                    onClose={handleClose}
+                                    anchorReference="anchorPosition"
+                                    anchorPosition={contextMenu !== null ?
+                                        { top: contextMenu!.mouseY, left: contextMenu!.mouseX } :
+                                        undefined}
+                                >
+                                    <MenuItem onClick={handleClose}> {/*TODO: Copy to clipboard*/}
+                                        <div className="MenuItemWithIcon">
+                                            <AttachFileIcon />
+                                            {"Copy Text"}
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose}>
+                                        <div className="MenuItemWithIcon">
+                                            <PersonOutlinedIcon />
+                                            {"Author Profile"}
+                                        </div>
+                                    </MenuItem>
+                                </Menu>
                             </div>
-                            <Menu
-                                id="TextMenu"
-                                open={contextMenu !== null}
-                                onClose={handleClose}
-                                anchorReference="anchorPosition"
-                                anchorPosition={contextMenu !== null ?
-                                    { top: contextMenu!.mouseY, left: contextMenu!.mouseX } :
-                                    undefined}
-                            >
-                                <MenuItem onClick={handleClose}> {/*TODO: Copy to clipboard*/}
-                                    <div className="MenuItemWithIcon">
-                                        <AttachFileIcon />
-                                        {"Copy Text"}
-                                    </div>
-                                </MenuItem>
-                                <MenuItem onClick={handleClose}>
-                                    <div className="MenuItemWithIcon">
-                                        <PersonOutlinedIcon />
-                                        {"Author Profile"}
-                                    </div>
-                                </MenuItem>
-                            </Menu>
-                        </div>
-                    );
-                })):(<></>)} {/* Bruh */}
-            {messages !== undefined && messages!.length === 0 && (
-                <div className={colorTheme  === "dark" ? "messageParent darkmessage" : "messageParent lightmessage"} >
-                    <div className={"message"}> 
-                        <div className="message-text">
-                            {"This looks Empty, Be the first to send a message!"}
+                        );
+                    })}
+                    <div id="scroll-to-bottom" />
+                   
+                    </>
+                )                
+                :
+                messages !== undefined && messages!.length === 0 && (
+                    <div className={colorTheme  === "dark" ? "messageParent darkmessage" : "messageParent lightmessage"} >
+                        <div className={"message"}> 
+                            <div className="message-text">
+                                {"This looks Empty, Be the first to send a message!"}
+                            </div>
                         </div>
                     </div>
-                </div>
+                    
                 
+                )
+            ) : (
+                <div></div>)}
             
-            )}
         </div>
     );
     useEffect(() => {
         if (messages !== undefined) {
             setConv(conversation);
         }
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [messages]);
+    }, [messages, channelID]);
     //#endregion  
     //#region WindowHeader
     const chatHeaderContainer = ( //we just put all children in a div over here so we don't have to worry about mismatches
@@ -354,15 +387,32 @@ export default function ChatWindow(props: IProps){
     //#region messageInput
     const [input, setInput] = useState("");
     
+    
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [attachments, setAttachments] = useState<File[]>([]); //TODO: Add attachments to message input
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    function SendMessage(){
+    async function SendMessageFromInput(){
         if (input !== "") {
             //Begin van message Input
+            var formData = new FormData();
+            var files = document?.getElementById('fileInput') as HTMLInputElement;
+            if (files && files.files && files.files.length > 0 ) {
+                for (var i = 0; i < files.files.length; i++) {
+                    formData.append("files", files.files[i]);
+                }
+            }
+            formData.append("content", input);
+            var msg : Message = (await SendMessage(channelID!, formData)).message;
+            setInput("");       //bruh?
+            setReload(!reload);
         }
     }
+    useEffect(() => {
+        if (document.getElementById("scroll-to-bottom") !== null) {
+        document.getElementById("scroll-to-bottom")!.scrollIntoView();
+        }
+        else{
+            
+        }
+    }, [messages, isMessageLoaded]);
 
     const SendForm = (
         <div className="sendForm">
@@ -379,24 +429,41 @@ export default function ChatWindow(props: IProps){
                             variant="outlined" 
                             className="MessageInput2" 
                             value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            InputProps={{
+                             onChange={(e) => setInput(e.target.value)}
+                             InputProps={{
                                 startAdornment: (
-                                    <InputAdornment position="start">
-                                        <EmojiEmotionsOutlinedIcon className="Emoji"/>
-                                    </InputAdornment>
+                                  <InputAdornment position="start">
+                                    <EmojiEmotionsOutlinedIcon className="Emoji" />
+                                  </InputAdornment>
                                 ),
-                                endAdornment:(
-                                    <InputAdornment position="end">
-                                        <div className="animatedAttachment11">
-                                            <AttachFileIcon className="animatedAttachment"/>
-                                        </div>
-                                        <div onClick={() => fill()}>
-                                            <ArrowForwardIcon className="animatedSend"/>
-                                        </div>
-                                    </InputAdornment>
-                                )
-                            }}
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <>
+                                      <input //CrackHead Html
+                                        id="fileInput"
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        multiple={true}
+                                      />
+                                      <IconButton
+                                        onClick={() =>
+                                          document?.getElementById('fileInput')?.click()
+                                        }
+                                      >
+                                        <AttachFileIcon className="animatedAttachment" />
+                                      </IconButton>
+                                    </>
+                                    <div>
+                                      <ArrowForwardIcon className="animatedSend"
+                                        sx={{
+                                            cursor: "pointer",
+                                            color: "primary",
+                                        }} 
+                                        onClick={SendMessageFromInput}/>
+                                    </div>
+                                  </InputAdornment>
+                                ),
+                              }}
                         
                         />
                     </FormControl>
@@ -419,7 +486,7 @@ export default function ChatWindow(props: IProps){
                 }} >
                 {chatHeaderContainer}
                 <Divider style={{gridRow: 2}} />                
-                {conv  /* this is where the chat messages go */}
+                {conversation  /* this is where the chat messages go */}
                 {SendForm /*this is the send input*/}
                 
             </Card>
