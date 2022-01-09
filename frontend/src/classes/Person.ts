@@ -6,6 +6,5 @@ export default class Person {
     profilePicture : string | undefined;
     role : string | undefined;
     status : string | undefined;
-    aboutMe : string | undefined;
-    
+    aboutMe : string | undefined;    
 }
