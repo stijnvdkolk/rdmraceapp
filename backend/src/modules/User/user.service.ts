@@ -5,6 +5,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Prisma, User, UserRole } from '@prisma/client';
 import { PrismaService } from '../Prisma/prisma.service';
 import { SpacesProvider } from '@modules/providers/spaces.provider';
+import { Argon2CryptoProvider } from '@modules/providers/argon2.provider';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
       Prisma.UserOrderByWithRelationInput
     >,
     @Inject('SPACES') private spaces: SpacesProvider,
+    @Inject('CRYPTO') private crypto: Argon2CryptoProvider,
   ) {}
 
   async findUserById(userId: User['id'], includeSensitiveInformation = false) {
@@ -96,13 +98,11 @@ export class UserService {
     email,
     username,
     password,
-    profilePicture = null,
     role,
   }: {
     email: User['email'];
     username: User['username'];
     password: User['password'];
-    profilePicture?: User['profilePicture'];
     role: UserRole;
   }) {
     try {
@@ -110,9 +110,22 @@ export class UserService {
         data: {
           email: email,
           username: username,
-          password: password,
-          profilePicture: profilePicture,
+          password: await this.crypto.hashPassword(password),
           role: role,
+        },
+        select: {
+          profilePicture: true,
+          aboutMe: true,
+          email: true,
+          username: true,
+          password: false,
+          status: true,
+          role: true,
+          messages: false,
+          channels: false,
+          id: true,
+          createdAt: true,
+          updatedAt: true,
         },
       });
     } catch (error) {
@@ -127,7 +140,9 @@ export class UserService {
         data: {
           email: user.email,
           username: user.username,
-          password: user.password,
+          password: user.password
+            ? await this.crypto.hashPassword(user.password)
+            : undefined,
           profilePicture: user.profilePicture,
           aboutMe: user.aboutMe,
         },

@@ -76,7 +76,7 @@ export class UserController {
     if (currentUser.role == UserRole.ADMIN) {
       if (profilepicture) {
         user.profilePicture = await this.userService.uploadProfilePicture(
-          user.id,
+          id,
           profilepicture,
         );
       }
