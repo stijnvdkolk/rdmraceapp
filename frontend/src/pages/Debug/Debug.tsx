@@ -13,7 +13,7 @@ export default function Debug() {
         <Link to="/Chat">Chat</Link>
         <Link to="/Chat/Publiek">Chat/Publiek</Link>
         <Link to="/Admin">Admin</Link>
-        <UserProfile />
+        <UserProfile bigprofile={false} />
       </div>
     </>
   );

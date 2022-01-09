@@ -4,27 +4,28 @@ import {
   Card,
   Divider,
   FormControl,
+  IconButton,
   InputAdornment,
   Menu,
   MenuItem,
   TextField,
-} from '@mui/material';
-import * as react from 'react';
-import { useContext, useEffect, useState } from 'react';
-import { getMessages } from '../../API/Chat';
-import Message from '../../classes/Message';
+} from "@mui/material";
+import * as react from "react";
+import { useContext, useEffect, useState } from "react";
+import { getMessages } from "../../API/Chat";
+import Message from "../../classes/Message";
 //import { useParams } from "react-router-dom";
-import IProps from '../IProps';
-import { ThemeContext } from '../theme-context';
-import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import './ChatWindow.css';
-import { ConsumeEffect } from '../../API/ApiCalls';
-import { useParams } from 'react-router-dom';
-import { SaveAltOutlined, ThumbUpOutlined } from '@mui/icons-material';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import Pfp from '../../classes/profilePicture';
+import IProps from "../IProps";
+import { ThemeContext } from "../theme-context";
+import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import "./ChatWindow.css";
+import { ConsumeEffect } from "../../API/ApiCalls";
+import { useParams } from "react-router-dom";
+import { SaveAltOutlined, ThumbUpOutlined } from "@mui/icons-material";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import Pfp from "../../classes/profilePicture";
 
 function FkDateTime(date: Date) {
   var dtm: Date = new Date(date);
@@ -43,11 +44,11 @@ export default function ChatWindow(props: IProps) {
   const { channelID } = useParams<UParams>();
   //#region MediaQuery
   const [matches, setMatches] = react.useState(
-    window.matchMedia('(min-width: 1000px)').matches
+    window.matchMedia("(min-width: 1000px)").matches
   );
   useEffect(() => {
     const handler = (e: any) => setMatches(e.matches);
-    window.matchMedia('(min-width: 1000px)').addListener(handler);
+    window.matchMedia("(min-width: 1000px)").addListener(handler);
   }, [setMatches]);
   //#endregion
   const [channelNumber, setChannelNumber] = useState(channelID);
@@ -172,9 +173,9 @@ export default function ChatWindow(props: IProps) {
   //TODO: Copy image to clipboard
 
   async function download() {
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = await toDataURL(LastClicked!);
-    a.download = 'image.png';
+    a.download = "image.png";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -213,23 +214,23 @@ export default function ChatWindow(props: IProps) {
             <div key={index}>
               <div
                 className={
-                  colorTheme === 'dark'
-                    ? 'messageParent darkmessage'
-                    : 'messageParent lightmessage'
+                  colorTheme === "dark"
+                    ? "messageParent darkmessage"
+                    : "messageParent lightmessage"
                 }
               >
-                <div className={'message'}>
+                <div className={"message"}>
                   <div
                     className="message-text"
                     onContextMenu={handleContextMenu}
-                    style={{ cursor: 'context-menu' }}
+                    style={{ cursor: "context-menu" }}
                   >
                     {berichten.content}
                   </div>
                   <div
                     className="message-info"
                     onContextMenu={handleContextMenu}
-                    style={{ cursor: 'context-menu' }}
+                    style={{ cursor: "context-menu" }}
                   >
                     <div className="message-time">
                       {FkDateTime(berichten.createdAt as Date)}
@@ -241,7 +242,7 @@ export default function ChatWindow(props: IProps) {
                   <div
                     className="message-image"
                     onContextMenu={handleProfilePictureContext}
-                    style={{ cursor: 'context-menu' }}
+                    style={{ cursor: "context-menu" }}
                   >
                     <Avatar
                       src={Pfp(
@@ -250,8 +251,8 @@ export default function ChatWindow(props: IProps) {
                       )}
                       alt=""
                       sx={{
-                        width: '50px',
-                        height: '50px',
+                        width: "50px",
+                        height: "50px",
                       }}
                     />
                     <Menu
@@ -270,7 +271,7 @@ export default function ChatWindow(props: IProps) {
                       <MenuItem onClick={CloseProfilePictureContext}>
                         <div className="MenuItemWithIcon">
                           <AttachFileIcon />
-                          {'Copy Image'}
+                          {"Copy Image"}
                         </div>
                       </MenuItem>
                       <MenuItem
@@ -280,7 +281,7 @@ export default function ChatWindow(props: IProps) {
                       >
                         <div className="MenuItemWithIcon">
                           <SaveAltOutlined />
-                          {'Save Image'}
+                          {"Save Image"}
                         </div>
                       </MenuItem>
                     </Menu>
@@ -290,7 +291,7 @@ export default function ChatWindow(props: IProps) {
                       <div
                         key={index}
                         className={`message-image-content`}
-                        style={{ gridRow: index + 4, cursor: 'context-menu' }}
+                        style={{ gridRow: index + 4, cursor: "context-menu" }}
                         onContextMenu={handleImageContext}
                       >
                         <img
@@ -315,7 +316,7 @@ export default function ChatWindow(props: IProps) {
                           <MenuItem onClick={() => fill() /*TODO: FIX */}>
                             <div className="MenuItemWithIcon">
                               <AttachFileIcon />
-                              {'Copy Image'}
+                              {"Copy Image"}
                             </div>
                           </MenuItem>
                           <MenuItem
@@ -323,21 +324,21 @@ export default function ChatWindow(props: IProps) {
                           >
                             <div className="MenuItemWithIcon Debug2">
                               <SaveAltOutlined />
-                              {'Save Image'}
+                              {"Save Image"}
                             </div>
                           </MenuItem>
                           <MenuItem onClick={CloseImageContext}>
-                            {' '}
+                            {" "}
                             {/*TODO: Copy to clipboard*/}
                             <div className="MenuItemWithIcon">
                               <PersonOutlinedIcon />
-                              {'Author Profile'}
+                              {"Author Profile"}
                             </div>
                           </MenuItem>
                           <MenuItem onClick={CloseImageContext}>
                             <div className="MenuItemWithIcon">
                               <ThumbUpOutlined />
-                              {'Nice Embed Bro'}
+                              {"Nice Embed Bro"}
                             </div>
                           </MenuItem>
                         </Menu>
@@ -357,17 +358,17 @@ export default function ChatWindow(props: IProps) {
                 }
               >
                 <MenuItem onClick={handleClose}>
-                  {' '}
+                  {" "}
                   {/*TODO: Copy to clipboard*/}
                   <div className="MenuItemWithIcon">
                     <AttachFileIcon />
-                    {'Copy Text'}
+                    {"Copy Text"}
                   </div>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
                   <div className="MenuItemWithIcon">
                     <PersonOutlinedIcon />
-                    {'Author Profile'}
+                    {"Author Profile"}
                   </div>
                 </MenuItem>
               </Menu>
@@ -376,19 +377,19 @@ export default function ChatWindow(props: IProps) {
         })
       ) : (
         <></>
-      )}{' '}
+      )}{" "}
       {/* Bruh */}
       {messages !== undefined && messages!.length === 0 && (
         <div
           className={
-            colorTheme === 'dark'
-              ? 'messageParent darkmessage'
-              : 'messageParent lightmessage'
+            colorTheme === "dark"
+              ? "messageParent darkmessage"
+              : "messageParent lightmessage"
           }
         >
-          <div className={'message'}>
+          <div className={"message"}>
             <div className="message-text">
-              {'This looks Empty, Be the first to send a message!'}
+              {"This looks Empty, Be the first to send a message!"}
             </div>
           </div>
         </div>
@@ -415,14 +416,14 @@ export default function ChatWindow(props: IProps) {
   );
   //#endregion
   //#region messageInput
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [attachments, setAttachments] = useState<File[]>([]); //TODO: Add attachments to message input
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function SendMessage() {
-    if (input !== '') {
+    if (input !== "") {
       //Begin van message Input
     }
   }
@@ -433,7 +434,7 @@ export default function ChatWindow(props: IProps) {
         <div className="sendFormInner">
           <Divider
             sx={{
-              marginBottom: '10px',
+              marginBottom: "10px",
             }}
           />
           {/* TODO: Outline Color theme color in Both modes */}
@@ -457,11 +458,11 @@ export default function ChatWindow(props: IProps) {
                       <input //CrackHead Html
                         id="fileInput"
                         type="file"
-                        style={{ display: 'none' }}
+                        style={{ display: "none" }}
                       />
                       <IconButton
                         onClick={() =>
-                          document?.getElementById('fileInput')?.click()
+                          document?.getElementById("fileInput")?.click()
                         }
                       >
                         <AttachFileIcon className="animatedAttachment" />
@@ -484,15 +485,15 @@ export default function ChatWindow(props: IProps) {
 
   return (
     //refactored this to just 1 expression easier to read
-    <div className={matches ? 'Content Wide' : 'Content Narrow'}>
+    <div className={matches ? "Content Wide" : "Content Narrow"}>
       <Card
         style={{
-          width: matches ? '95%' : '90%',
-          height: matches ? '90vh' : '100%',
-          borderRadius: '16px',
-          display: 'grid',
-          gridTemplateColumns: 'auto',
-          gridTemplateRows: '72px 2px auto 1px 80px ',
+          width: matches ? "95%" : "90%",
+          height: matches ? "90vh" : "100%",
+          borderRadius: "16px",
+          display: "grid",
+          gridTemplateColumns: "auto",
+          gridTemplateRows: "72px 2px auto 1px 80px ",
         }}
       >
         {chatHeaderContainer}

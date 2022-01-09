@@ -1,63 +1,97 @@
 import { FiberManualRecord } from "@mui/icons-material";
-import { Card, Divider } from "@mui/material";
+import { Card, CircularProgress, Divider } from "@mui/material";
 import react, { useEffect, useState } from "react";
 import { ConsumeEffect } from "../../API/ApiCalls";
-import { getSelf } from "../../API/Chat";
+import { getSelf, getPerson } from "../../API/Chat";
 import Person from "../../classes/Person";
+import Pfp from "../../classes/profilePicture";
+import Buttoned from "../button/button";
 import "./userProfile.css";
+import IProps from "../IProps";
 
-export default function UserProfile() {
-  const status = true;
-  const big = true; // TODO: change size depending on this value
+interface ProfileProps extends IProps {
+  bigprofile: boolean;
+}
+
+function toTitleCase(str: string) {
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
+
+export default function UserProfile(props: ProfileProps) {
+  const { bigprofile } = props;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [selfProfile, setselfProfile] = useState<Person | undefined>(undefined); //Person
   useEffect(() => {
     ConsumeEffect(setIsLoaded, setselfProfile, () => {
-      return getSelf();
+      return getPerson("cky4di5vq00030tly1g5ovww6");
     });
   }, []);
 
   return (
     <Card
-      className="GridParent"
+      className={bigprofile ? "GridParent" : "GridParentSmall"}
       sx={{
-        width: big ? "35vw" : "18vw",
-        height: big ? "70vh" : "50vh",
+        width: bigprofile ? "500px" : "270px",
+        height: bigprofile ? "500px" : "350px",
         borderRadius: "16px",
       }}
     >
-      <div className="ProfEnStatus">
-        <img
-          className="profPic"
-          alt=""
-          src="https://i.redd.it/v0caqchbtn741.jpg"
-        />
-        <div
-          className="status"
-          style={{
-            backgroundColor: status ? "lime" : "grey",
-            width: "35px",
-            height: "35px",
-            borderRadius: "20px",
-            marginTop: "65px",
-            marginLeft: "-100%",
-          }}
-        />
-      </div>
-      <div className="name">
-        <h3>David van (insert achternaam)</h3>
-      </div>
-      <div className="divide">
-        <Divider />
-      </div>
-      <div className="bio">
-        <h3>About me</h3>Ik ben birb and you are watching the disney channel
-      </div>
-      <div className="role">
-        <h3>Roles</h3>
-        <b>Team member</b>
-      </div>
+      {isLoaded ? (
+        <>
+          {selfProfile ? (
+            <>
+              <div className="ProfEnStatus">
+                <img
+                  className={bigprofile ? "profPic" : "profPicSmall"}
+                  alt={selfProfile.username}
+                  src={Pfp(selfProfile.id!, selfProfile.profilePicture!)}
+                />
+                <div
+                  className="status"
+                  style={{
+                    backgroundColor:
+                      selfProfile.status === "ONLINE" ? "lime" : "grey",
+                    width: bigprofile ? "35px" : "25px",
+                    height: bigprofile ? "35px" : "25px",
+                    borderRadius: "20px",
+                    marginTop: bigprofile ? "65px" : "55px",
+                    marginLeft: "-100%",
+                  }}
+                />
+                <Buttoned
+                  className="dm"
+                  url="#"
+                  text={`message ${selfProfile.username}`}
+                  style={{ borderRadius: "16px", marginTop: "35px" }}
+                />
+              </div>
+              <div className="name">
+                <h3>{selfProfile.username}</h3>
+              </div>
+              <div className="divide">
+                <Divider />
+              </div>
+              <div className="bio">
+                <h3>About me</h3>
+                {selfProfile.aboutMe}
+              </div>
+              <div className="role">
+                <h3>Roles</h3>
+                <b>{toTitleCase(selfProfile.role!)}</b>
+              </div>
+            </>
+          ) : (
+            <div></div>
+          )}
+        </>
+      ) : (
+        <div className="loading">
+          <CircularProgress />
+        </div>
+      )}
     </Card>
   );
 }
