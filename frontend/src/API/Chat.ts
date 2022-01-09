@@ -2,21 +2,21 @@ import Channel from "../classes/Channel";
 import Message from "../classes/Message";
 import Person from "../classes/Person";
 import Token from "../classes/Token";
-import { get, getJWT, postJson } from "./ApiCalls";
+import { get, getfromURL, getJWT, postJson } from "./ApiCalls";
 
-export async function getPerson(channelID: string): Promise<{person : Person}>
+export async function getPerson(personId: string): Promise<{person : Person}>
 {
-    const path = `getPeople/Person/${channelID}`;
+    const path = `users/${personId}`;
     return get(path);
 }
-export async function getPeople(amount: number): Promise<{person: Person[]}>
+export async function getPeople(page: number): Promise<{person: Person[]}>
 {
-    const path = `getPeople/${amount}`;
-    return get(path);
+    const path = `/users?page=${page}`;
+    return getfromURL(path);
 }
 export async function getSelf(): Promise<{person : Person}>
 {
-    const path = "/auth/@me";
+    const path = "/users/@me";
     return getJWT(path);
 }
 export async function getChannels(): Promise<{channel : Channel}[]>

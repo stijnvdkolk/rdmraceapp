@@ -24,7 +24,8 @@ export class SpacesProvider {
       .replace(/[\/\?<>\\:\*\|"]/g, '_')
       .replace(/[\x00-\x1f\x80-\x9f]/g, '_')
       .replace(/^\.+$/, '_')
-      .replace(/[\. ]+$/, '_')}`;
+      .replace(/[\. ]+$/, '_')
+      .replace(' ', '_')}`;
     return {
       upload: await this.s3
         .upload({
@@ -40,11 +41,11 @@ export class SpacesProvider {
   }
 
   // TODO: cache old attachment? slow delete?!
-  async deleteAttachment(attachment: Attachment) {
+  async deleteAttachment(attachmentUrl: string) {
     return this.s3
       .deleteObject({
         Bucket: process.env.SPACES_BUCKET,
-        Key: attachment.url,
+        Key: attachmentUrl,
       })
       .promise();
   }

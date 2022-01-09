@@ -43,10 +43,21 @@ Table Message {
 
 Table Attachment {
   id String [pk]
-  url String [not null]
+  name String [not null]
   message Message [not null]
   messageId String [not null]
   createdAt DateTime [default: `now()`, not null]
+}
+
+Table Invite {
+  id String [pk]
+  code String [unique, not null]
+  maxUses Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  amountUsed Int [not null, default: 0]
+  expireAt DateTime [not null]
+  role UserRole [not null]
 }
 
 Table ChannelToUser {
