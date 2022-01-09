@@ -1,13 +1,10 @@
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { UserRole } from '@prisma/client';
+import { IsDate, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateInviteDto {
-  @IsString()
+  @IsEnum(UserRole)
   @IsNotEmpty()
-  role: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  uses: number;
+  role: UserRole;
 
   @IsNumber()
   @IsNotEmpty()

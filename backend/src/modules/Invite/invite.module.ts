@@ -1,8 +1,11 @@
+import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';
 import { Module } from '@nestjs/common';
+import { InviteService } from './invite.service';
+import { InviteController } from './invite.controller';
 
 @Module({
-  controllers: [],
+  controllers: [InviteController],
   imports: [],
-  providers: [],
+  providers: [InviteService, PaginationQueryBuilder],
 })
 export class InviteModule {}
