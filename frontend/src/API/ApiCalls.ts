@@ -116,7 +116,6 @@ export async function sendData(url : string, data : FormData) {
     // for(const name in data) {
     //   formData.append(name, data[name]);
     // }
-    console.log(data);
     return fetch(baseUrl + url, {
         method: 'POST',
         headers: {
@@ -125,7 +124,6 @@ export async function sendData(url : string, data : FormData) {
         body: data
     }).then(parseJson).then(data => {
         if (data.ok) {
-            console.log("ok");
             return data.json;
         }
         else if (data.status === 401) {
@@ -134,7 +132,6 @@ export async function sendData(url : string, data : FormData) {
             return;
         }
         else if(data.status === 500) {
-            console.log("500");
         }
         else{
             return "Bad Request";

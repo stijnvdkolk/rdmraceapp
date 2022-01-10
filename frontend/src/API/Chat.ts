@@ -1,5 +1,5 @@
 import Channel from "../classes/Channel";
-import Message from "../classes/Message";
+import Message, { Messages } from "../classes/Message";
 import Person from "../classes/Person";
 import Token from "../classes/Token";
 import { get, getfromURL, getJWT, postJson, sendData } from "./ApiCalls";
@@ -34,10 +34,13 @@ export async function getMessage(ChannelId: string, MessageId: string): Promise<
     const path = `/channels/${ChannelId}/messages/${MessageId}`;
     return getJWT(path);
 }
-export async function getMessages(ChannelId: string): Promise<{ message : Message}[]>
+export function getMessages(ChannelId: string): Promise<{message : Message}[]>
 {
-    const path = `/channels/${ChannelId}/messages?limit=100&sortBy=createdAt&sortDirection=asc`;
-    return getJWT(path);
+    const path = `/channels/${ChannelId}/messages?limit=20&sortBy=createdAt&sortDirection=desc`;
+    return getJWT(path).then((response) => {
+        return response.reverse();
+
+    });  
 }
 export async function getToken(email: string, password: string) : Promise <{token : Token}>
 {

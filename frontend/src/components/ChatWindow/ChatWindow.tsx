@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import { Avatar, Card, Divider, FormControl, IconButton, InputAdornment, Menu, MenuItem, TextField } from "@mui/material";
-import * as react from 'react';
+import React, * as react from 'react';
 import { useContext, useEffect, useState } from "react";
 import { getMessages, SendMessage } from "../../API/Chat";
 import Message from "../../classes/Message";
@@ -210,15 +210,20 @@ export default function ChatWindow(props: IProps){
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isMessageLoaded, setIsMessageLoaded] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[] | undefined>(undefined); //Message
-    useEffect(() => {
-        setMessages(undefined);       //bruh?
+    useEffect(() => {      //bruh?
         ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelID!);} );
-        
+         
     }, [channelID, reload]);
+
     //#endregion
+    var scrollPostistion = React.createRef();
+    function scrollyBoy(){
+        console.log(window.pageYOffset);
+    }
+
     const [conv, setConv] = useState<JSX.Element | undefined>(undefined);
     const conversation = (
-        <div className="conversation">
+        <div className="conversation" onScroll={() => scrollyBoy } >
             {isMessageLoaded ? (
                 messages !== undefined && messages.length !== 0 ? (
                     <>
@@ -402,7 +407,9 @@ export default function ChatWindow(props: IProps){
             formData.append("content", input);
             var msg : Message = (await SendMessage(channelID!, formData)).message;
             setInput("");       //bruh?
+            (document?.getElementById('fileInput') as HTMLInputElement).value = "";
             setReload(!reload);
+
         }
     }
     useEffect(() => {
@@ -473,7 +480,6 @@ export default function ChatWindow(props: IProps){
     );
     //#endregion
     //#region RETURN
-    
     return ( //refactored this to just 1 expression easier to read          
         <div className={matches ? "Content Wide" : "Content Narrow"}>            
             <Card style={{
