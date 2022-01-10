@@ -1,5 +1,6 @@
 import { AuthGuard } from '@modules/Auth/guards/auth.guard';
 import { ChannelModule } from '@modules/Channel/channel.module';
+import { InviteModule } from '@modules/Invite/invite.module';
 import { PrismaModule } from '@modules/Prisma/prima.module';
 import { ProviderModule } from '@modules/providers/provider.module';
 import { UserModule } from '@modules/User/user.module';
@@ -16,6 +17,7 @@ import { AppService } from './app.service';
     AuthModule,
     UserModule,
     ChannelModule,
+    InviteModule,
   ],
   controllers: [AppController],
   providers: [
