@@ -16,7 +16,7 @@ import { getPeople, getSelf } from "../../API/Chat";
 
 export default function Admin() {
   let history = useHistory();
-  function redirectTo(id: number) {
+  function redirectTo(id: string) {
     history.push("/Admin/" + id);
   }
 
@@ -45,8 +45,7 @@ export default function Admin() {
             name={"Admin"}
             imageLink={
               "https://raymanpc.com/wiki/script-en/images/1/15/Admin.png"
-            }
-          >
+            }>
             {isCLoaded && contacts != null ? (
               <div>
                 <Divider />

@@ -2,10 +2,11 @@ import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';
 import { NotFoundError } from '@lib/errors';
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { Prisma, User, UserRole } from '@prisma/client';
+import { ChannelType, Prisma, User, UserRole } from '@prisma/client';
 import { PrismaService } from '../Prisma/prisma.service';
 import { SpacesProvider } from '@modules/providers/spaces.provider';
 import { Argon2CryptoProvider } from '@modules/providers/argon2.provider';
+import { CreatePrivateChannelDto } from './dto/create-private-channel.dto';
 
 @Injectable()
 export class UserService {
@@ -51,6 +52,83 @@ export class UserService {
     }
   }
 
+  async getUserChannels(user: User) {
+    return this.prisma.user.findUnique({
+      where: { id: user.id },
+      select: {
+        channels: {
+          where: {
+            type: ChannelType.DM,
+          },
+          select: {
+            id: true,
+            name: true,
+            type: true,
+            users: {
+              select: {
+                id: true,
+                profilePicture: true,
+                role: true,
+                status: true,
+                createdAt: true,
+                updatedAt: true,
+                username: true,
+                email: false,
+                aboutMe: true,
+                channels: false,
+                messages: false,
+                password: false,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async createUserChannel(
+    currentUser: User,
+    channelData: CreatePrivateChannelDto,
+  ) {
+    return this.prisma.channel.create({
+      data: {
+        name: '',
+        type: ChannelType.DM,
+        users: {
+          connect: [
+            {
+              id: currentUser.id,
+            },
+            {
+              id: channelData.userId,
+            },
+          ],
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        users: {
+          select: {
+            id: true,
+            profilePicture: true,
+            role: true,
+            status: true,
+            createdAt: true,
+            updatedAt: true,
+            username: true,
+            email: false,
+            aboutMe: true,
+            channels: false,
+            messages: false,
+            password: false,
+          },
+        },
+      },
+    });
+  }
+  
   // Returns all the users, given the correct QueryInput
   async findUsersPagination(query: PaginationQueryInput) {
     try {

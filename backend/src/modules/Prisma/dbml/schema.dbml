@@ -49,6 +49,17 @@ Table Attachment {
   createdAt DateTime [default: `now()`, not null]
 }
 
+Table Invite {
+  id String [pk]
+  code String [unique, not null]
+  maxUses Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  amountUsed Int [not null, default: 0]
+  expireAt DateTime [not null]
+  role UserRole [not null]
+}
+
 Table ChannelToUser {
   channelsId String [ref: > Channel.id]
   usersId String [ref: > User.id]

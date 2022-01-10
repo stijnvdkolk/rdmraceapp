@@ -22,6 +22,7 @@ import { type } from "os";
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import LockRoundedIcon from '@mui/icons-material/LockRounded';
 import Channel from "../../classes/Channel";
+import Pfp from "../../classes/profilePicture";
 
 interface UParams {
   channelID: string | undefined;
@@ -60,18 +61,7 @@ export default function Chat() {
   useEffect(() => {
       ConsumeEffect(setIsCLoaded, setchannels, () => {return getChannels();} );
   }, []);
-  // useEffect(() => {
-  //   getPeople(5).then(
-  //       (result) => {
-  //         setIsCLoaded(true);
-  //         setcontacts(result);
-  //       },
-  //       (error) => {
-  //         setIsCLoaded(true);
-  //         setError(error);
-  //       }
-  //     );
-  // }, []);
+
   const [isLoadedConversation, setIsLoadedConversation] = useState<boolean>(false);
   const [Conversation, setConversation] = useState<Channel | undefined>(undefined); //Person[]
 
@@ -80,6 +70,19 @@ export default function Chat() {
       ConsumeEffect(setIsLoadedConversation, setConversation, () => {return getChannel(channelID);} );
     }
   }, [channelID]);
+
+  // const [test, setTest] = useState<boolean>(false);
+  // const [testPeople, settestPeople] = useState<Person[] | undefined>(undefined); //Person[]
+
+  // useEffect(() => {   
+  //     ConsumeEffect(setTest, settestPeople, () => {return getPeople(1);} );
+  // }, []);
+  // console.log(testPeople);
+  // console.log(test);
+
+
+
+
 
   //#endregion
   return (
@@ -91,7 +94,7 @@ export default function Chat() {
             <Navdrawer
               mischellaneous={true}
               name={selfProfile != null ? selfProfile.username : ""}
-              imageLink={selfProfile != null ? "https://cdn.rdmraceapp.nl" + selfProfile!.profilePicture : ""}
+              imageLink={selfProfile != null ? Pfp(selfProfile!.id! ,selfProfile!.profilePicture!)  : ""}
             >
               {isCLoaded && channels != null && channels !== undefined ? (
                 <div>
@@ -191,7 +194,7 @@ export default function Chat() {
           </div>
           {isLoadedConversation && Conversation != null ? (
             <ChatWindow
-              imageLink="https://cdn.rdmraceapp.nl/profilePictures/default.png"
+              imageLink="https://cdn.rdmraceapp.nl/embed/avatars/default.png"
             ></ChatWindow>
           ) : (
             <div />
