@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import type { UserRole, UserStatus, User } from '@prisma/client';
+import { UserRole, UserStatus, User } from '@prisma/client';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { v4 as uuidv4 } from 'uuid';
