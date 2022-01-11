@@ -1,10 +1,10 @@
 
 export default class Person {
-    id : string | undefined;
-    email: string | undefined;
-    username : string | undefined;    
-    profilePicture : string | undefined;
-    role : string | undefined;
-    status : string | undefined;
-    aboutMe : string | undefined;    
+    id! : string ;
+    email!: string | undefined;
+    username! : string;    
+    profilePicture! : string;
+    role! : string;
+    status! : string;
+    aboutMe! : string;    
 }

@@ -1,8 +1,9 @@
 import Channel from "../classes/Channel";
+import Dms, { DmChannel } from "../classes/Dms";
 import Message, { Messages } from "../classes/Message";
 import Person from "../classes/Person";
 import Token from "../classes/Token";
-import { get, getfromURL, getJWT, postJson, sendData } from "./ApiCalls";
+import { Delete, get, getfromURL, getJWT, postJson, postTokenJson, sendData } from "./ApiCalls";
 
 export async function getPerson(personId: string): Promise<{person : Person}>
 {
@@ -51,4 +52,18 @@ export async function SendMessage(channelID : string ,data: any) : Promise<{mess
 {
     const path = `/channels/${channelID}/messages/`;
     return await sendData(path, data);
+}
+export async function GetDMs() : Promise<{DmChannel : DmChannel}[]>
+{
+    const path = `/users/@me/channels`;
+    return getJWT(path);
+}
+export async function MakeDM(personId : string)
+{
+    const path = `/users/@me/channels`;
+    return postTokenJson(path, {"userId" : personId});
+}
+export async function deleteMessage(channelId : string, messageid : string){
+    const path = `/channels/${channelId}/messages/${messageid}`;
+    return Delete(path);
 }

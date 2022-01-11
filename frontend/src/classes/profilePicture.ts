@@ -15,23 +15,12 @@ export default function Pfp(authorId : string, ProfilePictureName : string) : st
     }
 
     const BASE = "https://cdn.rdmraceapp.nl/avatars/";
-    const PATH = `${BASE}${authorId}/${ProfilePictureName}`;
-    const NotFound = "https://cdn.rdmraceapp.nl/embed/avatars/default.png";
-    const Exists = imageExists(PATH);
-    if (Exists === 404) {
-        return NotFound;
-    } else {
-        return PATH;
-    } 
+    const PATH = `${BASE}${authorId}/${ProfilePictureName}`;    
+    return PATH;
+    
 }
 export function tryAttachment(channelNumber: string, bId: string, name: string) : string {
     const BASE = "https://cdn.rdmraceapp.nl/attachments/";
-    const PATH = `${BASE}${channelNumber}/${bId}/${name}`;
-    const NotFound = "";
-    const Exists = imageExists(PATH);
-    if (Exists === 404) {
-        return NotFound;
-    } else {
-        return PATH;
-    } 
+    const PATH = `${BASE}${channelNumber}/${bId}/${name}`;   
+    return PATH;
 }
