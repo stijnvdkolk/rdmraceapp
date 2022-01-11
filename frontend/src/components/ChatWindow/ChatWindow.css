@@ -98,7 +98,7 @@
     margin-right: 10px;
 }
 .message-image{
-    grid-column: 2 /span 4;
+    grid-column: 2 /span 1;
     grid-row: 1 / span 3;
 }
 
@@ -117,9 +117,8 @@
 }
 
 .message-image-content{
-    padding-left: 30px;
     padding-top: 10px;
-    grid-column: 1 / span 6;
+    grid-column: 3 / span 6;
     grid-row: 4;
     display: flex;
 
