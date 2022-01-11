@@ -8,7 +8,11 @@ export default class Message {
     authorId: string | undefined;
     createdAt: Date |  undefined;
     updatedAt: Date | undefined;
-    attachments: string[] | undefined;
+    attachments: Attachment[] | undefined;
+}
+export class Attachment {
+    id: string | undefined;
+    name: string | undefined;
 }
 export class Messages{
     messages: Message[] | undefined;

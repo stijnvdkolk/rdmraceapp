@@ -1,0 +1,57 @@
+## Api Routes
+
+- /Teapot
+    - Returned 418 en 'Do you have some time for tea?'
+- /auth
+    - POST /token
+        - Json {Email, Password}
+            - returned Json{token: "String"}
+- /channels
+    - GET /
+        - returned JSON {channel[]} alle channels
+    - GET /:id
+        - returned JSON {channel} een enkele channel met :id als channel
+    - GET /:id/messages
+        - returned Json {messages[]} | Not allowed;  alle messages uit de channel of not allowed
+    - POST /:id/messages
+        - returned JSON {message}; Post een message
+    - PATCH /:id/messages/:messageId
+        - returned JSON {message}; edit een message met :messageId als param
+    - DELETE /:id/messages/:messageId
+        - returned JSON {message}; verwijderd een bericht met :messageId als param
+- /users
+    - GET /:id
+        - returned als ID '@me' is dan geef mezelf terug
+        - andere returned de user met het ID
+    - GET /
+        - returned alle users gePagineerd
+    - POST /
+        - Authorization ADMIN
+        - Maakt nieuwe user en returned deze
+    - PATCH /userId
+        - (supports Profile Picture)
+        - als requester = "@me" is EN heeft profiel foto, dan  voeg pfp toe en edit profiel
+        - ANDERS voeg nieuwe info toe aan user
+        - Als authorization ADMIN, kan andere mensen hun pfp toevoegen en user editen
+        - Anders NOT ALLOWED
+    - DELETE /userId
+        - Authorization ADMIN
+        - Verwijderd user met userID
+## Page routes
+
+-  /Login
+    - Login page
+- /Signup
+    - Sign up page
+- /Chat/:channelID
+    - Chat met al een window open
+- /Chat
+    - Chat zonder window open
+- /Invalid
+    - Invalid Link
+- /Admin/:personId
+    - Admin pannel met PersonID in window
+- /Admin
+    - Admin pannel zonder window open
+- /
+    - Debug

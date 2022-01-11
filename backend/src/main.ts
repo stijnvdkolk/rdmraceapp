@@ -1,11 +1,21 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/App/app.module';
-import { User } from '@prisma/client';
+import { UserRole, UserStatus } from '@prisma/client';
 
 declare module 'express' {
   interface Request {
-    user: User;
+    user: {
+      id: string;
+      aboutMe: string;
+      email: string;
+      profilePicture: string;
+      username: string;
+      role: UserRole;
+      status: UserStatus;
+      createdAt: Date;
+      updatedAt: Date;
+    };
   }
 }
 

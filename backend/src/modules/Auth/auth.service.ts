@@ -25,7 +25,7 @@ export class AuthService {
       },
     };
 
-    return sign(payload, this.jwtSecret, { expiresIn: '12h' });
+    return sign(payload, this.jwtSecret, { expiresIn: '48h' });
   }
 
   /**

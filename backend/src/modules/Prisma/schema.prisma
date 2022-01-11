@@ -80,10 +80,22 @@ model Message {
 // Attachment model
 model Attachment {
   id        String   @id @default(cuid())
-  url       String
+  name      String
   message   Message  @relation(fields: [messageId], references: [id])
   messageId String
   createdAt DateTime @default(now())
+}
+
+// Invite model
+model Invite {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  maxUses    Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  amountUsed Int      @default(0)
+  expireAt   DateTime
+  role       UserRole
 }
 
 // To get the last message sent. Look at last message sent in channel, then look at user updatedAt (BEFORE OVERWRITE!)

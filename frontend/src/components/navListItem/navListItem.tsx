@@ -12,7 +12,7 @@ export default function NavListItem(props: NavListItemProps) {
     const { icon, text, onClickCommand, children, style } = props;
 
     return (
-        <ListItem button style={style}  onClick={onClickCommand}>
+        <ListItem button  onClick={onClickCommand}>
                 <ListItemIcon>
                     {icon}
                     {children}
