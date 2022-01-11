@@ -15,7 +15,6 @@ export default function Routes(props: IProps) {
     <Switch>
       <Route path="/Login" component={Login} />
       <Route path="/SignUp" component={SignUp} />
-      <Route path="/" component={HomePage} />
       <Route path="/Privacy" component={PrivacyPolicy} />
       <Route path="/Terms" component={TermsOfService} />
       <Route path="/TermsOfService" component={TermsOfService} />
@@ -26,6 +25,7 @@ export default function Routes(props: IProps) {
       <Route path="/Admin/:PersonID" component={Admin} />
       <Route path="/Admin/" component={Admin} />
       <Route path="/Debug" component={Debug} />
+      <Route path="/" component={HomePage} />
     </Switch>
   );
 }

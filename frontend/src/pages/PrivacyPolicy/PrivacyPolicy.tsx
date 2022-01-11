@@ -1,19 +1,8 @@
-import IProps from "../../components/IProps";
-import React from "react";
+import IProps from '../../components/IProps';
 
-import "./PrivacyPolicy.css";
-import Box from "@mui/material/Box";
-import Icon from "@mui/material/Icon";
-import Buttoned from "../../components/button/button";
-import {
-  Container,
-  CssBaseline,
-  Typography,
-  Stack,
-  Button,
-  Card,
-} from "@mui/material";
-import Background from "../../components/backgrounds/background";
+import './PrivacyPolicy.css';
+import { Container, Typography, Card } from '@mui/material';
+import Background from '../../components/backgrounds/background';
 //comment
 export default function PrivacyPolicy(props: IProps) {
   return (
@@ -22,8 +11,8 @@ export default function PrivacyPolicy(props: IProps) {
       <Container
         className="PrivacyPolicyContainerDEBUG"
         sx={{
-          height: "100%",
-          width: "90%",
+          height: '100%',
+          width: '90%',
         }}
       >
         <div className="DMT">
@@ -33,24 +22,24 @@ export default function PrivacyPolicy(props: IProps) {
         <Card
           className="PrivacyPolicyBox"
           sx={{
-            height: "90vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            overflowY: "scroll",
+            height: '90vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            overflowY: 'scroll',
           }}
         >
           <Typography
             variant="h1"
             className="appTitle"
-            sx={{ fontSize: "10vh" }}
+            sx={{ fontSize: '10vh' }}
           >
             Privacy Policy
           </Typography>
           <Typography
             variant="body1"
             className="appBody"
-            sx={{ fontSize: "4vh" }}
+            sx={{ fontSize: '4vh' }}
           >
             Bij PhidippidesChat, toegankelijk via link.nl, is een van onze
             belangrijkste prioriteiten de privacy van onze bezoekers. Deze
@@ -66,14 +55,14 @@ export default function PrivacyPolicy(props: IProps) {
           <Typography
             variant="h6"
             className="subTitle"
-            sx={{ fontSize: "10vh" }}
+            sx={{ fontSize: '10vh' }}
           >
             Toestemming
           </Typography>
           <Typography
             variant="body1"
             className="appBody"
-            sx={{ fontSize: "4vh" }}
+            sx={{ fontSize: '4vh' }}
           >
             Door onze website te gebruiken, stemt u hierbij in met ons
             privacybeleid en gaat u akkoord met de voorwaarden ervan.
@@ -82,14 +71,14 @@ export default function PrivacyPolicy(props: IProps) {
           <Typography
             variant="h6"
             className="subTitle"
-            sx={{ fontSize: "10vh" }}
+            sx={{ fontSize: '10vh' }}
           >
             Hoe wij uw informatie gebruiken
           </Typography>
           <Typography
             variant="body1"
             className="appBody"
-            sx={{ fontSize: "4vh" }}
+            sx={{ fontSize: '4vh' }}
           >
             We gebruiken de informatie die we verzamelen op verschillende
             manieren, waaronder: Onze website aanbieden, beheren en onderhouden.
@@ -101,14 +90,14 @@ export default function PrivacyPolicy(props: IProps) {
           <Typography
             variant="h6"
             className="subTitle"
-            sx={{ fontSize: "10vh" }}
+            sx={{ fontSize: '10vh' }}
           >
             Informatie die we verzamelen
           </Typography>
           <Typography
             variant="body1"
             className="appBody"
-            sx={{ fontSize: "4vh" }}
+            sx={{ fontSize: '4vh' }}
           >
             De persoonlijke informatie die u wordt gevraagd te verstrekken, en
             de redenen waarom u wordt gevraagd om deze te verstrekken, zullen u
@@ -125,14 +114,14 @@ export default function PrivacyPolicy(props: IProps) {
           <Typography
             variant="h6"
             className="subTitle"
-            sx={{ fontSize: "10vh" }}
+            sx={{ fontSize: '10vh' }}
           >
             Bewaartermijnen
           </Typography>
           <Typography
             variant="body1"
             className="appBody"
-            sx={{ fontSize: "4vh" }}
+            sx={{ fontSize: '4vh' }}
           >
             Wij bewaren uw persoonsgegevens niet langer dan noodzakelijk is om
             de in deze privacy- en cookieverklaring genoemde doeleinden te
@@ -142,14 +131,14 @@ export default function PrivacyPolicy(props: IProps) {
           <Typography
             variant="h6"
             className="subTitle"
-            sx={{ fontSize: "10vh" }}
+            sx={{ fontSize: '10vh' }}
           >
             Gegevensbeveiliging
           </Typography>
           <Typography
             variant="body1"
             className="appBody"
-            sx={{ fontSize: "4vh" }}
+            sx={{ fontSize: '4vh' }}
           >
             PhidippidesChat maakt gebruik van zorgvuldige veiligheidsprocedures
             voor de bescherming van de verwerkte gegevens, onder meer om te
