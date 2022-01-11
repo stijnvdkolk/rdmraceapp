@@ -3,6 +3,7 @@ import { ChannelType, UserRole, UserStatus } from '@prisma/client';
 import { ChannelController } from './channel.controller';
 import { ChannelService } from './channel.service';
 import { v4 as uuidv4 } from 'uuid';
+import type { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 
 // Create a new channel
 const channelId = uuidv4();
@@ -48,7 +49,7 @@ type Channel = {
   description: string | null;
   createdAt: Date;
   updatedAt: Date;
-  messages: ChannelMessage[];
+  messages: Message[];
 };
 
 // Define test message
@@ -108,15 +109,46 @@ describe('ChannelController', () => {
               .mockImplementation((_channelId: string) => {
                 return channel;
               }),
-            getChannelByName: jest
+            getChannels: jest
               .fn()
-              .mockImplementation((_channelName: string) => {
-                return channel;
+              .mockImplementation((query: PaginationQueryInput) => {
+                return [];
               }),
-            getChannelMessages: jest
+            getMessagesFromChannel: jest
               .fn()
-              .mockImplementation((_channelId: string) => {
-                return messages;
+              .mockImplementation(
+                (_channelId: string, query: PaginationQueryInput) => {
+                  return messages;
+                },
+              ),
+            getMessageFromChannel: jest
+              .fn()
+              .mockImplementation((_channelId: string, messageId: string) => {
+                return messages[0];
+              }),
+            createMessage: jest.fn().mockImplementation(
+              (
+                _channelId: string,
+                authorId: string,
+                content: string,
+                attachments: {
+                  name: string;
+                }[],
+              ) => {
+                return null;
+              },
+            ),
+            updateMessage: jest
+              .fn()
+              .mockImplementation(
+                (messageId: string, data: { content: string }) => {
+                  return null;
+                },
+              ),
+            deleteMessage: jest
+              .fn()
+              .mockImplementation((_messageId: string) => {
+                return null;
               }),
           },
         },

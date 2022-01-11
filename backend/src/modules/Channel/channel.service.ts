@@ -69,27 +69,6 @@ export class ChannelService {
     }
   }
 
-  // Creates a new DM channel between two users
-  async createDMChannel(creator: User, otherUser: User): Promise<Channel> {
-    const channel = await this.prisma.channel.create({
-      data: {
-        name: 'DM Channel',
-        users: {
-          connect: [
-            {
-              id: creator.id,
-            },
-            {
-              id: otherUser.id,
-            },
-          ],
-        },
-        type: ChannelType.DM,
-      },
-    });
-    return channel;
-  }
-
   // Returns all the messages from a channel, given the channel ID and optional QueryInput
   async getMessagesFromChannel(
     channelId: Channel['id'],
