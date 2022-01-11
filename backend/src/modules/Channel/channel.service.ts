@@ -30,46 +30,6 @@ export class ChannelService {
     }
   }
 
-  // Returns the DM channel of specific user, given an user ID
-  async getDirectMessageChannelsOfUser(userId: User['id']) {
-    return this.prisma.channel.findMany({
-      where: {
-        users: {
-          some: {
-            id: userId,
-          },
-        },
-        type: ChannelType.DM,
-      },
-      select: {
-        id: true,
-        messages: false,
-        name: true,
-        type: true,
-        createdAt: true,
-        description: false,
-        rolesAccess: false,
-        updatedAt: false,
-        users: {
-          select: {
-            aboutMe: true,
-            profilePicture: true,
-            status: true,
-            username: true,
-            role: true,
-            id: true,
-            email: false,
-            channels: false,
-            createdAt: true,
-            updatedAt: true,
-            messages: false,
-            password: false,
-          },
-        },
-      },
-    });
-  }
-
   // Returns all the channels, given the correct QueryInput
   async getChannels(query: PaginationQueryInput) {
     try {

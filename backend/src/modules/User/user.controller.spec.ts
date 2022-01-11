@@ -17,7 +17,7 @@ const date = new Date('2022-01-07T12:27:08.486Z');
 const password =
   '$argon2i$v=19$m=16,t=2,p=1$bmV2ZXJnb25uYWdpdmV5b3V1cA$k3KZTkum4B4KeKM6VRsybg';
 
-// Define user type
+// Define test user
 const currentUser: User = {
   id: uuidv4(),
   aboutMe,

@@ -4,14 +4,16 @@ import { ChannelController } from './channel.controller';
 import { ChannelService } from './channel.service';
 import { v4 as uuidv4 } from 'uuid';
 
-// Create a new channel w/ message and attachment
+// Create a new channel
 const channelId = uuidv4();
 const name = 'Test channel';
 const type = ChannelType.PUBLIC_CHANNEL;
+const rolesAccess = [UserRole.ADMIN, UserRole.TEAM_MEMBER];
 const createdAt = new Date('2022-01-07T12:27:08.486Z');
 const updatedAt = new Date('2022-01-07T12:27:08.486Z');
 
-type ChannelMessage = {
+// Define message type [Message PRISMA model]
+type Message = {
   id: string;
   createdAt: Date;
   updatedAt: Date;
@@ -36,7 +38,21 @@ type ChannelMessage = {
     createdAt: Date;
   };
 };
-const messages: ChannelMessage[] = [
+
+// Define channel type [Channel PRISMA model]
+type Channel = {
+  id: string;
+  name: string;
+  type: ChannelType;
+  rolesAccess: UserRole[];
+  description: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  messages: ChannelMessage[];
+};
+
+// Define test message
+const messages: Message[] = [
   {
     id: uuidv4(),
     content: 'This is a test message',
@@ -65,3 +81,56 @@ const messages: ChannelMessage[] = [
     },
   },
 ];
+// Define test channel
+const channel: Channel = {
+  id: channelId,
+  name,
+  type,
+  rolesAccess,
+  createdAt,
+  updatedAt,
+  description: 'this is a test channel',
+  messages,
+};
+
+describe('ChannelController', () => {
+  let controller: ChannelController;
+
+  beforeAll(async () => {
+    const module = await Test.createTestingModule({
+      controllers: [ChannelController],
+      providers: [
+        {
+          provide: ChannelService,
+          useValue: {
+            getChannelById: jest
+              .fn()
+              .mockImplementation((_channelId: string) => {
+                return channel;
+              }),
+            getChannelByName: jest
+              .fn()
+              .mockImplementation((_channelName: string) => {
+                return channel;
+              }),
+            getChannelMessages: jest
+              .fn()
+              .mockImplementation((_channelId: string) => {
+                return messages;
+              }),
+          },
+        },
+      ],
+    }).compile();
+
+    controller = module.get<ChannelController>(ChannelController);
+    return;
+  });
+
+  // Testing the findChannelById method
+  describe('getChannelById', () => {
+    it('should return a channel with the current id', async () => {
+      expect(controller.getChannel(channelId)).toEqual(channel);
+    });
+  });
+});
