@@ -31,6 +31,27 @@ export async function getJWT(url: string) {
         throw new Error("bruh");
     });
 }
+export async function Delete(url: string) {
+    return fetch(baseUrl + url, {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json",
+            "authorization": `${localStorage.getItem("DogeToken")}`,
+        },
+    }).then(parseJson).then((response) => {
+        if (response.ok) {
+            return response.json;
+        } else if (response.status === 401) {
+            localStorage.removeItem("DogeToken");
+            window.location.href = "/Login";
+            return;
+        }
+        else{
+            console.error(response);            
+        }
+        
+    });
+}
 export async function getfromURL(query: string) {
     return fetch(baseUrl+query, {
         method: "GET",
@@ -70,6 +91,7 @@ export async function postTokenJson(url: string, data: any) {
             method: "POST",
             headers: {
                 "content-type": "application/json",
+                "authorization": `${localStorage.getItem("DogeToken")}`,
             },
             body: JSON.stringify(data),
         }).then(response => response.json())
