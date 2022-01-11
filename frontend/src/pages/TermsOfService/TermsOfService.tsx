@@ -2,17 +2,7 @@ import IProps from '../../components/IProps';
 import React from 'react';
 
 import './TermsOfService.css';
-import Box from '@mui/material/Box';
-import Icon from '@mui/material/Icon';
-import Buttoned from '../../components/button/button';
-import {
-  Container,
-  CssBaseline,
-  Typography,
-  Stack,
-  Button,
-  Card,
-} from '@mui/material';
+import { Container, Typography, Card } from '@mui/material';
 import Background from '../../components/backgrounds/background';
 //comment
 export default function TermsOfService(props: IProps) {
