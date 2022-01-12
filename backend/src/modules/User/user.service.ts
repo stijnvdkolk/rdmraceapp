@@ -45,11 +45,9 @@ export class UserService {
   }
 
   async findUserByEmail(userEmail: User['email']): Promise<User> {
-    try {
-      return this.prisma.user.findUnique({ where: { email: userEmail } });
-    } catch (error) {
-      throw new NotFoundError('user_not_found');
-    }
+    const user = this.prisma.user.findUnique({ where: { email: userEmail } });
+    if (!user) throw new NotFoundError('user_not_found');
+    return user;
   }
 
   async findUsersById(userIds: User['id'][]) {
