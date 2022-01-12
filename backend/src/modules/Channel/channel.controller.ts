@@ -154,19 +154,19 @@ export class ChannelController {
       channelId,
       messageId,
     );
-    if (message.author.id !== user.id || user.role !== UserRole.ADMIN) {
-      throw new ForbiddenException('not_allowed');
+    if (message.author.id === user.id || user.role == UserRole.ADMIN) {
+      for await (const attachment of message.attachments) {
+        await this.spaces.deleteAttachment(
+          `attachments/${channelId}/${messageId}/${attachment.name}`,
+        );
+        await this.prisma.attachment.delete({
+          where: {
+            id: attachment.id,
+          },
+        });
+      }
+      return this.channelService.deleteMessage(messageId);
     }
-    for await (const attachment of message.attachments) {
-      await this.spaces.deleteAttachment(
-        `attachments/${channelId}/${messageId}/${attachment.name}`,
-      );
-      await this.prisma.attachment.delete({
-        where: {
-          id: attachment.id,
-        },
-      });
-    }
-    return this.channelService.deleteMessage(messageId);
+    throw new ForbiddenException('not_allowed');
   }
 }

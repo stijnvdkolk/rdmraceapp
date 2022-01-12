@@ -20,10 +20,24 @@ import { EditUserDto } from './dto/edit-user.dto';
 import { CurrentUser, Roles } from '@decorators';
 import { User, UserRole } from '@prisma/client';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CreatePrivateChannelDto } from './dto/create-private-channel.dto';
 
 @Controller('/users')
 export class UserController {
   constructor(private userService: UserService) {}
+
+  @Get('/@me/channels')
+  async getUserChannels(@CurrentUser() user: User) {
+    return this.userService.getUserChannels(user);
+  }
+
+  @Post('/@me/channels')
+  async createUserChannel(
+    @CurrentUser() currentUser: User,
+    @Body() channelData: CreatePrivateChannelDto,
+  ) {
+    return this.userService.createUserChannel(currentUser, channelData);
+  }
 
   @Get('/:id')
   async getUserById(@CurrentUser() user: User, @Param('id') id: string) {

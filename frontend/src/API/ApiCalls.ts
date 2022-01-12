@@ -35,6 +35,27 @@ export async function getJWT(url: string) {
       throw new Error('bruh');
     });
 }
+export async function Delete(url: string) {
+    return fetch(baseUrl + url, {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json",
+            "authorization": `${localStorage.getItem("DogeToken")}`,
+        },
+    }).then(parseJson).then((response) => {
+        if (response.ok) {
+            return response.json;
+        } else if (response.status === 401) {
+            localStorage.removeItem("DogeToken");
+            window.location.href = "/Login";
+            return;
+        }
+        else{
+            console.error(response);            
+        }
+        
+    });
+}
 export async function getfromURL(query: string) {
   return fetch(baseUrl + query, {
     method: 'GET',
@@ -73,17 +94,17 @@ export async function postJson(url: string, data: any) {
     });
 }
 export async function postTokenJson(url: string, data: any) {
-  return fetch(baseUrl + url, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      return response;
-    });
+    return fetch(baseUrl + url, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "authorization": `${localStorage.getItem("DogeToken")}`,
+            },
+            body: JSON.stringify(data),
+        }).then(response => response.json())
+        .then((response) => {
+            return response;
+        });
 }
 
 async function parseJson(response: Response) {
@@ -118,4 +139,32 @@ export function ConsumeEffect(
       loader(false);
     }
   );
+}
+export async function sendData(url : string, data : FormData) {
+    // const formData  = new FormData();
+  
+    // for(const name in data) {
+    //   formData.append(name, data[name]);
+    // }
+    return fetch(baseUrl + url, {
+        method: 'POST',
+        headers: {
+            "Authorization": `${localStorage.getItem("DogeToken")}`,
+        },
+        body: data
+    }).then(parseJson).then(data => {
+        if (data.ok) {
+            return data.json;
+        }
+        else if (data.status === 401) {
+            localStorage.removeItem("DogeToken");
+            window.location.href = "/Login";
+            return;
+        }
+        else if(data.status === 500) {
+        }
+        else{
+            return "Bad Request";
+        }
+    });
 }
