@@ -19,7 +19,6 @@ import { SignInDto } from './dto/sign-in.dto';
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private prisma: PrismaService,
     private userService: UserService,
     @Inject('CRYPTO') private crypto: Argon2CryptoProvider,
   ) {}
@@ -30,11 +29,17 @@ export class AuthController {
     token: string;
   }> {
     const user = await this.userService.findUserByEmail(loginBody.email);
+    if (!user) {
+      throw new HttpException(
+        'Invalid email or password',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
     const isValid = await this.crypto.verifyPassword(
       user.password,
       loginBody.password,
     );
-    if (!user || !isValid) {
+    if (!isValid) {
       throw new HttpException(
         'Invalid email or password',
         HttpStatus.UNAUTHORIZED,
