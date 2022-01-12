@@ -107,7 +107,10 @@ export class UserService {
     const alreadyChannel = allDMsOfUser.channels.some((channel) =>
       channel.users.map((user) => user.id).includes(channelData.userId),
     );
-    if (alreadyChannel) return alreadyChannel;
+    if (alreadyChannel)
+      return allDMsOfUser.channels.find((channel) =>
+        channel.users.map((user) => user.id).includes(channelData.userId),
+      );
     return this.prisma.channel.create({
       data: {
         name: '',
