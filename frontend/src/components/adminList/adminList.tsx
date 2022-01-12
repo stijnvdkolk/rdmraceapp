@@ -1,16 +1,14 @@
-import * as React from "react";
 import {
   DataGrid,
   GridApi,
   GridColDef,
   GridRenderCellParams,
-  GridRenderEditCellParams,
 } from "@mui/x-data-grid";
 import Buttoned from "../button/button";
-import IProps from "../IProps";
 import { Button } from "@mui/material";
 
 const datagridButton = (params: GridRenderCellParams) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const api: GridApi = params.api;
   return (
     <Button

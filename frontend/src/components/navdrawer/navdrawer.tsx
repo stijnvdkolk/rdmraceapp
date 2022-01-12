@@ -1,12 +1,13 @@
 import React, * as react from 'react';
-import {Drawer, AppBar} from '@mui/material';
+import {Drawer, AppBar, Popover} from '@mui/material';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
 import Background from '../../components/backgrounds/background';
 import IProps from '../IProps';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ThemeContext } from '../theme-context';
+import UserProfile from '../userProfile/userProfile';
 
 
 /*
@@ -23,6 +24,16 @@ export default function NavDrawer(props: IProps) {
     const [isOpen,setIsOpen] = react.useState(true);
     const toggle = ()=>setIsOpen((current: any) =>!current);
     const { colorTheme } =  useContext(ThemeContext);
+    const [profileOn, setProfileOn] = useState(null);
+    const handleProfileClick = (event: any) => {
+        setProfileOn(event.currentTarget);
+      };
+    
+      const handleProfileClose = () => {
+        setProfileOn(null);
+      };
+    const profileOpen = Boolean(profileOn);
+    const profileId = profileOpen ? 'simple-popover' : undefined;
     // Create a condition that targets viewports at least 768px wide
     let navbarElements = (
         
@@ -38,9 +49,27 @@ export default function NavDrawer(props: IProps) {
                         width: "30px",
                         height: "30px",                        
                     })
-                }/>
+                }
+                onClick={handleProfileClick}
+                />
+                <Popover 
+                    id={profileId}
+                    open={profileOpen}
+                    anchorEl={profileOn}
+                    onClose={handleProfileClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    sx={{
+                        borderRadius: "16px",
+                    }}
+                    >
+                    <UserProfile bigprofile={true} self={true} />
+                </Popover>
                 {!matches && ( <div className="Cursor2 ICursor"></div>)}
                 {!matches && ( <MenuIcon className="Hamburger IIcon" onClick={toggle}/>)}
+                
             </div>
         </div>
     );
