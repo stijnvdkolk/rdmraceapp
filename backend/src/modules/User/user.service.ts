@@ -121,6 +121,8 @@ export class UserService {
     currentUser: User,
     channelData: CreatePrivateChannelDto,
   ) {
+    if (currentUser.id === channelData.userId)
+      throw new BadRequestException('cannot_create_dm_with_self');
     const allDMsOfUser = await this.getUserChannels(currentUser);
     if (
       allDMsOfUser.channels.some((channel) =>
