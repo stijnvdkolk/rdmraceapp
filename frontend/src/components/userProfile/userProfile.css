@@ -1,0 +1,76 @@
+.GridParent {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 100px 50px 2px 200px auto;
+  text-align: left;
+  padding: 2%;
+  grid-gap: 2px;
+}
+
+.GridParentSmall {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 75px 40px 2px 150px auto;
+  text-align: left;
+  padding: 2%;
+  grid-gap: 2px;
+}
+
+.ProfEnStatus {
+  grid-row: 1;
+  grid-column: 1;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto;
+  margin-top: 0px;
+}
+
+.profPic {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  margin-top: 0px;
+}
+
+.profPicSmall {
+  grid-column: 1;
+  grid-row: 1;
+  width: 75px;
+  height: 75px;
+  border-radius: 38px;
+  margin-top: 0px;
+}
+
+.name {
+  grid-row: 2;
+  grid-column: 1;
+  margin-top: 0px;
+}
+
+.divide {
+  grid-row: 3;
+  grid-column: 1;
+}
+
+.bio {
+  grid-row: 4;
+  grid-column: 1;
+  width: 75%;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
+}
+
+.role {
+  grid-row: 5;
+  grid-column: 1;
+}
+
+.role b {
+  color: white;
+  background-color: rgb(82, 79, 79);
+  padding: 0px 5px 5px 5px;
+  border-radius: 5px;
+  margin-right: 5px;
+}
