@@ -28,13 +28,15 @@ export class UserController {
   @Get('/@me/channels')
   async getUserChannels(@CurrentUser() user: User) {
     const { channels } = await this.userService.getUserChannels(user);
-    return channels
-      .filter((channel) => channel._count.messages > 0)
-      .map((channel) => ({
-        ...channel,
-        _count: undefined,
-        messages: undefined,
-      }));
+    return {
+      channels: channels
+        .filter((channel) => channel._count.messages > 0)
+        .map((channel) => ({
+          ...channel,
+          _count: undefined,
+          messages: undefined,
+        })),
+    };
   }
 
   @Post('/@me/channels')
