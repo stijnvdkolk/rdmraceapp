@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import { Avatar, Card, Divider, FormControl, IconButton, InputAdornment, Menu, MenuItem, TextField } from "@mui/material";
+import { Avatar, Card, Divider, FormControl, IconButton, InputAdornment, Menu, MenuItem, Popover, TextField } from "@mui/material";
 import React, * as react from 'react';
 import { useContext, useEffect, useState } from "react";
 import { deleteMessage, getMessages, MakeDM, SendMessage } from "../../API/Chat";
@@ -18,16 +18,13 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import Pfp, { tryAttachment } from "../../classes/profilePicture";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SendIcon from '@mui/icons-material/Send';
-import {sendData} from "../../API/ApiCalls";
+import UserProfile from "../userProfile/userProfile";
 
 
 function FkDateTime(date: Date) {
     var dtm: Date	= new Date(date);
     var retVal: string = `${dtm.getDate()}/${dtm.getMonth() + 1}/${dtm.getFullYear()} ${dtm.getHours()}:${dtm.getMinutes()}:${dtm.getSeconds()}`;
     return retVal;
-}
-function StartChat(){
-
 }
 interface UParams {
     channelID: string | undefined;
@@ -46,6 +43,21 @@ export default function ChatWindow(props: IProps){
     }, [setMatches]);
     //#endregion
     const [channelNumber, setChannelNumber] = useState(channelID);
+    const [profileOn, setProfileOn] = useState(null);
+    const handleProfileClick = (event: any) => {
+        setProfileOn(event.currentTarget);
+      };
+    
+    const GetProfile = (event : any) => {
+        setLastClickedPersonAttchment(event.currentTarget);
+        handleProfileClick(event);
+    }
+
+      const handleProfileClose = () => {
+        setProfileOn(null);
+      };
+    const profileOpen = Boolean(profileOn);
+    const profileId = profileOpen ? 'simple-popover' : undefined;
 
     useEffect(() => {
         setChannelNumber(channelID);
@@ -74,7 +86,7 @@ export default function ChatWindow(props: IProps){
                 null,
             );
         };
-
+        //
         const handleClose = () => {
             setContextMenu(null);
         };
@@ -154,6 +166,7 @@ export default function ChatWindow(props: IProps){
 
         async function MakeDmAndGo(){
             if(LastClickedPerson){
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 var dm = await MakeDM(LastClickedPerson).then(
                     (res) => {
                         history.push(`/chat/${res.id!}`);
@@ -255,6 +268,7 @@ export default function ChatWindow(props: IProps){
 
     //#endregion
    
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [conv, setConv] = useState<JSX.Element | undefined>(undefined);
     const conversation = ( // onScroll={() => scrollyBoy }
         <div className="conversation"  > 
@@ -286,7 +300,9 @@ export default function ChatWindow(props: IProps){
                                             
                                             <div className="message-image"
                                                 onContextMenu={handleProfilePictureContext}
-                                                style={{ cursor: "context-menu" }}>
+                                                style={{ cursor: "context-menu" }}
+                                                onClick={GetProfile}
+                                                >
 
                                                 <Avatar src={Pfp(berichten.author?.id!, berichten.author?.profilePicture!)} alt="" sx={{
                                                     width: "50px",
@@ -408,6 +424,18 @@ export default function ChatWindow(props: IProps){
                                 </div>
                             </MenuItem>
                         </Menu>
+                        <Popover 
+                            id={profileId}
+                            open={profileOpen}
+                            anchorEl={profileOn}
+                            onClose={handleProfileClose}
+                            anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'left',
+                            }}
+                            >
+                            <UserProfile bigprofile={false} functieArg={LastClickedPerson!} self={false} />
+                        </Popover>
                     </>
                 )                
                 :
@@ -465,6 +493,7 @@ export default function ChatWindow(props: IProps){
                 }
             }
             formData.append("content", input);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             var msg : Message = (await SendMessage(channelID!, formData)).message;
             setInput("");       //bruh?
             (document?.getElementById('fileInput') as HTMLInputElement).value = "";

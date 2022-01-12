@@ -32,6 +32,7 @@ export default function Login() {
       Rtoken = (await getToken(email, password))?.token as Token; // Krijg token uit API call probeert in RToken te zetten, anders Undefined
     }
 
+    // eslint-disable-next-line eqeqeq
     if (Rtoken != undefined) {
       // als er een token is doe het volgende
       setLoggedToken(Rtoken); // De token als bind aan LoggedToken

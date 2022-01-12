@@ -1,17 +1,19 @@
-import { FiberManualRecord } from "@mui/icons-material";
 import { Card, CircularProgress, Divider } from "@mui/material";
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ConsumeEffect } from "../../API/ApiCalls";
-import { getSelf, getPerson } from "../../API/Chat";
 import Person from "../../classes/Person";
 import Pfp from "../../classes/profilePicture";
 import Buttoned from "../button/button";
 import "./userProfile.css";
 import IProps from "../IProps";
+import { getPerson, getSelf } from "../../API/Chat";
 
 interface ProfileProps extends IProps {
   bigprofile: boolean;
+  functieArg?: string | undefined;
+  self: boolean;
 }
+
 
 function toTitleCase(str: string) {
   return str.replace(/\w\S*/g, function (txt) {
@@ -21,15 +23,48 @@ function toTitleCase(str: string) {
 
 export default function UserProfile(props: ProfileProps) {
   const { bigprofile } = props;
+  const { functieArg } = props;
+  const {self} = props;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [selfProfile, setselfProfile] = useState<Person | undefined>(undefined); //Person
+  const [meProfile, setMeProfile] = useState<Person | undefined>(undefined); //Person
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [meLoaded, setMeLoaded] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [OwnProfile, setOwnProfile] = useState<boolean>(false);
+  
   useEffect(() => {
-    ConsumeEffect(setIsLoaded, setselfProfile, () => {
-      return getPerson("cky4di5vq00030tly1g5ovww6");
-    });
-  }, []);
-
+    if(self){
+      setOwnProfile(true);
+      ConsumeEffect(setIsLoaded, setselfProfile, () => {return getSelf();} );
+    }
+    else{
+      setOwnProfile(true);
+      ConsumeEffect(setMeLoaded, setMeProfile, () => {return getSelf();} );
+      ConsumeEffect(setIsLoaded, setselfProfile, () => {return getPerson(functieArg!);} );
+      
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [functieArg]);
+  useEffect(() => {
+    if(!self){
+      if(isLoaded){
+        if( meProfile?.id === functieArg){
+          setOwnProfile(true);
+        }
+        else
+        {
+          setOwnProfile(false);
+        }      
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meProfile]);
+  // useEffect(() => {
+  //   console.log(OwnProfile);
+  // }, [OwnProfile]);
+  //TODO: David om te zien of het eigen profiel is, OOK IN CHAT gebruik OwnProfile
   return (
     <Card
       className={bigprofile ? "GridParent" : "GridParentSmall"}
@@ -61,12 +96,16 @@ export default function UserProfile(props: ProfileProps) {
                     marginLeft: "-100%",
                   }}
                 />
+                {meProfile?.id !== functieArg && !self ? (
                 <Buttoned
                   className="dm"
                   url="#"
                   text={`message ${selfProfile.username}`}
                   style={{ borderRadius: "16px", marginTop: "35px" }}
                 />
+                ) : (
+                  <></>
+                )}
               </div>
               <div className="name">
                 <h3>{selfProfile.username}</h3>
