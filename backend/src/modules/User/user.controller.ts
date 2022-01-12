@@ -34,7 +34,6 @@ export class UserController {
         .map((channel) => ({
           ...channel,
           _count: undefined,
-          messages: undefined,
         })),
     };
   }

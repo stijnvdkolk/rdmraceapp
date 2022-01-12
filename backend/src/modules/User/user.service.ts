@@ -79,22 +79,6 @@ export class UserService {
                 messages: true,
               },
             },
-            messages: {
-              select: {
-                id: false,
-                createdAt: false,
-                updatedAt: true,
-                attachments: false,
-                channel: false,
-                author: false,
-                content: false,
-                authorId: false,
-                channelId: false,
-              },
-              orderBy: {
-                updatedAt: 'desc',
-              },
-            },
             users: {
               select: {
                 id: true,
@@ -124,14 +108,10 @@ export class UserService {
     if (currentUser.id === channelData.userId)
       throw new BadRequestException('cannot_create_dm_with_self');
     const allDMsOfUser = await this.getUserChannels(currentUser);
-    if (
-      allDMsOfUser.channels.some((channel) =>
-        channel.users.map((user) => user.id).includes(channelData.userId),
-      )
-    )
-      return allDMsOfUser.channels.find((channel) =>
-        channel.users.map(({ id }) => id).includes(channelData.userId),
-      );
+    const alreadyChannel = allDMsOfUser.channels.some((channel) =>
+      channel.users.map((user) => user.id).includes(channelData.userId),
+    );
+    if (alreadyChannel) return alreadyChannel;
     return this.prisma.channel.create({
       data: {
         name: '',
