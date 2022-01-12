@@ -24,7 +24,7 @@ services:
     build:
       context: ${FRONTEND_ROOT}
       dockerfile: ./Dockerfile
-    command: yarn start
+    command: serve -s build
     tty: true
     ports:
       - '3001:3000'
