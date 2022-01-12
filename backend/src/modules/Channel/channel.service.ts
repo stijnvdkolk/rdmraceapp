@@ -23,11 +23,11 @@ export class ChannelService {
   ) {}
 
   async getChannelById(channelId: Channel['id']): Promise<Channel> {
-    try {
-      return this.prisma.channel.findUnique({ where: { id: channelId } });
-    } catch (error) {
-      throw new NotFoundError('channel_not_found');
-    }
+    const channel = this.prisma.channel.findUnique({
+      where: { id: channelId },
+    });
+    if (!channel) throw new NotFoundError('channel_not_found');
+    return channel;
   }
 
   // Returns the DM channel of specific user, given an user ID
@@ -111,7 +111,7 @@ export class ChannelService {
 
   // Creates a new DM channel between two users
   async createDMChannel(creator: User, otherUser: User): Promise<Channel> {
-    const channel = await this.prisma.channel.create({
+    return this.prisma.channel.create({
       data: {
         name: 'DM Channel',
         users: {
@@ -127,7 +127,6 @@ export class ChannelService {
         type: ChannelType.DM,
       },
     });
-    return channel;
   }
 
   // Returns all the messages from a channel, given the channel ID and optional QueryInput
@@ -202,8 +201,8 @@ export class ChannelService {
     channelId: Channel['id'],
     messageId: Message['id'],
   ) {
-    try {
-      return this.prisma.message.findFirst({
+    const message = await this.prisma.message
+      .findFirst({
         where: {
           channel: {
             id: channelId,
@@ -250,10 +249,12 @@ export class ChannelService {
             },
           },
         },
+      })
+      .catch(() => {
+        throw new NotFoundError('channel_or_message_not_found');
       });
-    } catch (error) {
-      throw new NotFoundError('channel_or_message_not_found');
-    }
+    if (!message) throw new NotFoundError('channel_or_message_not_found');
+    return message;
   }
 
   async createMessage(
