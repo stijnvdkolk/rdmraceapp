@@ -5,7 +5,6 @@ import {
   Get,
   Param,
   Post,
-  Put,
   Body,
   Query,
   ForbiddenException,
@@ -28,7 +27,15 @@ export class UserController {
 
   @Get('/@me/channels')
   async getUserChannels(@CurrentUser() user: User) {
-    return this.userService.getUserChannels(user);
+    const { channels } = await this.userService.getUserChannels(user);
+    return {
+      channels: channels
+        .filter((channel) => channel._count.messages > 0)
+        .map((channel) => ({
+          ...channel,
+          _count: undefined,
+        })),
+    };
   }
 
   @Post('/@me/channels')
@@ -40,9 +47,9 @@ export class UserController {
   }
 
   @Get('/:id')
-  async getUserById(@CurrentUser() user: User, @Param('id') id: string) {
-    if (id === '@me') return user;
-    return this.userService.findUserById(id, false);
+  async getUserById(@CurrentUser() _user: User, @Param('id') id: string) {
+    if (id === '@me') return _user;
+    this.userService.findUserById(id, false);
   }
 
   @Get('/')
