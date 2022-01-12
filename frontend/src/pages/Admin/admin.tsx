@@ -25,7 +25,9 @@ export default function Admin() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [items, setItems] = useState<Person[] | undefined>(undefined); //Person[]
   useEffect(() => {
-    ConsumeEffect(setIsLoaded, setItems, () => {return getSelf();} );
+    ConsumeEffect(setIsLoaded, setItems, () => {
+      return getSelf();
+    });
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,7 +35,9 @@ export default function Admin() {
   const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
   const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
   useEffect(() => {
-    ConsumeEffect(setIsCLoaded, setcontacts, () => {return getPeople(5);} );
+    ConsumeEffect(setIsCLoaded, setcontacts, () => {
+      return getPeople(5);
+    });
   }, []);
 
   return (

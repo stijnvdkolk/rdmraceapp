@@ -1,18 +1,41 @@
-.options{
-    display: flex;
-    justify-content: center;
-    text-align: left;
+.options {
+  display: flex;
+  justify-content: center;
+  text-align: left;
 }
 
-.BgButton{
-    float: right;
-    margin-right: 10px;
-    margin-top: 10px;
+.BgButton {
+  float: right;
+  margin-right: 10px;
+  margin-top: 10px;
 }
 
-.Admin{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.Admin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.chatHeaderContainer {
+  /* Product Lockup */
+  right: 100px;
+  /* Auto Layout */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 8px 8px 8px 16px;
+  height: 56px;
+  left: 12px;
+}
+
+.chatHeaderContainer {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.channelHeader {
+  width: 100%;
 }

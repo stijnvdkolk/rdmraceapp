@@ -63,7 +63,7 @@ export class UserService {
   }
 
   async getUserChannels(user: User) {
-    return this.prisma.user.findUnique({
+    return this.prisma.user.findFirst({
       where: { id: user.id },
       select: {
         channels: {
@@ -74,6 +74,11 @@ export class UserService {
             id: true,
             name: true,
             type: true,
+            _count: {
+              select: {
+                messages: true,
+              },
+            },
             users: {
               select: {
                 id: true,
@@ -100,6 +105,13 @@ export class UserService {
     currentUser: User,
     channelData: CreatePrivateChannelDto,
   ) {
+    if (currentUser.id === channelData.userId)
+      throw new BadRequestException('cannot_create_dm_with_self');
+    const allDMsOfUser = await this.getUserChannels(currentUser);
+    const alreadyChannel = allDMsOfUser.channels.some((channel) =>
+      channel.users.map((user) => user.id).includes(channelData.userId),
+    );
+    if (alreadyChannel) return alreadyChannel;
     return this.prisma.channel.create({
       data: {
         name: '',
