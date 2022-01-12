@@ -124,12 +124,12 @@ async function parseJson(response: Response) {
   };
 }
 ///This Consumes an effect so there won't be 500 lines of code in Pages
-export function ConsumeEffect(
+export async function ConsumeEffect(
   loader: React.Dispatch<React.SetStateAction<boolean>>,
   setter: React.Dispatch<React.SetStateAction<any>>,
   callback: () => Promise<any>
 ) {
-  callback().then(
+  await callback().then(
     (result) => {
       setter(result);
       loader(true);

@@ -1,17 +1,12 @@
 import IProps from '../../components/IProps';
-import React from 'react';
 import logo from './images/Small Logo.svg';
 import './HomePage.css';
-import Box from '@mui/material/Box';
-import Icon from '@mui/material/Icon';
 import Circle from '@mui/icons-material/Circle';
 import Buttoned from '../../components/button/button';
 import {
   Container,
-  CssBaseline,
   Typography,
   Stack,
-  Button,
   Card,
 } from '@mui/material';
 import Background from '../../components/backgrounds/background';
