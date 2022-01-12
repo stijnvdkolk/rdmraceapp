@@ -63,7 +63,7 @@ export class UserService {
   }
 
   async getUserChannels(user: User) {
-    return this.prisma.user.findUnique({
+    return this.prisma.user.findFirst({
       where: { id: user.id },
       select: {
         channels: {
@@ -74,6 +74,27 @@ export class UserService {
             id: true,
             name: true,
             type: true,
+            _count: {
+              select: {
+                messages: true,
+              },
+            },
+            messages: {
+              select: {
+                id: false,
+                createdAt: false,
+                updatedAt: true,
+                attachments: false,
+                channel: false,
+                author: false,
+                content: false,
+                authorId: false,
+                channelId: false,
+              },
+              orderBy: {
+                updatedAt: 'desc',
+              },
+            },
             users: {
               select: {
                 id: true,
@@ -100,6 +121,15 @@ export class UserService {
     currentUser: User,
     channelData: CreatePrivateChannelDto,
   ) {
+    const allDMsOfUser = await this.getUserChannels(currentUser);
+    if (
+      allDMsOfUser.channels.some((channel) =>
+        channel.users.map((user) => user.id).includes(channelData.userId),
+      )
+    )
+      return allDMsOfUser.channels.find((channel) =>
+        channel.users.map(({ id }) => id).includes(channelData.userId),
+      );
     return this.prisma.channel.create({
       data: {
         name: '',
