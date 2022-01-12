@@ -1,4 +1,5 @@
 import * as React from "react";
+import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
 import IProps from "../IProps";
@@ -7,14 +8,15 @@ import IProps from "../IProps";
 interface NoteProps extends IProps {
   notifyType?: number;
   message?: string;
-  open?: boolean;
 }
 
 // shows a notification at the bottom of the screen
 export default function Notification(props: NoteProps) {
-  const [open, setOpen] = React.useState<boolean | undefined>(true);
-  React.useEffect(() => setOpen(props.open), [props.open]);
+  const [open, setOpen] = React.useState(false);
   const { notifyType, message } = props;
+  const handleClick = () => {
+    setOpen(true);
+  };
   const handleClose = (
     event: React.SyntheticEvent<any, any> | React.MouseEvent<any, any> | Event,
     reason?: string
@@ -47,6 +49,7 @@ export default function Notification(props: NoteProps) {
 
   return (
     <div>
+      <Button onClick={handleClick}>Open notification</Button>
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={open}
