@@ -21,7 +21,6 @@ import UserProfile from "../userProfile/userProfile";
 import Picker, { IEmojiData } from 'emoji-picker-react';
 
 
-
 function FkDateTime(date: Date) {
     var dtm: Date	= new Date(date);
     var retVal: string = `${dtm.getDate()}/${dtm.getMonth() + 1}/${dtm.getFullYear()} ${dtm.getHours()}:${dtm.getMinutes()}:${dtm.getSeconds()}`;
@@ -54,7 +53,7 @@ export default function ChatWindow(props: IProps){
         handleProfileClick(event);
     }
 
-    const handleProfileClose = () => {
+      const handleProfileClose = () => {
         setProfileOn(null);
       };
     const profileOpen = Boolean(profileOn);
@@ -90,7 +89,6 @@ export default function ChatWindow(props: IProps){
     //   };
     // const PopOverImageOpen = Boolean(PopOverImageOn);
     // const PopOverImageId = PopOverImageOpen ? 'simple-popover' : undefined;
-
 
     useEffect(() => {
         setChannelNumber(channelID);
@@ -467,7 +465,6 @@ export default function ChatWindow(props: IProps){
                             >
                             <UserProfile bigprofile={false} functieArg={LastClickedPerson!} self={false} />
                         </Popover>
-                       
                     </>
                 )                
                 :
