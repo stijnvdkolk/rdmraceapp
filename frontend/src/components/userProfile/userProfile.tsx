@@ -70,7 +70,7 @@ export default function UserProfile(props: ProfileProps) {
       className={bigprofile ? "GridParent" : "GridParentSmall"}
       sx={{
         width: bigprofile ? "500px" : "270px",
-        height: bigprofile ? "500px" : "350px",
+        height: bigprofile ? "500px" : "375px",
         borderRadius: "16px",
       }}
     >
