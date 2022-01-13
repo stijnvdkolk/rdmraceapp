@@ -13,7 +13,7 @@ function App()
     <ThemeProvider theme={colorTheme === "light" ? lightTheme : darkTheme}> 
     {/* Dit is de Content Provider voor de DarkMode LightMode */}
 
-      <div id="out" className="App red background">    {/*Dit is onze Background dit 
+      <div id="out" className={localStorage.getItem('theme') === "light" ? "App red background" : "App dark background"}  >    {/*Dit is onze Background dit 
                                                           is dat alles wordt onthouden 
                                                           als je van pagine switcht */}
         <Routes /> {/* Dit is de WebRoutes zoals /Chat of /Login  dit staat in ./Routes.tsx  */}

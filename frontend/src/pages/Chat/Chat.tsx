@@ -74,12 +74,17 @@ export default function Chat() {
       ConsumeEffect(setIsLoadedConversation, setConversation, () => {return getChannel(channelID);} );
     }
   }, [channelID]);
-
+  const [reload, setReload] = useState(false);
   const [DmChannel, setDmChannel] = useState<DmChannel | undefined>(undefined);
   const [isLoadedDm, setIsLoadedDm] = useState<boolean>(false);
   useEffect(() => {
     ConsumeEffect(setIsLoadedDm, setDmChannel, () => {return GetDMs();} );
-  }, []);
+  }, [reload]);
+  useEffect(() => {
+    setTimeout(() => {
+        setReload(!reload); 
+    }, 5000);
+  }, [reload]);
   //#endregion
   return (
     <>

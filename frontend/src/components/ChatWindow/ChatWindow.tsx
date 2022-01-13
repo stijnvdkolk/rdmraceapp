@@ -14,11 +14,12 @@ import "./ChatWindow.css";
 import { ConsumeEffect } from "../../API/ApiCalls";
 import { useHistory, useParams } from "react-router-dom";
 import { SaveAltOutlined, ThumbUpOutlined } from "@mui/icons-material";
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import Pfp, { tryAttachment } from "../../classes/profilePicture";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import UserProfile from "../userProfile/userProfile";
+import Picker, { IEmojiData } from 'emoji-picker-react';
+
 
 
 function FkDateTime(date: Date) {
@@ -53,11 +54,43 @@ export default function ChatWindow(props: IProps){
         handleProfileClick(event);
     }
 
-      const handleProfileClose = () => {
+    const handleProfileClose = () => {
         setProfileOn(null);
       };
     const profileOpen = Boolean(profileOn);
     const profileId = profileOpen ? 'simple-popover' : undefined;
+
+
+    const [emojiOn, setemojiOn] = useState(null);
+    const handleemojiClick = (event: any) => {
+        setemojiOn(event.currentTarget);
+      };
+    
+    const Getemoji = (event : any) => {
+        handleemojiClick(event);
+    }
+
+    const handleemojiClose = () => {
+        setemojiOn(null);
+      };
+    const emojiOpen = Boolean(emojiOn);
+    const emojiId = emojiOpen ? 'simple-popover' : undefined;
+
+    // const [PopOverImageOn, setPopOverImageOn] = useState(null);
+    // const handlePopOverImageClick = (event: any) => {
+    //     setPopOverImageOn(event.currentTarget);
+    //   };
+    
+    // const GetPopOverImage = (event : any) => {
+    //     handlePopOverImageClick(event);
+    // }
+
+    // const handlePopOverImageClose = () => {
+    //     setPopOverImageOn(null);
+    //   };
+    // const PopOverImageOpen = Boolean(PopOverImageOn);
+    // const PopOverImageId = PopOverImageOpen ? 'simple-popover' : undefined;
+
 
     useEffect(() => {
         setChannelNumber(channelID);
@@ -169,6 +202,8 @@ export default function ChatWindow(props: IProps){
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 var dm = await MakeDM(LastClickedPerson).then(
                     (res) => {
+                        handleClose();
+                        CloseProfilePictureContext();
                         history.push(`/chat/${res.id!}`);
                     }
                 );
@@ -199,8 +234,10 @@ export default function ChatWindow(props: IProps){
         function DeleteMessage(close: Function){
             if(messageClicked){
                 deleteMessage(channelID!, messageClicked);
-                setReload(!reload);
                 close();
+                setReload(false);
+                setReload(true);
+                
             }
         }
 
@@ -294,7 +331,7 @@ export default function ChatWindow(props: IProps){
                                                     {FkDateTime(berichten.createdAt as Date)}
                                                 </div>
                                                 <div className="message-sender">
-                                                    {berichten?.author?.username}
+                                                    <b>{berichten?.author?.username}</b>
                                                 </div>
                                             </div>
                                             
@@ -341,12 +378,6 @@ export default function ChatWindow(props: IProps){
                                     {"Copy Text"}
                                 </div>
                             </MenuItem>
-                            <MenuItem onClick={handleClose}>
-                                <div className="MenuItemWithIcon">
-                                    <PersonOutlinedIcon />
-                                    {"Author Profile"}
-                                </div>
-                            </MenuItem>
                             <MenuItem onClick={MakeDmAndGo}>
                                 <div className="MenuItemWithIcon">
                                     <SendIcon />
@@ -385,6 +416,12 @@ export default function ChatWindow(props: IProps){
                                     {"Delete Message"}
                                 </div>
                             </MenuItem>
+                            <MenuItem onClick={MakeDmAndGo}>
+                                <div className="MenuItemWithIcon">
+                                    <SendIcon />
+                                    {"Start Direct Message"}
+                                </div>
+                            </MenuItem>
                         </Menu>
                         <Menu
                             open={ImageContext !== null}
@@ -403,12 +440,6 @@ export default function ChatWindow(props: IProps){
                                 <div className="MenuItemWithIcon Debug2">
                                     <SaveAltOutlined />
                                     {"Save Image"}
-                                </div>
-                            </MenuItem>
-                            <MenuItem onClick={CloseImageContext}> {/*TODO: Copy to clipboard*/}
-                                <div className="MenuItemWithIcon">
-                                    <PersonOutlinedIcon />
-                                    {"Author Profile"}
                                 </div>
                             </MenuItem>
                             <MenuItem onClick={CloseImageContext}>
@@ -436,6 +467,7 @@ export default function ChatWindow(props: IProps){
                             >
                             <UserProfile bigprofile={false} functieArg={LastClickedPerson!} self={false} />
                         </Popover>
+                       
                     </>
                 )                
                 :
@@ -455,6 +487,11 @@ export default function ChatWindow(props: IProps){
             <div id="scroll-to-bottom" />
         </div>
     );
+    useEffect(() => {
+        setTimeout(() => {
+            setReload(!reload); 
+        }, 5000);
+    }, [reload]);
     useEffect(() => {
         if (messages !== undefined) {
             setConv(conversation);
@@ -509,6 +546,26 @@ export default function ChatWindow(props: IProps){
             
         }
     }, [messages, isMessageLoaded]);
+    const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+        // 'keypress' event misbehaves on mobile so we track 'Enter' key via 'keydown' event
+        if (event.key === 'Enter') {
+            SendMessageFromInput();
+        }
+    }
+    const [chosenEmoji, setChosenEmoji] = useState<IEmojiData | null>(null);
+
+    const onEmojiClick = (event: any, emojiObject: any) => {
+        setChosenEmoji(emojiObject);
+    };
+    useEffect(() => {
+        if (chosenEmoji !== null) {
+            console.log(chosenEmoji);
+            setInput(input + chosenEmoji.emoji);
+            setChosenEmoji(null);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chosenEmoji]);
+
 
     const SendForm = (
         <div className="sendForm">
@@ -526,10 +583,13 @@ export default function ChatWindow(props: IProps){
                             className="MessageInput2" 
                             value={input}
                              onChange={(e) => setInput(e.target.value)}
+                             onKeyDown={onKeyDown}
                              InputProps={{
                                 startAdornment: (
                                   <InputAdornment position="start">
-                                    <EmojiEmotionsOutlinedIcon className="Emoji" />
+                                      <div style={{ cursor: "pointer",}} >
+                                        <EmojiEmotionsOutlinedIcon className="animatedAttachment" onClick={Getemoji}/>   
+                                      </div>                                 
                                   </InputAdornment>
                                 ),
                                 endAdornment: (
@@ -563,10 +623,26 @@ export default function ChatWindow(props: IProps){
                         
                         />
                     </FormControl>
+                    <Popover 
+                            id={emojiId}
+                            open={emojiOpen}
+                            anchorEl={emojiOn}
+                            onClose={handleemojiClose}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center',
+                              }}
+                            transformOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center',
+                            }}
+                            >
+                            <Picker onEmojiClick={onEmojiClick}/>         
+                        </Popover>
                 </div>
             </div>
         </div>
-    );
+    );    
     //#endregion
     //#region RETURN
     return ( //refactored this to just 1 expression easier to read          

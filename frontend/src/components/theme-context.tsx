@@ -62,15 +62,17 @@ type themeContextType = {
 //Content Provider
 //Maak hier te veel van en de app wordt sloom
 //De enige 2 die we hier voor gebruiken is de User en de Theme
-export const ThemeContext = React.createContext<Partial<themeContextType>>({});
+export const ThemeContext = React.createContext<Partial<themeContextType>>({colorTheme : localStorage.getItem('theme') === "dark" ? "dark" : "light", changeColorTheme: () => {}});
 export const ThemeProvider : FC = ({ children  }) => {  //FC = Function Component // Theme Provider maakt een <> aan
-  const [colorTheme, setColorTheme] = useState<"light" | "dark">("light");
+  const [colorTheme, setColorTheme] = useState<"light" | "dark">(localStorage.getItem('theme') === "dark" ? "dark" : "light");
 
   const changeColorTheme = useCallback(() => { // Dit is een functie die switch van mode
     setColorTheme((prev) => {
       if (prev === "light") {
+        localStorage.setItem('theme', 'dark');
         return "dark";
       }
+      localStorage.setItem('theme', 'light');
       return "light";
     })
   }, []);
