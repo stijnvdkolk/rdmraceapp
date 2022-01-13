@@ -1,4 +1,4 @@
-import { Card, CircularProgress, Divider } from "@mui/material";
+import { Button, Card, CircularProgress, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ConsumeEffect } from "../../API/ApiCalls";
 import Person from "../../classes/Person";
@@ -7,6 +7,7 @@ import Buttoned from "../button/button";
 import "./userProfile.css";
 import IProps from "../IProps";
 import { getPerson, getSelf } from "../../API/Chat";
+//import { Logout } from "../../Logout";
 
 interface ProfileProps extends IProps {
   bigprofile: boolean;
@@ -14,6 +15,10 @@ interface ProfileProps extends IProps {
   self: boolean;
 }
 
+function Logout() {
+  localStorage.removeItem("DogeToken");
+  window.location.reload();
+}
 
 function toTitleCase(str: string) {
   return str.replace(/\w\S*/g, function (txt) {
@@ -24,7 +29,7 @@ function toTitleCase(str: string) {
 export default function UserProfile(props: ProfileProps) {
   const { bigprofile } = props;
   const { functieArg } = props;
-  const {self} = props;
+  const { self } = props;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [selfProfile, setselfProfile] = useState<Person | undefined>(undefined); //Person
@@ -33,33 +38,39 @@ export default function UserProfile(props: ProfileProps) {
   const [meLoaded, setMeLoaded] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [OwnProfile, setOwnProfile] = useState<boolean>(false);
-  
+
+  const logout = () => {
+    Logout();
+  };
+
   useEffect(() => {
-    if(self){
+    if (self) {
       setOwnProfile(true);
-      ConsumeEffect(setIsLoaded, setselfProfile, () => {return getSelf();} );
-    }
-    else{
+      ConsumeEffect(setIsLoaded, setselfProfile, () => {
+        return getSelf();
+      });
+    } else {
       setOwnProfile(true);
-      ConsumeEffect(setMeLoaded, setMeProfile, () => {return getSelf();} );
-      ConsumeEffect(setIsLoaded, setselfProfile, () => {return getPerson(functieArg!);} );
-      
+      ConsumeEffect(setMeLoaded, setMeProfile, () => {
+        return getSelf();
+      });
+      ConsumeEffect(setIsLoaded, setselfProfile, () => {
+        return getPerson(functieArg!);
+      });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [functieArg]);
   useEffect(() => {
-    if(!self){
-      if(isLoaded){
-        if( meProfile?.id === functieArg){
+    if (!self) {
+      if (isLoaded) {
+        if (meProfile?.id === functieArg) {
           setOwnProfile(true);
-        }
-        else
-        {
+        } else {
           setOwnProfile(false);
-        }      
+        }
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meProfile]);
   // useEffect(() => {
   //   console.log(OwnProfile);
@@ -69,9 +80,8 @@ export default function UserProfile(props: ProfileProps) {
     <Card
       className={bigprofile ? "GridParent" : "GridParentSmall"}
       sx={{
-        width: bigprofile ? "500px" : "270px",
-        height: bigprofile ? "500px" : "350px",
-        borderRadius: "16px",
+        width: bigprofile ? "500px" : "330px",
+        height: bigprofile ? "500px" : "370px",
       }}
     >
       {isLoaded ? (
@@ -97,14 +107,32 @@ export default function UserProfile(props: ProfileProps) {
                   }}
                 />
                 {meProfile?.id !== functieArg && !self ? (
-                <Buttoned
-                  className="dm"
-                  url="#"
-                  text={`message ${selfProfile.username}`}
-                  style={{ borderRadius: "16px", marginTop: "35px" }}
-                />
+                  <Buttoned
+                    className="dm"
+                    url="#"
+                    text={`message ${selfProfile.username}`}
+                    style={{
+                      borderRadius: "16px",
+                      marginTop: "35px",
+                      marginLeft: "-50px",
+                    }}
+                  />
                 ) : (
-                  <></>
+                  <>
+                    <Button
+                      onClick={logout}
+                      variant="contained"
+                      sx={{
+                        borderRadius: "16px",
+                        width: "120px",
+                        height: "35px",
+                        marginTop: "35px",
+                        marginLeft: "-30px",
+                      }}
+                    >
+                      logout
+                    </Button>
+                  </>
                 )}
               </div>
               <div className="name">
