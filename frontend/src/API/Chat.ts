@@ -1,14 +1,14 @@
 import Channel from "../classes/Channel";
-import Dms, { DmChannel } from "../classes/Dms";
-import Message, { Messages } from "../classes/Message";
+import { DmChannel } from "../classes/Dms";
+import Message from "../classes/Message";
 import Person from "../classes/Person";
 import Token from "../classes/Token";
-import { Delete, get, getfromURL, getJWT, postJson, postTokenJson, sendData } from "./ApiCalls";
+import { Delete, getfromURL, getJWT, postJson, postTokenJson, sendData } from "./ApiCalls";
 
 export async function getPerson(personId: string): Promise<{person : Person}>
 {
-    const path = `users/${personId}`;
-    return get(path);
+    const path = `/users/${personId}`;
+    return getfromURL(path);
 }
 export async function getPeople(page: number): Promise<{person: Person[]}>
 {
@@ -18,7 +18,7 @@ export async function getPeople(page: number): Promise<{person: Person[]}>
 export async function getSelf(): Promise<{person : Person}>
 {
     const path = "/users/@me";
-    return getJWT(path);
+    return getfromURL(path);
 }
 export async function getChannels(): Promise<{channel : Channel}[]>
 {

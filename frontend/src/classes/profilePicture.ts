@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function imageExists(image_url: string){
 
     var http = new XMLHttpRequest();

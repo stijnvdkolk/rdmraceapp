@@ -49,7 +49,7 @@ export class UserController {
   @Get('/:id')
   async getUserById(@CurrentUser() _user: User, @Param('id') id: string) {
     if (id === '@me') return _user;
-    this.userService.findUserById(id, false);
+    return this.userService.findUserById(id, false);
   }
 
   @Get('/')

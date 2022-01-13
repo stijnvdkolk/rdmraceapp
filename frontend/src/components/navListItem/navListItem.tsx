@@ -9,7 +9,7 @@ type NavListItemProps = {
     style?: React.CSSProperties;
 };
 export default function NavListItem(props: NavListItemProps) {
-    const { icon, text, onClickCommand, children, style } = props;
+    const { icon, text, onClickCommand, children } = props;
 
     return (
         <ListItem button  onClick={onClickCommand}>
