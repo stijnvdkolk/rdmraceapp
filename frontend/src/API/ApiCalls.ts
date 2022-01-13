@@ -88,6 +88,8 @@ export async function postJson(url: string, data: any) {
     .then((response) => {
       if (response.ok) {
         return response.json;
+      } else if (response.status === 400) {
+        return undefined;
       } else if (response.status === 401) {
         return response.json;
       }

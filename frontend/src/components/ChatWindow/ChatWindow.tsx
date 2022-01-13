@@ -46,8 +46,7 @@ export default function ChatWindow(props: IProps){
     const [profileOn, setProfileOn] = useState(null);
     const handleProfileClick = (event: any) => {
         setProfileOn(event.currentTarget);
-      };
-    
+    };    
     const GetProfile = (event : any) => {
         setLastClickedPersonAttchment(event.currentTarget);
         handleProfileClick(event);
@@ -58,6 +57,8 @@ export default function ChatWindow(props: IProps){
       };
     const profileOpen = Boolean(profileOn);
     const profileId = profileOpen ? 'simple-popover' : undefined;
+
+    const [lastMessage, setLastMessage] = useState<Message[] | undefined>(undefined);
 
     useEffect(() => {
         setChannelNumber(channelID);
@@ -110,8 +111,7 @@ export default function ChatWindow(props: IProps){
                     mouseY: event.clientY - 4,
                 }
                 : null,
-            );
-            
+            );            
         };
         
 
@@ -126,23 +126,25 @@ export default function ChatWindow(props: IProps){
             mouseY: number;
         } | null>(null);
         
-        const handleProfilePictureContext = (event: React.MouseEvent) => {
+        function handleProfilePictureContext(event: React.MouseEvent) {
             event.preventDefault();
             setlastclickedImage(event.target);
             setLastClickedPerson(event.target);
             SetProfilePictureContext(
-            ProfilePictureContext === null
+                ProfilePictureContext === null
                 ? {
                     mouseX: event.clientX - 2,
                     mouseY: event.clientY - 4,
                 }
                 : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
+
+
                 // Other native context menus might behave different.
                 // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
-                null,
-            );
-            
-        };
+                null
+        );
+
+    }
 
         const CloseProfilePictureContext = () => {
             SetProfilePictureContext(null);
@@ -167,7 +169,7 @@ export default function ChatWindow(props: IProps){
         async function MakeDmAndGo(){
             if(LastClickedPerson){
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                var dm = await MakeDM(LastClickedPerson).then(
+                await MakeDM(LastClickedPerson).then(
                     (res) => {
                         history.push(`/chat/${res.id!}`);
                     }
@@ -190,7 +192,6 @@ export default function ChatWindow(props: IProps){
                 setLastCLicked((e as HTMLImageElement).src);
             }            
         }
-
         function findLastPersonClicked(id: string ){
             setLastCLickedPerson(messages?.find(x => x.id === id)?.author?.id);
             setmessageClicked(messages?.find(x => x.id === id)?.id);            
@@ -203,7 +204,6 @@ export default function ChatWindow(props: IProps){
                 close();
             }
         }
-
 
         function setLastClickedPersonAttchment(e : EventTarget){
             // console.log(e);
@@ -258,14 +258,27 @@ export default function ChatWindow(props: IProps){
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [error, setError] = react.useState(false);
     const [reload, setReload] = react.useState(false);
+    const [scroll2Bottom, setScroll2Bottom] = react.useState(false);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isMessageLoaded, setIsMessageLoaded] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[] | undefined>(undefined); //Message
-    useEffect(() => {      //bruh?
+    useEffect(() => {
+        setLastMessage(messages);
         ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelID!);} );
-         
+
     }, [channelID, reload]);
 
+    useEffect(() => {
+        if (messages !== undefined && messages.length !== lastMessage?.length) {
+            setScroll2Bottom(!scroll2Bottom);
+        }
+        else if (lastMessage === undefined) {
+            setTimeout(() => {
+                setScroll2Bottom(!scroll2Bottom);
+            }, 1000);             
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [messages, lastMessage]);
     //#endregion
    
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -503,12 +516,9 @@ export default function ChatWindow(props: IProps){
     }
     useEffect(() => {
         if (document.getElementById("scroll-to-bottom") !== null) {
-        document.getElementById("scroll-to-bottom")!.scrollIntoView();
+            document.getElementById("scroll-to-bottom")!.scrollIntoView();
         }
-        else{
-            
-        }
-    }, [messages, isMessageLoaded]);
+    }, [scroll2Bottom]);
 
     const SendForm = (
         <div className="sendForm">

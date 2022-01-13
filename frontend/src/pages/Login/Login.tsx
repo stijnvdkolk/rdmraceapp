@@ -31,9 +31,8 @@ export default function Login() {
       // check if email and password are filled in to prevent errors
       Rtoken = (await getToken(email, password))?.token as Token; // Krijg token uit API call probeert in RToken te zetten, anders Undefined
     }
-
     // eslint-disable-next-line eqeqeq
-    if (Rtoken != undefined) {
+    if (Rtoken !== undefined) {
       // als er een token is doe het volgende
       setLoggedToken(Rtoken); // De token als bind aan LoggedToken
       localStorage.setItem("DogeToken", Rtoken.toString()); // Token opslaan in localstorage als string als key-DogeToken

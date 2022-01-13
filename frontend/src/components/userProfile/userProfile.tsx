@@ -1,4 +1,4 @@
-import { Button, Card, CircularProgress, Divider } from "@mui/material";
+import { Button, Card, CircularProgress, Divider, IconButton, Popover } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ConsumeEffect } from "../../API/ApiCalls";
 import Person from "../../classes/Person";
@@ -6,7 +6,11 @@ import Pfp from "../../classes/profilePicture";
 import Buttoned from "../button/button";
 import "./userProfile.css";
 import IProps from "../IProps";
-import { getPerson, getSelf } from "../../API/Chat";
+import EditIcon from '@mui/icons-material/Edit';
+import { getPerson, getSelf, MakeDM } from "../../API/Chat";
+import SendIcon from '@mui/icons-material/Send';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useHistory } from "react-router-dom";
 //import { Logout } from "../../Logout";
 
 interface ProfileProps extends IProps {
@@ -38,11 +42,14 @@ export default function UserProfile(props: ProfileProps) {
   const [meLoaded, setMeLoaded] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [OwnProfile, setOwnProfile] = useState<boolean>(false);
+  
+
 
   const logout = () => {
     Logout();
   };
-
+  
+  
   useEffect(() => {
     if (self) {
       setOwnProfile(true);
@@ -72,6 +79,18 @@ export default function UserProfile(props: ProfileProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meProfile]);
+  let history = useHistory();
+  async function makeDmAndYeet(){
+    if(meProfile?.id !== functieArg && !self){
+      await MakeDM(functieArg!).then(
+        (res) => {
+            history.push(`/chat/${res.id!}`);
+        }
+      );
+    }
+    
+  }
+
   // useEffect(() => {
   //   console.log(OwnProfile);
   // }, [OwnProfile]);
@@ -107,36 +126,53 @@ export default function UserProfile(props: ProfileProps) {
                   }}
                 />
                 {meProfile?.id !== functieArg && !self ? (
-                  <Buttoned
+                  <Button
                     className="dm"
-                    url="#"
-                    text={`message ${selfProfile.username}`}
-                    style={{
-                      borderRadius: "16px",
-                      marginTop: "35px",
-                      marginLeft: "-50px",
+                    onClick={makeDmAndYeet}
+                    variant="contained"
+                    sx={{
+                      right: "20px",                        
+                      height: "35px",
+                      top: "20px",
+                      width: "200px",
                     }}
-                  />
+                    endIcon={<SendIcon />}
+                  >{`message ${selfProfile.username}`}</Button>
                 ) : (
-                  <>
+                  <div className="LogoutEdit" > 
                     <Button
                       onClick={logout}
-                      variant="contained"
+                      variant="contained" 
                       sx={{
-                        borderRadius: "16px",
-                        width: "120px",
+                        right: "40px",                        
                         height: "35px",
-                        marginTop: "35px",
-                        marginLeft: "-30px",
+                        width: "175px",
+                        gridRow: "1",
                       }}
+                      endIcon={<LogoutIcon />}
                     >
                       logout
                     </Button>
-                  </>
+                    <Button
+                      endIcon={<EditIcon />}
+                      color="secondary"
+                      variant="contained" 
+                      sx={{
+                        right: "40px",
+                        height: "35px",
+                        width: "175px",
+                        gridRow: "2",
+                      }}
+                    >
+
+                      Edit Profile
+                    </Button>
+
+                  </div>
                 )}
               </div>
-              <div className="name">
-                <h3>{selfProfile.username}</h3>
+              <div className="name">                
+                <h3>{selfProfile.username}</h3>                
               </div>
               <div className="divide">
                 <Divider />
