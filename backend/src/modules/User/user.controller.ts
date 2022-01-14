@@ -5,7 +5,6 @@ import {
   Get,
   Param,
   Post,
-  Put,
   Body,
   Query,
   ForbiddenException,
