@@ -1,81 +1,14 @@
 import { Test } from '@nestjs/testing';
-import { UserRole, UserStatus, User } from '@prisma/client';
-import { Channel, ChannelType } from '@prisma/client';
+import { ChannelType } from '@prisma/client';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { v4 as uuidv4 } from 'uuid';
 import type { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 import { CreatePrivateChannelDto } from './dto/create-private-channel.dto';
 import { EditUserDto } from './dto/edit-user.dto';
+import { currentUser, dmChannels, testUser, users } from '@lib/unit-tests';
+import { PublicUser } from '@lib/unit-tests/types';
+import { v4 as uuidv4 } from 'uuid';
 
-// Date
-const date = new Date('2022-01-07T12:27:08.486Z');
-
-// Create a new user
-const userId = uuidv4();
-const aboutMe = 'I am a user';
-const email = 'test@rdmraceapp.nl';
-const username = 'Tester';
-const profilePicture = '/embed/avatars/default.png';
-const role = UserRole.TEAM_MEMBER;
-const status = UserStatus.OFFLINE;
-const password =
-  '$argon2i$v=19$m=16,t=2,p=1$bmV2ZXJnb25uYWdpdmV5b3V1cA$k3KZTkum4B4KeKM6VRsybg';
-
-// Define test user
-const currentUser: User = {
-  id: uuidv4(),
-  aboutMe,
-  email,
-  username,
-  profilePicture,
-  role,
-  status,
-  createdAt: date,
-  updatedAt: date,
-  password: null,
-};
-
-// Create a new channel
-const channelId = uuidv4();
-const channelName = 'Test channel';
-const channelType = ChannelType.DM;
-
-type DMChannel = {
-  name: string;
-  id: string;
-  type: ChannelType;
-  users: {
-    id: string;
-    aboutMe: string;
-    profilePicture: string;
-    username: string;
-    role: UserRole;
-    status: UserStatus;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
-};
-
-const channel: DMChannel = {
-  id: channelId,
-  name: channelName,
-  type: channelType,
-  users: [
-    {
-      id: currentUser.id,
-      aboutMe,
-      profilePicture,
-      username,
-      role,
-      status,
-      createdAt: date,
-      updatedAt: date,
-    },
-  ],
-};
-
-//
 describe('UserController', () => {
   let controller: UserController;
 
@@ -90,86 +23,31 @@ describe('UserController', () => {
               .fn()
               .mockImplementation(
                 (_userId: string, includeSensitiveInformation = false) => {
-                  return {
-                    id: _userId,
-                    aboutMe,
-                    email: includeSensitiveInformation ? email : undefined,
-                    username,
-                    profilePicture,
-                    role,
-                    status,
-                    createdAt: date,
-                    updatedAt: date,
-                  };
+                  const user = users[1];
+                  user.id = _userId;
+                  if (!includeSensitiveInformation) user.email = undefined;
+                  return user;
                 },
               ),
-            getUserChannels: jest.fn().mockImplementation((_userId: string) => {
+            getUserChannels: jest.fn().mockImplementation(() => {
               return {
-                id: channelId,
-                name: channelName,
-                type: channelType,
-                users: [
-                  {
-                    id: _userId,
-                    aboutMe,
-                    profilePicture,
-                    username,
-                    role,
-                    status,
-                    createdAt: date,
-                    updatedAt: date,
-                  },
-                ],
+                channels: dmChannels,
               };
             }),
-            // TODO: implement channelData in the function below
             createUserChannel: jest
               .fn()
               .mockImplementation(
-                (_currentUser: User, _channelData: CreatePrivateChannelDto) => {
-                  return {
-                    id: channelId,
-                    name: channelName,
-                    type: channelType,
-                    users: [
-                      {
-                        id: _currentUser.id,
-                        aboutMe,
-                        profilePicture,
-                        username,
-                        role,
-                        status,
-                        createdAt: date,
-                        updatedAt: date,
-                      },
-                    ],
-                  };
-                },
-              ),
-            editUser: jest
-              .fn()
-              .mockImplementation(
                 (
-                  _currentUser: User,
-                  _userId: string,
-                  _userData: EditUserDto,
+                  _currentUser: PublicUser,
+                  channelData: CreatePrivateChannelDto,
                 ) => {
-                  let localAboutMe = aboutMe,
-                    localEmail = email,
-                    localUsername = username;
-                  if (_userData.about) localAboutMe = _userData.about;
-                  if (_userData.email) localEmail = _userData.email;
-                  if (_userData.username) localUsername = _userData.username;
+                  const otherUser = users[1];
+                  otherUser.id = channelData.userId;
                   return {
-                    id: _userId,
-                    aboutMe: localAboutMe,
-                    email: localEmail,
-                    username: localUsername,
-                    profilePicture,
-                    role,
-                    status,
-                    createdAt: date,
-                    updatedAt: date,
+                    name: '',
+                    id: uuidv4(),
+                    type: ChannelType.DM,
+                    users: [_currentUser, users[1]],
                   };
                 },
               ),
@@ -177,18 +55,36 @@ describe('UserController', () => {
               .fn()
               .mockImplementation((query: PaginationQueryInput) => {
                 if (query.limit == 0) return [];
-                return new Array(query.limit).fill({
-                  id: userId,
-                  aboutMe,
-                  username,
-                  profilePicture,
-                  role,
-                  status,
-                  createdAt: date,
-                  updatedAt: date,
-                });
+                return new Array(query.limit).fill(testUser);
               }),
             createUser: undefined,
+            editUser: jest
+              .fn()
+              .mockImplementation(
+                (
+                  _currentUser: PublicUser,
+                  userId: string,
+                  userData: EditUserDto,
+                ) => {
+                  let localAboutMe = _currentUser.aboutMe,
+                    localEmail = _currentUser.email,
+                    localUsername = _currentUser.username;
+                  if (userData.about) localAboutMe = userData.about;
+                  if (userData.email) localEmail = userData.email;
+                  if (userData.username) localUsername = userData.username;
+                  return {
+                    id: userId,
+                    aboutMe: localAboutMe,
+                    email: localEmail,
+                    username: localUsername,
+                    profilePicture: _currentUser.profilePicture,
+                    role: _currentUser.role,
+                    status: _currentUser.status,
+                    createdAt: _currentUser.createdAt,
+                    updatedAt: _currentUser.updatedAt,
+                  };
+                },
+              ),
             uploadProfilePicture: undefined,
             deleteUser: undefined,
           },
@@ -203,45 +99,36 @@ describe('UserController', () => {
   // Testing the getUserById method
   describe('getUserById', () => {
     it('should return an user with the current id', async () => {
-      expect(controller.getUserById(currentUser, '@me')).resolves.toEqual(
-        currentUser,
-      );
+      const user = await controller.getUserById(currentUser, '@me');
+
+      expect(user).toEqual(currentUser);
     });
     it('should return an user with a different id', async () => {
-      const user = {
-        id: userId,
-        aboutMe,
-        email: undefined,
-        username,
-        profilePicture,
-        role,
-        status,
-        createdAt: date,
-        updatedAt: date,
-      };
-      expect(controller.getUserById(currentUser, userId)).resolves.toEqual(
-        user,
-      );
+      const user = await controller.getUserById(currentUser, testUser.id);
+      expect(user).toEqual(testUser);
     });
   });
 
   // Testing the getUserChannels method
   describe('getUserChannels', () => {
     it('should return all channels with the current user id', async () => {
-      expect(controller.getUserChannels(currentUser)).resolves.toEqual(channel);
+      const channels = await controller.getUserChannels(currentUser);
+      expect(channels).toEqual({
+        channels: dmChannels,
+      });
     });
   });
 
-  // Testing the createUserChannel method
-  describe('createUserChannel', () => {
-    it('should return newly created DM channel', async () => {
-      const channelData = new CreatePrivateChannelDto();
-      channelData.userId = userId;
-      expect(
-        controller.createUserChannel(currentUser, channelData),
-      ).resolves.toEqual(channel);
-    });
-  });
+  // // Testing the createUserChannel method
+  // describe('createUserChannel', () => {
+  //   it('should return newly created DM channel', async () => {
+  //     const channelData = new CreatePrivateChannelDto();
+  //     channelData.userId = userId;
+  //     expect(
+  //       controller.createUserChannel(currentUser, channelData),
+  //     ).resolves.toEqual(channel);
+  //   });
+  // });
 
   // // Testing the updateUser method [aboutme]
   // describe('updateUser', () => {

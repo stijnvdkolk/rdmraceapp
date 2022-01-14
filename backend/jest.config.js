@@ -18,4 +18,5 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'html'],
   collectCoverage: true,
   coverageReporters: ['html', 'json'],
+  slowTestThreshold: 30,
 };

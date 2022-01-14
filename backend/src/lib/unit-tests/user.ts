@@ -1,9 +1,9 @@
-import { UserRole, UserStatus } from '@prisma/client';
+import { User, UserRole, UserStatus } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 import { createdAt, updatedAt } from '.';
 import { PublicUser } from './types';
 
-export const currentUser: PublicUser = {
+export const currentUser: User = {
   id: uuidv4(),
   aboutMe: 'I am a user',
   email: 'unit-test@rdmraceapp.nl',
@@ -13,6 +13,7 @@ export const currentUser: PublicUser = {
   status: UserStatus.OFFLINE,
   createdAt,
   updatedAt,
+  password: null,
 };
 
 export const testUser: PublicUser = {
