@@ -54,7 +54,7 @@
   animation: rotate1 1s forwards;
 }
 .arrow-forward-icon-active{
-  rotate: -90deg;
+  transform: rotate(-90deg);
   animation: unrotate1 0.5s forwards;
 }
 

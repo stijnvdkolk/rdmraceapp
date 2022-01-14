@@ -1,9 +1,8 @@
-import { Button, Card, CircularProgress, Divider, IconButton, Popover } from "@mui/material";
+import { Button, Card, CircularProgress, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ConsumeEffect } from "../../API/ApiCalls";
 import Person from "../../classes/Person";
 import Pfp from "../../classes/profilePicture";
-import Buttoned from "../button/button";
 import "./userProfile.css";
 import IProps from "../IProps";
 import EditIcon from '@mui/icons-material/Edit';

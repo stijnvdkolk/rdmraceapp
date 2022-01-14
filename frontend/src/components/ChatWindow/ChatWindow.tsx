@@ -266,6 +266,7 @@ export default function ChatWindow(props: IProps){
         setLastMessage(messages);
         ConsumeEffect(setIsMessageLoaded, setMessages, () => {return getMessages(channelID!);} );
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [channelID, reload]);
 
     useEffect(() => {
