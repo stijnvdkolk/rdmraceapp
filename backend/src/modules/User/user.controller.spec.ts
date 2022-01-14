@@ -1,9 +1,13 @@
 import { Test } from '@nestjs/testing';
 import { UserRole, UserStatus, User } from '@prisma/client';
+import { Channel, ChannelType } from '@prisma/client';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { v4 as uuidv4 } from 'uuid';
 import type { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
+
+// Date
+const date = new Date('2022-01-07T12:27:08.486Z');
 
 // Create a new user
 const userId = uuidv4();
@@ -13,7 +17,6 @@ const username = 'Tester';
 const profilePicture = '/embed/avatars/default.png';
 const role = UserRole.TEAM_MEMBER;
 const status = UserStatus.OFFLINE;
-const date = new Date('2022-01-07T12:27:08.486Z');
 const password =
   '$argon2i$v=19$m=16,t=2,p=1$bmV2ZXJnb25uYWdpdmV5b3V1cA$k3KZTkum4B4KeKM6VRsybg';
 
@@ -29,6 +32,45 @@ const currentUser: User = {
   createdAt: date,
   updatedAt: date,
   password: null,
+};
+
+// Create a new channel
+const channelId = uuidv4();
+const channelName = 'Test channel';
+const channelType = ChannelType.DM;
+
+type DMChannel = {
+  name: string;
+  id: string;
+  type: ChannelType;
+  users: {
+    id: string;
+    aboutMe: string;
+    profilePicture: string;
+    username: string;
+    role: UserRole;
+    status: UserStatus;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
+};
+
+const channel: DMChannel = {
+  id: channelId,
+  name: channelName,
+  type: channelType,
+  users: [
+    {
+      id: currentUser.id,
+      aboutMe,
+      profilePicture,
+      username,
+      role,
+      status,
+      createdAt: date,
+      updatedAt: date,
+    },
+  ],
 };
 
 //
@@ -59,22 +101,25 @@ describe('UserController', () => {
                   };
                 },
               ),
-            findUserByEmail: jest
-              .fn()
-              .mockImplementation((userEmail: string) => {
-                return {
-                  id: userId,
-                  aboutMe,
-                  email: userEmail,
-                  username,
-                  profilePicture,
-                  password,
-                  role,
-                  status,
-                  createdAt: date,
-                  updatedAt: date,
-                };
-              }),
+            getUserChannels: jest.fn().mockImplementation((_userId: string) => {
+              return {
+                id: channelId,
+                name: channelName,
+                type: channelType,
+                users: [
+                  {
+                    id: currentUser.id,
+                    aboutMe,
+                    profilePicture,
+                    username,
+                    role,
+                    status,
+                    createdAt: date,
+                    updatedAt: date,
+                  },
+                ],
+              };
+            }),
             findUsersPagination: jest
               .fn()
               .mockImplementation((query: PaginationQueryInput) => {
@@ -125,6 +170,13 @@ describe('UserController', () => {
       expect(controller.getUserById(currentUser, userId)).resolves.toEqual(
         user,
       );
+    });
+  });
+
+  // Testing the getUserChannels method
+  describe('getUserChannels', () => {
+    it('should return all channels with the current user id', async () => {
+      expect(controller.getUserChannels(currentUser)).resolves.toEqual(channel);
     });
   });
 });
