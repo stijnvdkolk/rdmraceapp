@@ -2,7 +2,8 @@ import { NotFoundError } from '@lib/errors';
 import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';
 import { PrismaService } from '@modules/Prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { SpacesProvider } from '@modules/providers/spaces.provider';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {
   Attachment,
   Channel,
@@ -20,6 +21,7 @@ export class ChannelService {
       Prisma.ChannelWhereInput,
       Prisma.ChannelOrderByWithRelationInput
     >,
+    @Inject('SPACES') private spaces: SpacesProvider,
   ) {}
 
   async getChannelById(channelId: Channel['id']): Promise<Channel> {
@@ -293,6 +295,44 @@ export class ChannelService {
       });
     } catch (error) {
       throw new NotFoundError('channel_or_message_not_found');
+    }
+  }
+
+  async uploadAttachment(
+    channelId: Channel['id'],
+    messageId: Message['id'],
+    file: Express.Multer.File,
+  ) {
+    try {
+      return this.spaces.uploadAttachment(
+        {
+          id: messageId,
+          channelId,
+        },
+        file,
+      );
+    } catch (error) {
+      throw new BadRequestException();
+    }
+  }
+
+  async deleteAttachment(
+    channelId: Channel['id'],
+    messageId: Message['id'],
+    attachmentId: Attachment['id'],
+    attachmentName: Attachment['name'],
+  ) {
+    try {
+      await this.spaces.deleteAttachment(
+        `attachments/${channelId}/${messageId}/${attachmentName}`,
+      );
+      return this.prisma.attachment.delete({
+        where: {
+          id: attachmentId,
+        },
+      });
+    } catch (error) {
+      throw new NotFoundError('attachment_not_found');
     }
   }
 }

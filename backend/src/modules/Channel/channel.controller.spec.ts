@@ -162,7 +162,7 @@ describe('ChannelController', () => {
   // Testing the findChannelById method
   describe('getChannelById', () => {
     it('should return a channel with the current id', async () => {
-      expect(controller.getChannel(channelId)).toEqual(channel);
+      expect(controller.getChannel(channelId)).resolves.toEqual(channel);
     });
   });
 });

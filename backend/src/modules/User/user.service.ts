@@ -128,7 +128,7 @@ export class UserService {
       },
     });
   }
-  
+
   // Returns all the users, given the correct QueryInput
   async findUsersPagination(query: PaginationQueryInput) {
     try {
