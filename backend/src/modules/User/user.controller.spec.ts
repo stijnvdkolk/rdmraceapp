@@ -5,6 +5,8 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { v4 as uuidv4 } from 'uuid';
 import type { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
+import { CreatePrivateChannelDto } from './dto/create-private-channel.dto';
+import { EditUserDto } from './dto/edit-user.dto';
 
 // Date
 const date = new Date('2022-01-07T12:27:08.486Z');
@@ -108,7 +110,7 @@ describe('UserController', () => {
                 type: channelType,
                 users: [
                   {
-                    id: currentUser.id,
+                    id: _userId,
                     aboutMe,
                     profilePicture,
                     username,
@@ -120,6 +122,57 @@ describe('UserController', () => {
                 ],
               };
             }),
+            // TODO: implement channelData in the function below
+            createUserChannel: jest
+              .fn()
+              .mockImplementation(
+                (_currentUser: User, _channelData: CreatePrivateChannelDto) => {
+                  return {
+                    id: channelId,
+                    name: channelName,
+                    type: channelType,
+                    users: [
+                      {
+                        id: _currentUser.id,
+                        aboutMe,
+                        profilePicture,
+                        username,
+                        role,
+                        status,
+                        createdAt: date,
+                        updatedAt: date,
+                      },
+                    ],
+                  };
+                },
+              ),
+            editUser: jest
+              .fn()
+              .mockImplementation(
+                (
+                  _currentUser: User,
+                  _userId: string,
+                  _userData: EditUserDto,
+                ) => {
+                  let localAboutMe = aboutMe,
+                    localEmail = email,
+                    localUsername = username;
+                  if (_userData.about) localAboutMe = _userData.about;
+                  if (_userData.email) localEmail = _userData.email;
+                  if (_userData.username) localUsername = _userData.username;
+                  return {
+                    id: _userId,
+                    aboutMe: localAboutMe,
+                    email: localEmail,
+                    username: localUsername,
+                    profilePicture,
+                    role,
+                    status,
+                    createdAt: date,
+                    updatedAt: date,
+                  };
+                },
+              ),
             findUsersPagination: jest
               .fn()
               .mockImplementation((query: PaginationQueryInput) => {
@@ -136,7 +189,6 @@ describe('UserController', () => {
                 });
               }),
             createUser: undefined,
-            editUser: undefined,
             uploadProfilePicture: undefined,
             deleteUser: undefined,
           },
@@ -179,4 +231,57 @@ describe('UserController', () => {
       expect(controller.getUserChannels(currentUser)).resolves.toEqual(channel);
     });
   });
+
+  // Testing the createUserChannel method
+  describe('createUserChannel', () => {
+    it('should return newly created DM channel', async () => {
+      const channelData = new CreatePrivateChannelDto();
+      channelData.userId = userId;
+      expect(
+        controller.createUserChannel(currentUser, channelData),
+      ).resolves.toEqual(channel);
+    });
+  });
+
+  // // Testing the updateUser method [aboutme]
+  // describe('updateUser', () => {
+  //   it('should return updated user from current user', async () => {
+  //     const userData = new EditUserDto();
+  //     userData.about = 'New about me';
+  //     expect(
+  //       controller.updateUser(currentUser, '@me', userData, null),
+  //     ).resolves.toEqual({
+  //       ...currentUser,
+  //       aboutMe: 'New about me',
+  //     });
+  //   });
+  // });
+
+  // // Testing the updateUser method [email]
+  // describe('updateUser', () => {
+  //   it('should return updated user from current user', async () => {
+  //     const userData = new EditUserDto();
+  //     userData.email = 'newtest@test.com';
+  //     expect(
+  //       controller.updateUser(currentUser, '@me', userData, null),
+  //     ).resolves.toEqual({
+  //       ...currentUser,
+  //       email: 'newtest@test.com',
+  //     });
+  //   });
+  // });
+
+  // // Testing the updateUser method [username]
+  // describe('updateUser', () => {
+  //   it('should return updated user from current user', async () => {
+  //     const userData = new EditUserDto();
+  //     userData.username = 'Newme!';
+  //     expect(
+  //       controller.updateUser(currentUser, '@me', userData, null),
+  //     ).resolves.toEqual({
+  //       ...currentUser,
+  //       aboutMe: 'Newme!',
+  //     });
+  //   });
+  // });
 });

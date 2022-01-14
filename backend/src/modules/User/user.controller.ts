@@ -78,7 +78,7 @@ export class UserController {
     @UploadedFile() profilepicture: Express.Multer.File,
   ) {
     const user: Partial<User> = userData;
-    if (id === '@me') {
+    if (id === '@me' || currentUser.id === id) {
       if (profilepicture) {
         user.profilePicture = await this.userService.uploadProfilePicture(
           currentUser.id,
