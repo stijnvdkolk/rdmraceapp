@@ -595,7 +595,7 @@ export default function ChatWindow(props: IProps){
                              InputProps={{
                                 startAdornment: (
                                   <InputAdornment position="start">
-                                      <div style={{ cursor: "pointer",}} >
+                                      <div style={{ cursor: "pointer",}} onClick={Getemoji}>
                                         <EmojiEmotionsOutlinedIcon className="animatedAttachment" onClick={Getemoji}/>   
                                       </div>                                 
                                   </InputAdornment>

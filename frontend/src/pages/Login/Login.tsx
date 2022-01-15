@@ -76,7 +76,7 @@ export default function Login() {
             <TextField
               id="emailInput"
               value={email}
-              type={email}
+              type="email"
               onChange={(e) => setEmail(e.target.value)}
               label="Email Address"
               variant="outlined"
