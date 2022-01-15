@@ -74,3 +74,11 @@
   border-radius: 5px;
   margin-right: 5px;
 }
+.LogoutEdit{
+  justify-items: right;
+  text-align: right;
+  right: 50px;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+}
