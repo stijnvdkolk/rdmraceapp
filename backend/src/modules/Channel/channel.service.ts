@@ -11,6 +11,7 @@ import {
   Message,
   Prisma,
   User,
+  UserRole,
 } from '@prisma/client';
 
 @Injectable()
@@ -25,11 +26,11 @@ export class ChannelService {
   ) {}
 
   async getChannelById(channelId: Channel['id']): Promise<Channel> {
-    try {
-      return this.prisma.channel.findUnique({ where: { id: channelId } });
-    } catch (error) {
-      throw new NotFoundError('channel_not_found');
-    }
+    const channel = this.prisma.channel.findUnique({
+      where: { id: channelId },
+    });
+    if (!channel) throw new NotFoundError('channel_not_found');
+    return channel;
   }
 
   // Returns all the channels, given the correct QueryInput
@@ -143,8 +144,8 @@ export class ChannelService {
     channelId: Channel['id'],
     messageId: Message['id'],
   ) {
-    try {
-      return this.prisma.message.findFirst({
+    const message = await this.prisma.message
+      .findFirst({
         where: {
           channel: {
             id: channelId,
@@ -191,10 +192,12 @@ export class ChannelService {
             },
           },
         },
+      })
+      .catch(() => {
+        throw new NotFoundError('channel_or_message_not_found');
       });
-    } catch (error) {
-      throw new NotFoundError('channel_or_message_not_found');
-    }
+    if (!message) throw new NotFoundError('channel_or_message_not_found');
+    return message;
   }
 
   async createMessage(
