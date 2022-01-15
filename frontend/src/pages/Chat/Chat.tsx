@@ -65,7 +65,8 @@ export default function Chat() {
   useEffect(() => {
       ConsumeEffect(setIsCLoaded, setchannels, () => {return getChannels();} );
   }, []);
-
+  console.log(channels);
+  console.log(selfProfile?.role);
   const [isLoadedConversation, setIsLoadedConversation] = useState<boolean>(false);
   const [Conversation, setConversation] = useState<Channel | undefined>(undefined); //Person[]
 
@@ -80,6 +81,12 @@ export default function Chat() {
   useEffect(() => {
     ConsumeEffect(setIsLoadedDm, setDmChannel, () => {return GetDMs();} );
   }, [reload]);
+  const [roleAcces, setRoleAcces] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    if (channels){
+      // setRoleAcces(channels[0].rolesAccess);
+    }
+  }, [channels]);
   useEffect(() => {
     setTimeout(() => {
         setReload(!reload); 
@@ -136,7 +143,8 @@ export default function Chat() {
                   ))}
             </>
             ) : ( <div></div>)}
-            {isCLoaded && channels != null && channels !== undefined ? (
+            {isCLoaded && channels != null && channels !== undefined && selfProfile ? (
+              
             <div>
               {channels.find((channel) => channel.type === "NEWS_CHANNEL") != null ? (
               <>
@@ -151,34 +159,41 @@ export default function Chat() {
               onClickCommand={() => {
               redirectTo(channel.id!);
               }}
-              >
-              </NavListItem>
-              ):(<></>)
-              ))}
+              ></NavListItem>):(<></>)))}
+
               {channels.find((channel) =>
-              channel.type === "PUBLIC_CHANNEL" || channel.type === "PRIVATE_CHANNEL" )
-              != null ? (
+              channel.type === "PUBLIC_CHANNEL") != null ? (
               <>
                 <Divider />
                 <label className="label leftside navbar">Chat Channels</label>
               </>
               ):(
-              <></>
-              )
-              }
+                <></>
+              )}
               {channels.map((channel) => (
-              channel.type === "PUBLIC_CHANNEL" || channel.type === "PRIVATE_CHANNEL" ? (
-              <NavListItem key={channel.id} text={channel.name} icon={channel.type==="PRIVATE_CHANNEL" ?
-                <LockRoundedIcon /> :
-              <ChatRoundedIcon />}
-              onClickCommand={() => {
-              redirectTo(channel.id!);
-              }}
-              >
-              </NavListItem>
-              ):(<></>)
-              ))
-              }
+                channel.type === "PUBLIC_CHANNEL" ? (
+                <NavListItem key={channel.id} text={channel.name} 
+                  icon={<ChatRoundedIcon />}
+                  onClickCommand={() => {
+                  redirectTo(channel.id!);
+                }}
+                >
+                </NavListItem>
+                ):( <></>)))}
+              {channels.map((channel ) => ( channel.type === "PRIVATE_CHANNEL" && channel!.rolesAccess!.includes(selfProfile?.role) 
+                ? ( 
+                <NavListItem key={channel.id} text={channel.name} icon={<LockRoundedIcon />}
+                onClickCommand={() => {
+                redirectTo(channel.id!);
+                }}
+                >
+
+                </NavListItem>)
+              : ( <></>)))}
+
+
+
+
             </div>
             ):(
             <div />
