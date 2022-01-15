@@ -75,18 +75,23 @@ export default function Chat() {
       ConsumeEffect(setIsLoadedConversation, setConversation, () => {return getChannel(channelID);} );
     }
   }, [channelID]);
-
+  const [reload, setReload] = useState(false);
   const [DmChannel, setDmChannel] = useState<DmChannel | undefined>(undefined);
   const [isLoadedDm, setIsLoadedDm] = useState<boolean>(false);
   useEffect(() => {
     ConsumeEffect(setIsLoadedDm, setDmChannel, () => {return GetDMs();} );
-  }, []);
+  }, [reload]);
   const [roleAcces, setRoleAcces] = useState<string | undefined>(undefined);
   useEffect(() => {
     if (channels){
       // setRoleAcces(channels[0].rolesAccess);
     }
   }, [channels]);
+  useEffect(() => {
+    setTimeout(() => {
+        setReload(!reload); 
+    }, 5000);
+  }, [reload]);
   //#endregion
   return (
     <>

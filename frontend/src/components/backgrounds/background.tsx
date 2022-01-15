@@ -16,17 +16,21 @@ export default function Background(props: BackgroundProps) {
   function backgroundChange() {
     let bg = document.getElementById("out");
     if (bg?.classList?.contains("red")) {
+      console.log("red");
       bg?.classList?.add("dark");
       bg?.classList?.remove("red");
-      if (changeColorTheme != null) {
+      if (changeColorTheme != null) {        
         changeColorTheme();
       }
+      localStorage.setItem("theme", "dark");
     } else {
+      console.log("dark");
       bg?.classList?.add("red");
       bg?.classList?.remove("dark");
-      if (changeColorTheme != null) {
+      if (changeColorTheme != null) {        
         changeColorTheme();
       }
+      localStorage.setItem("theme", "light");
     }
   }
 
