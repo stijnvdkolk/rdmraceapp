@@ -34,6 +34,18 @@ export class UserController {
         .map((channel) => ({
           ...channel,
           _count: undefined,
+        }))
+        .sort((a, b) => {
+          const lastMessageA = a.messages[a.messages.length - 1];
+          const lastMessageB = b.messages[b.messages.length - 1];
+          // sort by last message createdAt
+          if (lastMessageA.createdAt === lastMessageB.createdAt) return 0;
+          if (lastMessageA.createdAt > lastMessageB.createdAt) return -1;
+          return 1;
+        })
+        .map((channel) => ({
+          ...channel,
+          messages: undefined,
         })),
     };
   }

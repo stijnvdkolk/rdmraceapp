@@ -75,6 +75,15 @@ export class UserService {
                 messages: true,
               },
             },
+            messages: {
+              select: {
+                createdAt: true,
+              },
+              take: 1,
+              orderBy: {
+                createdAt: 'asc',
+              },
+            },
             users: {
               select: {
                 id: true,
