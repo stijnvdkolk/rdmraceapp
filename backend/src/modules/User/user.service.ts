@@ -81,7 +81,7 @@ export class UserService {
               },
               take: 1,
               orderBy: {
-                createdAt: 'asc',
+                createdAt: 'desc',
               },
             },
             users: {
