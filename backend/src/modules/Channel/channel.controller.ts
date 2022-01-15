@@ -29,8 +29,22 @@ export class ChannelController {
   ) {}
 
   @Get()
-  async getChannels(@Query() query: PaginationQueryInput) {
-    return this.channelService.getChannels(query);
+  async getChannels(
+    @CurrentUser() user: User,
+    @Query() query: PaginationQueryInput,
+  ) {
+    const channels = await this.channelService.getChannels(query);
+    return channels
+      .filter((channel) => {
+        if (channel.rolesAccess.length === 0) return true;
+        return channel.rolesAccess.includes(user.role);
+      })
+      .sort((a, b) => {
+        if (a.type === b.type) return 0;
+        if (a.type === 'NEWS_CHANNEL') return -1;
+        if (b.type === 'PRIVATE_CHANNEL') return 1;
+        return 0;
+      });
   }
 
   @Get('/:id')
