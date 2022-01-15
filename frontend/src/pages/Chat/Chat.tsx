@@ -12,8 +12,9 @@ import EuroIcon from "@mui/icons-material/Euro";
 import NavListItem from "../../components/navListItem/navListItem";
 import { useHistory, useParams } from "react-router-dom";
 import ChatWindow from "../../components/ChatWindow/ChatWindow";
-import { getChannel, getChannels, getMessage, getPeople, getPerson, getSelf } from "../../API/Chat";
+import { getChannel, getChannels, GetDMs, getMessage, getPeople, getPerson, getSelf } from "../../API/Chat";
 import Person from "../../classes/Person";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { green, grey, red, yellow } from "@mui/material/colors";
 import Message from "../../classes/Message";
@@ -23,6 +24,7 @@ import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import LockRoundedIcon from '@mui/icons-material/LockRounded';
 import Channel from "../../classes/Channel";
 import Pfp from "../../classes/profilePicture";
+import { DmChannel } from "../../classes/Dms";
 
 interface UParams {
   channelID: string | undefined;
@@ -32,6 +34,8 @@ export default function Chat() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [selfProfile, setselfProfile] = useState<Person | undefined>(undefined); //Person[]
   const { channelID } = useParams<UParams>();
+
+  const [showAllDms, setShowAllDms] = useState<boolean>(false);
 
   let history = useHistory();
   const redirect = () => {
@@ -61,7 +65,8 @@ export default function Chat() {
   useEffect(() => {
       ConsumeEffect(setIsCLoaded, setchannels, () => {return getChannels();} );
   }, []);
-
+  console.log(channels);
+  console.log(selfProfile?.role);
   const [isLoadedConversation, setIsLoadedConversation] = useState<boolean>(false);
   const [Conversation, setConversation] = useState<Channel | undefined>(undefined); //Person[]
 
@@ -70,138 +75,139 @@ export default function Chat() {
       ConsumeEffect(setIsLoadedConversation, setConversation, () => {return getChannel(channelID);} );
     }
   }, [channelID]);
-
-  // const [test, setTest] = useState<boolean>(false);
-  // const [testPeople, settestPeople] = useState<Person[] | undefined>(undefined); //Person[]
-
-  // useEffect(() => {   
-  //     ConsumeEffect(setTest, settestPeople, () => {return getPeople(1);} );
-  // }, []);
-  // console.log(testPeople);
-  // console.log(test);
-
-
-
-
-
+  const [reload, setReload] = useState(false);
+  const [DmChannel, setDmChannel] = useState<DmChannel | undefined>(undefined);
+  const [isLoadedDm, setIsLoadedDm] = useState<boolean>(false);
+  useEffect(() => {
+    ConsumeEffect(setIsLoadedDm, setDmChannel, () => {return GetDMs();} );
+  }, [reload]);
+  const [roleAcces, setRoleAcces] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    if (channels){
+      // setRoleAcces(channels[0].rolesAccess);
+    }
+  }, [channels]);
+  useEffect(() => {
+    setTimeout(() => {
+        setReload(!reload); 
+    }, 5000);
+  }, [reload]);
   //#endregion
   return (
     <>
       {isLoaded ? (
-        <>
-          <Toolbar />
-          <div className="NavBar">
-            <Navdrawer
-              mischellaneous={true}
-              name={selfProfile != null ? selfProfile.username : ""}
-              imageLink={selfProfile != null ? Pfp(selfProfile!.id! ,selfProfile!.profilePicture!)  : ""}
-            >
-              {isCLoaded && channels != null && channels !== undefined ? (
+      <>
+        <Toolbar />
+        <div className="NavBar">
+          <Navdrawer mischellaneous={true} name={selfProfile !=null ? selfProfile.username : "" } imageLink={selfProfile
+            !=null ? Pfp(selfProfile!.id! ,selfProfile!.profilePicture!) : "" }>
+            {isLoadedDm && DmChannel != null && DmChannel && DmChannel.channels && DmChannel.channels.length > 0 ? (
+            <>
+              <Divider />
+              <div onClick={() => {setShowAllDms(!showAllDms);}}
+                style={{cursor: "pointer"}}
+              >
+                <label className="label leftside navbar pointer">Direct Messages</label>
                 <div>
-                  {channels.find((channel) => channel.type === "DIRECT_MESSAGES") != null ? (
-                      <>
-                        <Divider/>
-                        <label className="label leftside navbar">Direct Messages</label>
-                      </>
-                    ):( <></>)
-                    }
-                    {channels.map((channel) => (
-                    channel.type === "DIRECT_MESSAGES" ?  (
-                      <NavListItem
-                        key={channel.id}
-                        text={channel.name}
-                        onClickCommand={() => {
-                          redirectTo(channel.id!);
-                        }}
-                      >
-                        {/* <FiberManualRecordIcon
-                          sx={{
-                            color:
-                              contact.status === "Online"
-                                ? green[500]
-                                : contact.status === "Away"
-                                ? yellow[500]
-                                : contact.status === "Do not Disturb"
-                                ? red[500]
-                                : grey[500],
-                            order: 2,
-                            marginLeft: "-20px",
-                            marginTop: "25px",
-                            position: "relative",
-                          }}
-                        />
-                        <Avatar
-                          alt=""
-                          src={contact.profilePicture}
-                          sx={{
+                  <ArrowForwardIcon  className={showAllDms ? "arrowww arrow-forward-icon-active" : "arrowww arrow-forward-icon"}
+                    style={{
+                      cursor: "pointer",                    
+                    }}              
+                    
+                  />
+              </div>
+            </div>
+              {showAllDms ? DmChannel.channels.map((dm) => (
+              
+              <NavListItem key={dm.id} 
+                text={dm.users?.find((user)=> user.id !== selfProfile?.id)?.username}
+                icon={<Avatar src={ Pfp(dm.users?.find((user)=> user.id !== selfProfile?.id)?.id! ,dm.users?.find((user) => user.id !== selfProfile?.id)?.profilePicture!)}
+                  alt="" sx={{
+                        width: "50px",
+                        height: "50px",
+                        }} />
+                  }
+                  onClickCommand={() => {redirectTo(dm.id!)}}
+                  />
+                  )) : DmChannel.channels.slice(0,5).map((dm) => (
+                    <NavListItem key={dm.id} 
+                    text={dm.users?.find((user)=> user.id !== selfProfile?.id)?.username}
+                    icon={<Avatar src={ Pfp(dm.users?.find((user)=> user.id !== selfProfile?.id)?.id! ,dm.users?.find((user) => user.id !== selfProfile?.id)?.profilePicture!)}
+                      alt="" sx={{
                             width: "50px",
                             height: "50px",
-                          }}
-                        /> */}                     
-                      </NavListItem>
-                      ):(<></>)
-                    ))}
-                {channels.find((channel) => channel.type === "NEWS_CHANNEL") != null ? (
-                    <>
-                      <Divider/>
-                      <label className="label leftside navbar">News Channels</label>                      
-                    </>
-                    ):( <></>)
-                    }
-                    {channels.map((channel) => (
-                    channel.type === "NEWS_CHANNEL" ?  (
-                      <NavListItem
-                        key={channel.id}
-                        text={channel.name}
-                        icon={<ArticleRoundedIcon />}
-                        onClickCommand={() => {
-                          redirectTo(channel.id!);
-                        }}
-                      >                   
-                      </NavListItem>
-                      ):(<></>)
-                ))}
-                {channels.find((channel) => 
-                  channel.type === "PUBLIC_CHANNEL" || channel.type === "PRIVATE_CHANNEL" ) 
-                  != null ? (
-                    <>
-                      <Divider/>
-                      <label className="label leftside navbar">Chat Channels</label>                      
-                    </>
-                  ):(
-                    <></>
-                  )
-                }
-                {channels.map((channel) => (
-                  channel.type === "PUBLIC_CHANNEL" || channel.type === "PRIVATE_CHANNEL" ?  (
-                    <NavListItem
-                      key={channel.id}
-                      text={channel.name}
-                      icon={channel.type === "PRIVATE_CHANNEL" ? <LockRoundedIcon /> : <ChatRoundedIcon />}
-                      onClickCommand={() => {
-                        redirectTo(channel.id!);
-                      }}
-                    >                   
-                    </NavListItem>
-                  ):(<></>)
-                  ))
-                }
-                </div>
+                            }} />
+                      }
+                      onClickCommand={() => {redirectTo(dm.id!)}}
+                      />
+                  ))}
+            </>
+            ) : ( <div></div>)}
+            {isCLoaded && channels != null && channels !== undefined && selfProfile ? (
+              
+            <div>
+              {channels.find((channel) => channel.type === "NEWS_CHANNEL") != null ? (
+              <>
+                <Divider />
+                <label className="label leftside navbar">News Channels</label>
+              </>
+              ):( <></>)
+              }
+              {channels.map((channel) => (
+              channel.type === "NEWS_CHANNEL" ? (
+              <NavListItem key={channel.id} text={channel.name} icon={<ArticleRoundedIcon />}
+              onClickCommand={() => {
+              redirectTo(channel.id!);
+              }}
+              ></NavListItem>):(<></>)))}
+
+              {channels.find((channel) =>
+              channel.type === "PUBLIC_CHANNEL") != null ? (
+              <>
+                <Divider />
+                <label className="label leftside navbar">Chat Channels</label>
+              </>
               ):(
-                <div />
+                <></>
               )}
-            </Navdrawer>
-          </div>
-          {isLoadedConversation && Conversation != null ? (
-            <ChatWindow
-              imageLink="https://cdn.rdmraceapp.nl/embed/avatars/default.png"
-            ></ChatWindow>
-          ) : (
+              {channels.map((channel) => (
+                channel.type === "PUBLIC_CHANNEL" ? (
+                <NavListItem key={channel.id} text={channel.name} 
+                  icon={<ChatRoundedIcon />}
+                  onClickCommand={() => {
+                  redirectTo(channel.id!);
+                }}
+                >
+                </NavListItem>
+                ):( <></>)))}
+              {channels.map((channel ) => ( channel.type === "PRIVATE_CHANNEL" && channel!.rolesAccess!.includes(selfProfile?.role) 
+                ? ( 
+                <NavListItem key={channel.id} text={channel.name} icon={<LockRoundedIcon />}
+                onClickCommand={() => {
+                redirectTo(channel.id!);
+                }}
+                >
+
+                </NavListItem>)
+              : ( <></>)))}
+
+
+
+
+            </div>
+            ):(
             <div />
-          )}
-        </>
+            )}
+          </Navdrawer>
+        </div>
+        {isLoadedConversation && Conversation != null ? (
+        <ChatWindow imageLink="https://cdn.rdmraceapp.nl/embed/avatars/default.png" name={Conversation.name === "" ? "Direct Message" : Conversation.name} ></ChatWindow>
+        ) : (
+        <div />
+        )}
+      </>
       ) : (
-        <CircularProgress />
+      <CircularProgress />
       )}
     </>
   );

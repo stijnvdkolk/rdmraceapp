@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: rdmchat_frontend
+    env_file: ../../.env
+    build:
+      context: ${FRONTEND_ROOT}
+      dockerfile: ./Dockerfile
+    command: yarn start
+    tty: true
+    volumes:
+      - ${FRONTEND_ROOT}/src:/usr/local/app-frontend/src
+      - ${FRONTEND_ROOT}/package.json:/usr/local/app-frontend/package.json
+      - ${FRONTEND_ROOT}/tsconfig.json:/usr/local/app-frontend/tsconfig.json
+    ports:
+      - '3001:3000'

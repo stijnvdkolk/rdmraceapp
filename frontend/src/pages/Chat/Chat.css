@@ -28,3 +28,61 @@
   margin-top: 30px;
   height: 85vh;
 }
+
+.pointer{
+  cursor: pointer;
+}
+@keyframes rotate1 {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(180deg);
+  }    
+}
+@keyframes unrotate1 {
+  from {
+      transform: rotate(180deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }    
+}
+
+.arrow-forward-icon-active:hover{
+  fill: red;
+  animation: rotate1 1s forwards;
+}
+.arrow-forward-icon-active{
+  transform: rotate(-90deg);
+  animation: unrotate1 0.5s forwards;
+}
+
+@keyframes rotate2 {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(180deg);
+  }    
+}
+@keyframes unrotate2 {
+  from {
+      transform: rotate(180deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }    
+}
+
+.arrow-forward-icon:hover{
+  fill: red;
+  animation: rotate1 1s forwards;
+}
+.arrow-forward-icon{
+  rotate: 90deg;
+  animation: unrotate1 0.5s forwards;
+}
+.arrowww{
+  float: left;
+}

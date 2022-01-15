@@ -1,4 +1,4 @@
-.PrivacyPolicyContainer {
+.TermsOfServiceContainer {
   text-align: center;
   min-height: 100vh;
   display: flex;
@@ -71,7 +71,7 @@
   justify-content: space-evenly;
 }
 
-.privacyTos {
+.TermsOfServiceTos {
   color: #d9d9d9;
   position: absolute;
   bottom: 0;

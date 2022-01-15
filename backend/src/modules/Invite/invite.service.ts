@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Prisma, Invite, UserRole, User } from '@prisma/client';
+import { Prisma, Invite, UserRole } from '@prisma/client';
 import { PrismaService } from '../Prisma/prisma.service';
 import { codeGenerator } from '@lib/codegenerator';
 import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';
 import { UseInviteDto } from './dto/use-invite.dto';
 import { Argon2CryptoProvider } from '@modules/providers/argon2.provider';
+import { NotFoundError } from '@lib/errors';
 
 @Injectable()
 export class InviteService {
@@ -33,11 +34,13 @@ export class InviteService {
   }
 
   async getInviteById(id: string): Promise<Invite> {
-    return await this.prisma.invite.findUnique({
+    const invite = await this.prisma.invite.findUnique({
       where: {
         id: id,
       },
     });
+    if (!invite) throw new NotFoundError('invite_not_found');
+    return invite;
   }
 
   async createInvite(

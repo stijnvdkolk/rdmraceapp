@@ -27,7 +27,27 @@ export class UserController {
 
   @Get('/@me/channels')
   async getUserChannels(@CurrentUser() user: User) {
-    return this.userService.getUserChannels(user);
+    const { channels } = await this.userService.getUserChannels(user);
+    return {
+      channels: channels
+        .filter((channel) => channel._count.messages > 0)
+        .map((channel) => ({
+          ...channel,
+          _count: undefined,
+        }))
+        .sort((a, b) => {
+          const lastMessageA = a.messages[a.messages.length - 1];
+          const lastMessageB = b.messages[b.messages.length - 1];
+          // sort by last message createdAt
+          if (lastMessageA.createdAt === lastMessageB.createdAt) return 0;
+          if (lastMessageA.createdAt > lastMessageB.createdAt) return -1;
+          return 1;
+        })
+        .map((channel) => ({
+          ...channel,
+          messages: undefined,
+        })),
+    };
   }
 
   @Post('/@me/channels')
@@ -39,8 +59,8 @@ export class UserController {
   }
 
   @Get('/:id')
-  async getUserById(@CurrentUser() user: User, @Param('id') id: string) {
-    if (id === '@me') return user;
+  async getUserById(@CurrentUser() _user: User, @Param('id') id: string) {
+    if (id === '@me') return _user;
     return this.userService.findUserById(id, false);
   }
 

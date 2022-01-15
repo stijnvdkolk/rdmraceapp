@@ -21,39 +21,35 @@ export class UserService {
   ) {}
 
   async findUserById(userId: User['id'], includeSensitiveInformation = false) {
-    try {
-      return this.prisma.user.findUnique({
-        where: { id: userId },
-        select: {
-          id: true,
-          aboutMe: true,
-          email: includeSensitiveInformation,
-          profilePicture: true,
-          password: false,
-          username: true,
-          role: true,
-          status: true,
-          createdAt: true,
-          updatedAt: true,
-          channels: false,
-          messages: false,
-        },
-      });
-    } catch (error) {
-      throw new NotFoundError('user_not_found');
-    }
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        aboutMe: true,
+        email: includeSensitiveInformation,
+        profilePicture: true,
+        password: false,
+        username: true,
+        role: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        channels: false,
+        messages: false,
+      },
+    });
+    if (!user) throw new NotFoundError('user_not_found');
+    return user;
   }
 
   async findUserByEmail(userEmail: User['email']): Promise<User> {
-    try {
-      return this.prisma.user.findUnique({ where: { email: userEmail } });
-    } catch (error) {
-      throw new NotFoundError('user_not_found');
-    }
+    const user = this.prisma.user.findUnique({ where: { email: userEmail } });
+    if (!user) throw new NotFoundError('user_not_found');
+    return user;
   }
 
   async getUserChannels(user: User) {
-    return this.prisma.user.findUnique({
+    return this.prisma.user.findFirst({
       where: { id: user.id },
       select: {
         channels: {
@@ -64,6 +60,20 @@ export class UserService {
             id: true,
             name: true,
             type: true,
+            _count: {
+              select: {
+                messages: true,
+              },
+            },
+            messages: {
+              select: {
+                createdAt: true,
+              },
+              take: 1,
+              orderBy: {
+                createdAt: 'desc',
+              },
+            },
             users: {
               select: {
                 id: true,
@@ -90,6 +100,16 @@ export class UserService {
     currentUser: User,
     channelData: CreatePrivateChannelDto,
   ) {
+    if (currentUser.id === channelData.userId)
+      throw new BadRequestException('cannot_create_dm_with_self');
+    const allDMsOfUser = await this.getUserChannels(currentUser);
+    const alreadyChannel = allDMsOfUser.channels.some((channel) =>
+      channel.users.map((user) => user.id).includes(channelData.userId),
+    );
+    if (alreadyChannel)
+      return allDMsOfUser.channels.find((channel) =>
+        channel.users.map((user) => user.id).includes(channelData.userId),
+      );
     return this.prisma.channel.create({
       data: {
         name: '',
