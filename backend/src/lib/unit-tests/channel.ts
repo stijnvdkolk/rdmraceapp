@@ -12,18 +12,6 @@ export const dmChannel: DMChannel = {
   createdAt,
   updatedAt,
 };
-// export const dmChannels: DMChannel[] = [
-//   {
-//     ...dmChannel,
-//     _count: {
-//       messages: Math.floor(Math.random() * 10) + 1,
-//     },
-//     messages: [
-//       {
-//         createdAt: Math.floor(Math.random() * 10) % i == 0 ? createdAt : createdAt2,
-//       }
-//   },
-// ];
 export const dmChannels = [dmChannel, dmChannel, dmChannel].map(
   (channel, i) => ({
     ...channel,
@@ -32,8 +20,7 @@ export const dmChannels = [dmChannel, dmChannel, dmChannel].map(
     },
     messages: [
       {
-        createdAt:
-          Math.floor(Math.random() * 10) % i == 0 ? createdAt : createdAt2,
+        createdAt: i == 1 ? createdAt : createdAt2,
       },
     ],
   }),

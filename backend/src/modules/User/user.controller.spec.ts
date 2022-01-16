@@ -1,20 +1,24 @@
 import { Test } from '@nestjs/testing';
-import { UserRole, UserStatus } from '@prisma/client';
+import { User, UserRole, UserStatus } from '@prisma/client';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import type { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 import { CreatePrivateChannelDto } from './dto/create-private-channel.dto';
-import { EditUserDto } from './dto/edit-user.dto';
 import {
+  adminUser,
   createdAt,
   currentUser,
   dmChannel,
   dmChannels,
+  emptyFile,
   testUser,
   updatedAt,
   users,
+  validUUIDRegex,
 } from '@lib/unit-tests';
 import { PublicUser } from '@lib/unit-tests/types';
+import { v4 as uuidv4 } from 'uuid';
+import { ForbiddenException } from '@nestjs/common';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -89,33 +93,35 @@ describe('UserController', () => {
               ),
             editUser: jest
               .fn()
-              .mockImplementation(
-                (
-                  _currentUser: PublicUser,
-                  userId: string,
-                  userData: EditUserDto,
-                ) => {
-                  let localAboutMe = _currentUser.aboutMe,
-                    localEmail = _currentUser.email,
-                    localUsername = _currentUser.username;
-                  if (userData.about) localAboutMe = userData.about;
-                  if (userData.email) localEmail = userData.email;
-                  if (userData.username) localUsername = userData.username;
-                  return {
-                    id: userId,
-                    aboutMe: localAboutMe,
-                    email: localEmail,
-                    username: localUsername,
-                    profilePicture: _currentUser.profilePicture,
-                    role: _currentUser.role,
-                    status: _currentUser.status,
-                    createdAt: _currentUser.createdAt,
-                    updatedAt: _currentUser.updatedAt,
-                  };
-                },
-              ),
-            uploadProfilePicture: undefined,
-            deleteUser: undefined,
+              .mockImplementation((userId: string, userData: Partial<User>) => {
+                const _currentUser = currentUser;
+                let localAboutMe = _currentUser.aboutMe,
+                  localEmail = _currentUser.email,
+                  localUsername = _currentUser.username,
+                  localProfilePicture = _currentUser.profilePicture;
+                if (userData.aboutMe) localAboutMe = userData.aboutMe;
+                if (userData.email) localEmail = userData.email;
+                if (userData.username) localUsername = userData.username;
+                if (userData.profilePicture)
+                  localProfilePicture = userData.profilePicture;
+                return {
+                  id: userId,
+                  aboutMe: localAboutMe,
+                  email: localEmail,
+                  username: localUsername,
+                  profilePicture: localProfilePicture,
+                  role: _currentUser.role,
+                  status: _currentUser.status,
+                  createdAt: _currentUser.createdAt,
+                  updatedAt: _currentUser.updatedAt,
+                };
+              }),
+            uploadProfilePicture: jest.fn().mockImplementation(() => {
+              return uuidv4();
+            }),
+            deleteUser: jest.fn().mockImplementation(() => {
+              return currentUser;
+            }),
           },
         },
       ],
@@ -202,45 +208,148 @@ describe('UserController', () => {
     });
   });
 
-  // // Testing the updateUser method [aboutme]
-  // describe('updateUser', () => {
-  //   it('should return updated user from current user', async () => {
-  //     const userData = new EditUserDto();
-  //     userData.about = 'New about me';
-  //     expect(
-  //       controller.updateUser(currentUser, '@me', userData, null),
-  //     ).resolves.toEqual({
-  //       ...currentUser,
-  //       aboutMe: 'New about me',
-  //     });
-  //   });
-  // });
+  describe('updateUser', () => {
+    it('should return an updated user with updated aboutMe with input user @me', async () => {
+      const user = await controller.updateUser(
+        currentUser,
+        '@me',
+        {
+          aboutMe: 'I am a test user',
+          email: undefined,
+          username: undefined,
+          password: undefined,
+        },
+        null,
+      );
+      expect(user).toEqual({
+        id: currentUser.id,
+        email: currentUser.email,
+        username: currentUser.username,
+        role: currentUser.role,
+        aboutMe: 'I am a test user',
+        profilePicture: currentUser.profilePicture,
+        status: currentUser.status,
+        createdAt,
+        updatedAt,
+      });
+    });
 
-  // // Testing the updateUser method [email]
-  // describe('updateUser', () => {
-  //   it('should return updated user from current user', async () => {
-  //     const userData = new EditUserDto();
-  //     userData.email = 'newtest@test.com';
-  //     expect(
-  //       controller.updateUser(currentUser, '@me', userData, null),
-  //     ).resolves.toEqual({
-  //       ...currentUser,
-  //       email: 'newtest@test.com',
-  //     });
-  //   });
-  // });
+    it('should return an updated user with updated profilePictureId with input user @me', async () => {
+      const user = await controller.updateUser(
+        currentUser,
+        '@me',
+        {
+          aboutMe: undefined,
+          email: undefined,
+          username: undefined,
+          password: undefined,
+        },
+        emptyFile,
+      );
+      expect(currentUser.profilePicture).not.toEqual(user.profilePicture);
+    });
 
-  // // Testing the updateUser method [username]
-  // describe('updateUser', () => {
-  //   it('should return updated user from current user', async () => {
-  //     const userData = new EditUserDto();
-  //     userData.username = 'Newme!';
-  //     expect(
-  //       controller.updateUser(currentUser, '@me', userData, null),
-  //     ).resolves.toEqual({
-  //       ...currentUser,
-  //       aboutMe: 'Newme!',
-  //     });
-  //   });
-  // });
+    it('should return an updated user with updated aboutMe with input user id', async () => {
+      const user = await controller.updateUser(
+        currentUser,
+        currentUser.id,
+        {
+          aboutMe: 'I am a test user',
+          email: undefined,
+          username: undefined,
+          password: undefined,
+        },
+        null,
+      );
+      expect(user).toEqual({
+        id: currentUser.id,
+        email: currentUser.email,
+        username: currentUser.username,
+        role: currentUser.role,
+        aboutMe: 'I am a test user',
+        profilePicture: currentUser.profilePicture,
+        status: currentUser.status,
+        createdAt,
+        updatedAt,
+      });
+    });
+
+    it('should return an updated user with updated profilePictureId with input user id', async () => {
+      const user = await controller.updateUser(
+        currentUser,
+        currentUser.id,
+        {
+          aboutMe: undefined,
+          email: undefined,
+          username: undefined,
+          password: undefined,
+        },
+        emptyFile,
+      );
+      expect(currentUser.profilePicture).not.toEqual(user.profilePicture);
+    });
+
+    it('should return an updated user with updated aboutMe with input user id as admin', async () => {
+      const user = await controller.updateUser(
+        adminUser,
+        currentUser.id,
+        {
+          aboutMe: 'I am a test user',
+          email: undefined,
+          username: undefined,
+          password: undefined,
+        },
+        null,
+      );
+      expect(user).toEqual({
+        id: currentUser.id,
+        email: currentUser.email,
+        username: currentUser.username,
+        role: currentUser.role,
+        aboutMe: 'I am a test user',
+        profilePicture: currentUser.profilePicture,
+        status: currentUser.status,
+        createdAt,
+        updatedAt,
+      });
+    });
+
+    it('should return an updated user with updated profilePictureId with input user id as admin', async () => {
+      const user = await controller.updateUser(
+        adminUser,
+        currentUser.id,
+        {
+          aboutMe: undefined,
+          email: undefined,
+          username: undefined,
+          password: undefined,
+        },
+        emptyFile,
+      );
+      expect(currentUser.profilePicture).not.toEqual(user.profilePicture);
+    });
+
+    it('should return an error when trying to update another user without being admin', async () => {
+      expect(
+        controller.updateUser(
+          currentUser,
+          uuidv4(),
+          {
+            aboutMe: undefined,
+            email: undefined,
+            username: undefined,
+            password: undefined,
+          },
+          emptyFile,
+        ),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
+  });
+
+  describe('deleteUser', () => {
+    it('should return an deleted user', async () => {
+      const user = await controller.deleteUser(currentUser.id);
+      expect(user).toEqual(currentUser);
+    });
+  });
 });
