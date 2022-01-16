@@ -170,3 +170,32 @@ export async function sendData(url : string, data : FormData) {
         }
     });
 }
+export async function patchData(url : string, data : FormData) {
+  // const formData  = new FormData();
+
+  // for(const name in data) {
+  //   formData.append(name, data[name]);
+  // }
+  return fetch(baseUrl + url, {
+      method: 'PATCH',
+      headers: {
+          "Authorization": `${localStorage.getItem("DogeToken")}`,
+      },
+      body: data
+  }).then(parseJson).then(data => {
+      if (data.ok) {
+          return data.json;
+      }
+      else if (data.status === 401) {
+          localStorage.removeItem("DogeToken");
+          window.location.href = "/Login";
+          return;
+      }
+      else if(data.status === 500) {
+      }
+      else{
+          return "Bad Request";
+      }
+  });
+}
+
