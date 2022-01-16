@@ -60,8 +60,8 @@
 .ICursor{
     cursor: pointer;
     width: 0px;
-    height: 16px;
-    top: calc(50% - 16px/2);
+    height: 32px;
+    top: calc(50% - 32px/2);
     
     border: 1px solid #1F1F1F;
     /* Inside Auto Layout */
@@ -86,7 +86,6 @@
     person, outline, human, people, face, profile, user, account
     */
     cursor: pointer;
-    top: 5px;
     /* Inside Auto Layout */
     flex: none;    
     flex-grow: 0;
@@ -188,7 +187,8 @@
     /* Auto Layout */
     float: right;
     left: auto;
-    right: 16px;
+    right: 32px;
+    margin-right: 12px;
     display: flex;
     flex-direction: row;
     align-items: center;
