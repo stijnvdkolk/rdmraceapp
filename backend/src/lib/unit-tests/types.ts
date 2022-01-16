@@ -11,6 +11,16 @@ export type PublicChannel = {
   users?: PublicUser[];
 };
 
+export interface DMChannel extends PublicChannel {
+  _count?: {
+    messages: number;
+  };
+  messages?: {
+    createdAt: Date;
+  }[];
+  users: PublicUser[];
+}
+
 export type PublicUser = {
   id: string;
   aboutMe: string;

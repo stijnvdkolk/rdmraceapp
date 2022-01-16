@@ -1,10 +1,10 @@
 import { ChannelType, UserRole } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
-import { createdAt, updatedAt } from '.';
-import { PublicChannel, Message } from './types';
+import { createdAt, createdAt2, updatedAt } from '.';
+import { PublicChannel, Message, DMChannel } from './types';
 import { users } from './user';
 
-export const dmChannel: PublicChannel = {
+export const dmChannel: DMChannel = {
   id: uuidv4(),
   name: '',
   type: ChannelType.DM,
@@ -12,6 +12,32 @@ export const dmChannel: PublicChannel = {
   createdAt,
   updatedAt,
 };
+// export const dmChannels: DMChannel[] = [
+//   {
+//     ...dmChannel,
+//     _count: {
+//       messages: Math.floor(Math.random() * 10) + 1,
+//     },
+//     messages: [
+//       {
+//         createdAt: Math.floor(Math.random() * 10) % i == 0 ? createdAt : createdAt2,
+//       }
+//   },
+// ];
+export const dmChannels = [dmChannel, dmChannel, dmChannel].map(
+  (channel, i) => ({
+    ...channel,
+    _count: {
+      messages: Math.floor(Math.random() * 10) + 1,
+    },
+    messages: [
+      {
+        createdAt:
+          Math.floor(Math.random() * 10) % i == 0 ? createdAt : createdAt2,
+      },
+    ],
+  }),
+);
 
 export const publicChannel: PublicChannel = {
   id: uuidv4(),
@@ -43,7 +69,6 @@ export const privateChannel: PublicChannel = {
   updatedAt,
 };
 
-export const dmChannels = [dmChannel];
 export const channels = [publicChannel, newsChannel, privateChannel];
 
 export const message1: Message = {
