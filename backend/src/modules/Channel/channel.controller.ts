@@ -52,6 +52,7 @@ export class ChannelController {
     @Query() query: PaginationQueryInput,
   ) {
     const channel = await this.channelService.getChannelById(id);
+    if (!channel) throw new ForbiddenException('not_allowed');
     if (
       channel.rolesAccess.length > 0 &&
       !channel.rolesAccess.includes(user.role)
@@ -67,6 +68,7 @@ export class ChannelController {
     @Param('messageId') messageId: string,
   ) {
     const channel = await this.channelService.getChannelById(channelId);
+    if (!channel) throw new ForbiddenException('not_allowed');
     if (
       channel.rolesAccess.length > 0 &&
       !channel.rolesAccess.includes(user.role)

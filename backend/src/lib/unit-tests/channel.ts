@@ -50,13 +50,19 @@ export const privateChannel: PublicChannel = {
   id: uuidv4(),
   name: 'Private channel',
   type: ChannelType.PRIVATE_CHANNEL,
-  rolesAccess: [UserRole.TEAM_MEMBER, UserRole.MARKETING, UserRole.ADMIN],
+  rolesAccess: [UserRole.MARKETING, UserRole.ADMIN],
   description: 'This is a test channel',
   createdAt,
   updatedAt,
 };
 
-export const channels = [publicChannel, newsChannel, privateChannel];
+export const channels = [
+  publicChannel,
+  privateChannel,
+  newsChannel,
+  publicChannel,
+  privateChannel,
+];
 
 export const message1: Message = {
   id: uuidv4(),

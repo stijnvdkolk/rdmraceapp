@@ -1,7 +1,13 @@
 import { Test } from '@nestjs/testing';
 import { ChannelController } from './channel.controller';
 import { ChannelService } from './channel.service';
-import { channels, currentUser, messages } from '@lib/unit-tests';
+import {
+  channels,
+  currentUser,
+  messages,
+  privateChannel,
+} from '@lib/unit-tests';
+import { ForbiddenException } from '@nestjs/common';
 
 describe('ChannelController', () => {
   let controller: ChannelController;
@@ -13,9 +19,11 @@ describe('ChannelController', () => {
         {
           provide: ChannelService,
           useValue: {
-            getChannelById: jest.fn().mockImplementation(() => {
-              return channels[0];
-            }),
+            getChannelById: jest
+              .fn()
+              .mockImplementation((channelId: string) => {
+                return channels.find((channel) => channel.id === channelId);
+              }),
             getChannels: jest.fn().mockImplementation(() => {
               return channels;
             }),
@@ -44,7 +52,7 @@ describe('ChannelController', () => {
   });
 
   // Testing the findChannelById method
-  describe('getChannelById', () => {
+  describe('getChannel', () => {
     it('should return a channel with the current id', async () => {
       const channel = await controller.getChannel(channels[0].id);
       expect(channel).toEqual(channels[0]);
@@ -62,41 +70,101 @@ describe('ChannelController', () => {
       expect(Array.isArray(channels)).toBeTruthy();
     });
 
-    test.todo('should only channels the user has access to');
+    it('should only channels the user has access to', async () => {
+      const channels = await controller.getChannels(currentUser, {});
+      expect(
+        channels.filter((channel) => {
+          if (
+            channel.type === 'PUBLIC_CHANNEL' ||
+            channel.type === 'NEWS_CHANNEL'
+          )
+            return true;
+          if (channel.type === 'PRIVATE_CHANNEL')
+            return channel.rolesAccess.includes(currentUser.role);
+          return false;
+        }).length,
+      ).toEqual(channels.length);
+    });
 
-    test.todo('should return the channels correctly sorted');
+    it('should return the channels correctly sorted', async () => {
+      const channels = await controller.getChannels(currentUser, {});
+      expect(
+        channels.sort((a, b) => {
+          if (a.type === b.type) return 0;
+          if (a.type === 'NEWS_CHANNEL') return -1;
+          if (b.type === 'PRIVATE_CHANNEL') return 1;
+          return 0;
+        }),
+      ).toEqual(channels);
+    });
   });
 
   describe('getChannelMessages', () => {
-    test.todo('should be defined');
+    it('should be defined', async () => {
+      const messages = await controller.getChannelMessages(
+        currentUser,
+        channels[0].id,
+        {},
+      );
+      expect(messages).toBeDefined();
+    });
 
-    test.todo('should return an array of messages');
+    it('should return an array of messages', async () => {
+      const messages = await controller.getChannelMessages(
+        currentUser,
+        channels[0].id,
+        {},
+      );
+      expect(Array.isArray(messages)).toBeTruthy();
+    });
 
-    test.todo('should return the messages correctly sorted');
+    it('should only return the messages if the channel exists', async () => {
+      expect(
+        controller.getChannelMessages(currentUser, 'fake-channel-id', {}),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
 
-    test.todo('should only return the message if the channel exists');
-
-    test.todo(
-      'should only return the messages if the user has access to the channel',
-    );
+    it('should only return the messages if the user has access to the channel', async () => {
+      expect(
+        controller.getChannelMessages(currentUser, privateChannel.id, {}),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
   });
 
   describe('getChannelMessage', () => {
-    test.todo('should be defined');
+    it('should be defined', async () => {
+      const message = await controller.getChannelMessage(
+        currentUser,
+        channels[0].id,
+        messages[0].id,
+      );
+      expect(message).toBeDefined();
+    });
 
-    test.todo('should return a message');
+    it('should return a message', async () => {
+      const message = await controller.getChannelMessage(
+        currentUser,
+        channels[0].id,
+        messages[0].id,
+      );
+      expect(message).toEqual(messages[0]);
+    });
 
-    test.todo('should only return the message if the channel exists');
+    it('should only return the message if the channel exists', async () => {
+      expect(
+        controller.getChannelMessage(currentUser, 'fake-channel-id', 'fake-id'),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
 
-    test.todo(
-      'should only return the message if the user has access to the channel',
-    );
+    it('should only return the message if the user has access to the channel', async () => {
+      expect(
+        controller.getChannelMessage(currentUser, privateChannel.id, 'fake-id'),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
   });
 
   describe('createChannelMessage', () => {
     test.todo('should be defined');
-
-    test.todo('should throw if channel doesnt exists');
 
     test.todo(
       'should only create the message if the user has access to the channel',
