@@ -14,7 +14,6 @@ import {
   testUser,
   updatedAt,
   users,
-  validUUIDRegex,
 } from '@lib/unit-tests';
 import { PublicUser } from '@lib/unit-tests/types';
 import { v4 as uuidv4 } from 'uuid';
