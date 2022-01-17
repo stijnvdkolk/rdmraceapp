@@ -11,14 +11,15 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 15.x, 16.x, 17.x]
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - uses: actions/checkout@v2
       - name: Use NodeJS ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Move to the backend directory
-        run: cd backend
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
