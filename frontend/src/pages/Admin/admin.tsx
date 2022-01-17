@@ -1,5 +1,5 @@
 //import Background from "../../components/backgrounds/background";
-import { Avatar, Card } from "@mui/material";
+import { Avatar, Button, Card } from "@mui/material";
 import "../Admin/admin.css";
 import NavDrawer from "../../components/navdrawer/navdrawer";
 import { useState, useEffect } from "react";
@@ -13,6 +13,9 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import Person from "../../classes/Person";
 import { ConsumeEffect } from "../../API/ApiCalls";
 import { getPeople, getSelf } from "../../API/Chat";
+import Pfp from "../../classes/profilePicture";
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
+import InviteList from "../../components/inviteList/inviteList";
 
 export default function Admin() {
   let history = useHistory();
@@ -23,12 +26,14 @@ export default function Admin() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [items, setItems] = useState<Person[] | undefined>(undefined); //Person[]
+  const [self, setSelf] = useState<Person | undefined>(undefined); //Person[]
   useEffect(() => {
-    ConsumeEffect(setIsLoaded, setItems, () => {
+    ConsumeEffect(setIsLoaded, setSelf, () => {
       return getSelf();
     });
   }, []);
+
+  const [page, setPage] = useState<Number>(0);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<any>(null);
@@ -36,83 +41,55 @@ export default function Admin() {
   const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
   useEffect(() => {
     ConsumeEffect(setIsCLoaded, setcontacts, () => {
-      return getPeople(5);
+      return getPeople(1);
     });
   }, []);
 
+  const [displayUsers, setDisplayUsers] = useState<boolean>(true);
+
   return (
     <>
-      <div className="Admin">
-        <div className="Drawer">
-          <NavDrawer
-            mischellaneous={true}
-            name={"Admin"}
-            imageLink={
-              "https://raymanpc.com/wiki/script-en/images/1/15/Admin.png"
-            }>
-            {isCLoaded && contacts != null ? (
-              <div>
-                <Divider />
-                {contacts.map((contact) => (
-                  <NavListItem
-                    key={contact.id}
-                    text={contact.username}
-                    onClickCommand={() => {
-                      redirectTo(contact.id!);
+      {self && (
+        <div className="Admin">
+          <div className="options">
+            <Card
+              style={{
+                width: "65vw",
+                height: "90vh",
+                borderRadius: "16px",
+                marginTop: "43px",
+                marginRight: "10px",
+                marginLeft: "0vw",
+              }}
+            >
+              <h2 style={{ paddingLeft: "5%" }}>
+                {/*<AccountCircleIcon />*/}
+                <Button variant="text" onClick={() => history.push("/chat")}>
+                  <ArrowBackOutlinedIcon />
+                  back
+                </Button>
+                <Button onClick={() => setDisplayUsers(true)}>Users</Button>
+                <Button onClick={() => setDisplayUsers(false)}>
+                  Invite links
+                </Button>
+                {displayUsers ? null : (
+                  <Button
+                    variant="contained"
+                    sx={{
+                      float: "right",
+                      marginRight: "5%",
                     }}
                   >
-                    <FiberManualRecordIcon
-                      sx={{
-                        color:
-                          contact.status === "Online"
-                            ? green[500]
-                            : contact.status === "Away"
-                            ? yellow[500]
-                            : contact.status === "Do not Disturb"
-                            ? red[500]
-                            : grey[500],
-                        order: 2,
-                        marginLeft: "-20px",
-                        marginTop: "25px",
-                        position: "relative",
-                      }}
-                    />
-                    <Avatar
-                      alt=""
-                      src={contact.profilePicture}
-                      sx={{
-                        width: "50px",
-                        height: "50px",
-                      }}
-                    />
-                  </NavListItem>
-                ))}
-              </div>
-            ) : (
-              <div />
-            )}
-          </NavDrawer>
+                    create invite
+                  </Button>
+                )}
+              </h2>
+              <Divider variant="middle" />
+              {displayUsers ? <AdminList /> : <InviteList />}
+            </Card>
+          </div>
         </div>
-        <div className="options">
-          <Card
-            style={{
-              width: "65vw",
-              height: "90vh",
-              borderRadius: "16px",
-              marginTop: "43px",
-              marginRight: "10px",
-              marginLeft: "25vw",
-            }}
-          >
-            <h2 style={{ paddingLeft: "5%" }}>
-              <AccountCircleIcon />
-              Users
-            </h2>
-            <Divider variant="middle" />
-            <AdminList />
-          </Card>
-        </div>
-      </div>
+      )}
     </>
   );
 }

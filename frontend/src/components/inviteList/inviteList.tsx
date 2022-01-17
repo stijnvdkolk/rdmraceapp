@@ -30,28 +30,15 @@ const datagridButton = (params: GridRenderCellParams) => {
 
 // column names + their respective field names, width, and other specifications
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 180 },
-  { field: "userName", headerName: "Username", width: 180 },
-  { field: "role", headerName: "Roles", width: 190, sortable: false },
-  {
-    field: "manage",
-    headerName: "Manage",
-    width: 200,
-    sortable: false,
-    renderCell: (params: GridRenderCellParams) => datagridButton(params),
-  },
+  { field: "id", headerName: "ID", width: 100 },
+  { field: "code", headerName: "Code", width: 180 },
+  { field: "role", headerName: "Role", width: 180 },
+  { field: "amountUsed", headerName: "AmountUsed", width: 180 },
+  { field: "maxuses", headerName: "MaxUses", width: 180, sortable: false },
+  { field: "expiry", headerName: "ExpiryDate", width: 180 },
 ];
-// the actual values that will be passed on to the AdminList
 
-class PeopleMaker {
-  id!: number;
-  userName!: string;
-  role!: string;
-  manage!: any;
-}
-
-// makes a mui datagrid to show the users, channels, etc.
-export default function AdminList() {
+export default function InviteList() {
   const [page, setPage] = useState(0);
   const [error, setError] = useState<any>(null);
   const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
@@ -66,13 +53,15 @@ export default function AdminList() {
   const rows = contacts?.map((contact) => {
     console.log(contact.email);
     return {
-      id: contact.id!,
-      userName: contact.username!,
-      role: contact.role!,
-      manage: <Buttoned text="Manage user" />,
+      id: "w.i.p.",
+      code: "w.i.p.",
+      role: "w.i.p.",
+      amountUsed: "w.i.p.",
+      maxuses: "w.i.p.",
+      expiry: "w.i.p.",
     };
   });
-  let history = useHistory();
+  // let history = useHistory();
 
   return (
     <div
