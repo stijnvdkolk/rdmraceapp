@@ -66,7 +66,7 @@ export default function UserProfile() {
 
 
     useEffect(() => {
-        if (file && fileHasChanged && file !== undefined && file !== null) {
+        if (file) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
