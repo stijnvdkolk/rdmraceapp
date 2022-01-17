@@ -16,6 +16,7 @@ interface ProfileProps extends IProps {
   bigprofile: boolean;
   functieArg?: string | undefined;
   self: boolean;
+  
 }
 
 function Logout() {
@@ -98,7 +99,7 @@ export default function UserProfile(props: ProfileProps) {
     <Card
       className={bigprofile ? "GridParent" : "GridParentSmall"}
       sx={{
-        width: bigprofile ? "500px" : "270px",
+        width: bigprofile ? "360px" : "320px",
         height: bigprofile ? "500px" : "375px",
         borderRadius: "16px",
       }}
@@ -132,7 +133,7 @@ export default function UserProfile(props: ProfileProps) {
                     variant="contained"
                     sx={{
                       right: "20px",                        
-                      height: "35px",
+                      height: "50px",
                       top: "20px",
                       width: "200px",
                     }}
@@ -144,7 +145,7 @@ export default function UserProfile(props: ProfileProps) {
                       onClick={logout}
                       variant="contained" 
                       sx={{
-                        right: "40px",                        
+                        right: "10px",                        
                         height: "35px",
                         width: "175px",
                         gridRow: "1",
@@ -157,8 +158,9 @@ export default function UserProfile(props: ProfileProps) {
                       endIcon={<EditIcon />}
                       color="secondary"
                       variant="contained" 
+                      onClick={() => { history.push("/editprofile")}}
                       sx={{
-                        right: "40px",
+                        right: "10px",
                         height: "35px",
                         width: "175px",
                         gridRow: "2",

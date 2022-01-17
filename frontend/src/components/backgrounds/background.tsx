@@ -4,6 +4,7 @@ import IProps from "../IProps";
 import "./background.css";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import { ThemeContext } from "../theme-context";
+import { IconButton } from "@mui/material";
 
 class BackgroundProps implements IProps {
   className?: string = "out";
@@ -16,7 +17,6 @@ export default function Background(props: BackgroundProps) {
   function backgroundChange() {
     let bg = document.getElementById("out");
     if (bg?.classList?.contains("red")) {
-      console.log("red");
       bg?.classList?.add("dark");
       bg?.classList?.remove("red");
       if (changeColorTheme != null) {        
@@ -24,7 +24,6 @@ export default function Background(props: BackgroundProps) {
       }
       localStorage.setItem("theme", "dark");
     } else {
-      console.log("dark");
       bg?.classList?.add("red");
       bg?.classList?.remove("dark");
       if (changeColorTheme != null) {        
@@ -35,23 +34,26 @@ export default function Background(props: BackgroundProps) {
   }
 
   return (
-    <div className={props.className} onClick={backgroundChange}>
+    <IconButton className={props.className} onClick={backgroundChange}>
       {!(colorTheme === "light") ? (
         <WbSunnyOutlinedIcon
+          color="secondary"
           sx={(style) => ({
-            width: "30px",
-            height: "30px",
-            color: "red",
+            width: "25px",
+            height: "25px",
+            marginRight: "10px",
           })}
         />
       ) : (
         <DarkModeOutlinedIcon
-          sx={(style) => ({
-            width: "30px",
-            height: "30px",
-          })}
+          color="secondary"
+        sx={(style) => ({
+          width: "25px",
+          height: "25px",
+          marginRight: "10px",
+        })}
         />
       )}
-    </div>
+    </IconButton>
   );
 }

@@ -1,5 +1,5 @@
 import React, * as react from 'react';
-import {Drawer, AppBar, Popover} from '@mui/material';
+import {Drawer, AppBar, Popover, IconButton} from '@mui/material';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -42,16 +42,19 @@ export default function NavDrawer(props: IProps) {
             <img className="profile" width="75" alt="" src={imageLink}/>
             <label className={matches ? "product" : "product2"}>{name}</label>
             <div className="sp-Lockup2 Order2">
-                <Background className='DMI IIcon'/>
+                <Background className='DMI IIcon' />
                 <div className="Cursor1 ICursor"></div>
-                <PersonOutlinedIcon className="PersonIcon IIcon" sx={
-                    style => ({
-                        width: "30px",
-                        height: "30px",                        
-                    })
-                }
-                onClick={handleProfileClick}
-                />
+                <IconButton className="PersonIcon IIcon">
+                    <PersonOutlinedIcon  sx={
+                        style => ({
+                            width: "30px",
+                            height: "30px",                        
+                        })
+                    }
+                    color="secondary"
+                    onClick={handleProfileClick}
+                    />
+                </IconButton>
                 <Popover 
                     id={profileId}
                     open={profileOpen}

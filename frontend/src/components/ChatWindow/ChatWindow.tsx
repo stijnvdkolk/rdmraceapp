@@ -387,19 +387,19 @@ export default function ChatWindow(props: IProps){
                                 undefined}>
                             <MenuItem onClick={handleClose}> {/*TODO: Copy to clipboard*/}
                                 <div className="MenuItemWithIcon">
-                                    <AttachFileIcon />
+                                    <AttachFileIcon color="primary" />
                                     {"Copy Text"}
                                 </div>
                             </MenuItem>
                             <MenuItem onClick={MakeDmAndGo}>
                                 <div className="MenuItemWithIcon">
-                                    <SendIcon />
+                                    <SendIcon color="primary" />
                                     {"Start Direct Message"}
                                 </div>
                             </MenuItem>
                             <MenuItem onClick={() => DeleteMessage(handleClose)}>
                                 <div className="MenuItemWithIcon">
-                                    <DeleteOutlineOutlinedIcon />
+                                    <DeleteOutlineOutlinedIcon  color="primary"/>
                                     {"Delete Message"}
                                 </div>
                             </MenuItem>
@@ -413,25 +413,25 @@ export default function ChatWindow(props: IProps){
                                 undefined}>
                             <MenuItem onClick={CloseProfilePictureContext}>
                                 <div className="MenuItemWithIcon">
-                                    <AttachFileIcon />
+                                    <AttachFileIcon  color="primary"/>
                                     {"Copy Image"}
                                 </div>
                             </MenuItem>
                             <MenuItem onClick={() => downloadImage(CloseProfilePictureContext)}>
                                 <div className="MenuItemWithIcon">
-                                    <SaveAltOutlined />
+                                    <SaveAltOutlined  color="primary"/>
                                     {"Save Image"}
                                 </div>
                             </MenuItem>
                             <MenuItem onClick={() => DeleteMessage(CloseProfilePictureContext)}>
                                 <div className="MenuItemWithIcon">
-                                    <DeleteOutlineOutlinedIcon />
+                                    <DeleteOutlineOutlinedIcon  color="primary"/>
                                     {"Delete Message"}
                                 </div>
                             </MenuItem>
                             <MenuItem onClick={MakeDmAndGo}>
                                 <div className="MenuItemWithIcon">
-                                    <SendIcon />
+                                    <SendIcon color="primary" />
                                     {"Start Direct Message"}
                                 </div>
                             </MenuItem>
@@ -445,25 +445,25 @@ export default function ChatWindow(props: IProps){
                                 undefined}>
                             <MenuItem onClick={()=>fill() /*TODO: FIX */}>
                                 <div className="MenuItemWithIcon">
-                                    <AttachFileIcon />
+                                    <AttachFileIcon  color="primary"/>
                                     {"Copy Image"}
                                 </div>
                             </MenuItem>
                             <MenuItem onClick={() => downloadImage(CloseImageContext)}>
                                 <div className="MenuItemWithIcon Debug2">
-                                    <SaveAltOutlined />
+                                    <SaveAltOutlined color="primary" />
                                     {"Save Image"}
                                 </div>
                             </MenuItem>
                             <MenuItem onClick={CloseImageContext}>
                                 <div className="MenuItemWithIcon">
-                                    <ThumbUpOutlined />
+                                    <ThumbUpOutlined  color="primary"/>
                                     {"Nice Embed Bro"}
                                 </div>
                             </MenuItem>
                             <MenuItem onClick={() => DeleteMessage(CloseImageContext)}>
                                 <div className="MenuItemWithIcon">
-                                    <DeleteOutlineOutlinedIcon />
+                                    <DeleteOutlineOutlinedIcon color="primary" />
                                     {"Delete Message"}
                                 </div>
                             </MenuItem>
@@ -503,6 +503,7 @@ export default function ChatWindow(props: IProps){
         setTimeout(() => {
             setReload(!reload); 
         }, 5000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
     useEffect(() => {
         if (messages !== undefined) {
@@ -596,7 +597,7 @@ export default function ChatWindow(props: IProps){
                                 startAdornment: (
                                   <InputAdornment position="start">
                                       <div style={{ cursor: "pointer",}} onClick={Getemoji}>
-                                        <EmojiEmotionsOutlinedIcon className="animatedAttachment" onClick={Getemoji}/>   
+                                        <EmojiEmotionsOutlinedIcon color="primary" className="animatedAttachment" onClick={Getemoji}/>   
                                       </div>                                 
                                   </InputAdornment>
                                 ),
@@ -608,20 +609,21 @@ export default function ChatWindow(props: IProps){
                                         type="file"
                                         style={{ display: 'none' }}
                                         multiple={true}
+                                        accept="image/png, image/jpeg, image/jpg"
                                       />
                                       <IconButton
                                         onClick={() =>
                                           document?.getElementById('fileInput')?.click()
                                         }
                                       >
-                                        <AttachFileIcon className="animatedAttachment" />
+                                        <AttachFileIcon className="animatedAttachment"  color="primary"/>
                                       </IconButton>
                                     </>
                                     <div>
                                       <ArrowForwardIcon className="animatedSend"
+                                      color="primary"
                                         sx={{
                                             cursor: "pointer",
-                                            color: "primary",
                                         }} 
                                         onClick={SendMessageFromInput}/>
                                     </div>

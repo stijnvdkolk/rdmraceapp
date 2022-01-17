@@ -1,5 +1,5 @@
 import { UserRole } from '@prisma/client';
-import { IsDate, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsDateString, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateInviteDto {
   @IsEnum(UserRole)
@@ -10,7 +10,7 @@ export class CreateInviteDto {
   @IsNotEmpty()
   maxUses: number;
 
-  @IsDate()
+  @IsDateString()
   @IsNotEmpty()
   expiresAt: Date;
 }
