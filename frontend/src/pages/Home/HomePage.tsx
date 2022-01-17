@@ -22,7 +22,7 @@ export default function HomePage(props: IProps) {
           marginLeft: 0,
           paddingLeft: 0,
 
-          width: '80vw',
+          width: '90%',
         }}
       >
         <div className="DMT">
@@ -44,11 +44,11 @@ export default function HomePage(props: IProps) {
           <Typography
             variant="h1"
             className="appTitle"
-            sx={{ fontSize: '10vh' }}
+            sx={{ fontSize: '50px' }}
           >
             PhidippidesChat
           </Typography>
-          <Typography variant="h4" className="appSub" sx={{ fontSize: '4vh' }}>
+          <Typography variant="h4" className="appSub" sx={{ fontSize: '40px' }}>
             Stay informed, get status updates and more!
           </Typography>
           <Buttoned

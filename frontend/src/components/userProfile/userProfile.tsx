@@ -99,7 +99,7 @@ export default function UserProfile(props: ProfileProps) {
     <Card
       className={bigprofile ? "GridParent" : "GridParentSmall"}
       sx={{
-        width: bigprofile ? "500px" : "320px",
+        width: bigprofile ? "360px" : "320px",
         height: bigprofile ? "500px" : "375px",
         borderRadius: "16px",
       }}
