@@ -1,0 +1,36 @@
+name: 'Continuous Integration Testing'
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [14.x, 15.x, 16.x, 17.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use NodeJS ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Move to the backend directory
+        run: cd backend
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Generate Prisma client
+        run: yarn prisma:generate:local
+
+      - name: Run unit tests
+        run: yarn test
