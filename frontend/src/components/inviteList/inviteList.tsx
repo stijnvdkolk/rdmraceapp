@@ -7,7 +7,7 @@ import {
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ConsumeEffect } from "../../API/ApiCalls";
-import { getPeople } from "../../API/Chat";
+import { getInvites, getPeople } from "../../API/Chat";
 import Person from "../../classes/Person";
 import Invite from "../../classes/invites";
 
@@ -40,23 +40,22 @@ export default function InviteList() {
   const [page, setPage] = useState(0);
   const [error, setError] = useState<any>(null);
   const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
-  const [contacts, setcontacts] = useState<Invite[] | undefined>(undefined); //Person[]
+  const [invites, setInvites] = useState<Invite[] | undefined>(undefined); //Person[]
   useEffect(() => {
-    ConsumeEffect(setIsCLoaded, setcontacts, () => {
-      return getPeople(page);
+    ConsumeEffect(setIsCLoaded, setInvites, () => {
+      return getInvites();
     });
   }, [page]);
-  console.log(contacts);
 
-  const rows = contacts?.map((contact) => {
-    
+  const rows = invites?.map((invite) => {
+    console.log(invite);    
     return {
-      id: "w.i.p.",
-      code: "w.i.p.",
-      role: "w.i.p.",
-      amountUsed: "w.i.p.",
-      maxuses: "w.i.p.",
-      expiry: "w.i.p.",
+      id: invite.id,
+      code: invite.code,
+      role: invite.role,
+      amountUsed: invite.amountUsed,
+      maxuses: invite.maxUses,
+      expiry: invite.expireAt,
     };
   });
   // let history = useHistory();
