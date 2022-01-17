@@ -3,15 +3,13 @@ import {
   GridApi,
   GridColDef,
   GridRenderCellParams,
-  GridRowId,
 } from "@mui/x-data-grid";
-import Buttoned from "../button/button";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ConsumeEffect } from "../../API/ApiCalls";
-import { getPeople, getSelf } from "../../API/Chat";
+import { getPeople } from "../../API/Chat";
 import Person from "../../classes/Person";
-import { useHistory } from "react-router-dom";
+import Invite from "../../classes/invites";
 
 const datagridButton = (params: GridRenderCellParams) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -42,7 +40,7 @@ export default function InviteList() {
   const [page, setPage] = useState(0);
   const [error, setError] = useState<any>(null);
   const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
-  const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
+  const [contacts, setcontacts] = useState<Invite[] | undefined>(undefined); //Person[]
   useEffect(() => {
     ConsumeEffect(setIsCLoaded, setcontacts, () => {
       return getPeople(page);
@@ -51,7 +49,7 @@ export default function InviteList() {
   console.log(contacts);
 
   const rows = contacts?.map((contact) => {
-    console.log(contact.email);
+    
     return {
       id: "w.i.p.",
       code: "w.i.p.",
