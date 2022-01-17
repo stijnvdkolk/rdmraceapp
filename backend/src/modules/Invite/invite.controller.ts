@@ -63,7 +63,7 @@ export class InviteController {
   @Roles([UserRole.ADMIN])
   async createInvite(@Body() inviteData: CreateInviteDto) {
     return this.inviteService.createInvite(
-      inviteData.expiresAt,
+      new Date(Date.parse(inviteData.expiresAt)),
       inviteData.maxUses,
       inviteData.role,
     );

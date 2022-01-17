@@ -12,5 +12,5 @@ export class CreateInviteDto {
 
   @IsDateString()
   @IsNotEmpty()
-  expiresAt: Date;
+  expiresAt: string;
 }
