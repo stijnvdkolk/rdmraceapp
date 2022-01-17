@@ -1,5 +1,6 @@
 import Channel from "../classes/Channel";
 import { DmChannel } from "../classes/Dms";
+import Invite, { InviteBuilder } from "../classes/invites";
 import Message from "../classes/Message";
 import Person from "../classes/Person";
 import Token from "../classes/Token";
@@ -65,5 +66,25 @@ export async function MakeDM(personId : string)
 }
 export async function deleteMessage(channelId : string, messageid : string){
     const path = `/channels/${channelId}/messages/${messageid}`;
+    return Delete(path);
+}
+export async function getInvites() : Promise<{invite : Invite}[]>
+{
+    const path = `/invites/`;
+    return getJWT(path);    
+}
+export async function getSpecificInvite(id : string) : Promise<{invite : Invite}>
+{
+    const path = `/invites/${id}`;
+    return getJWT(path);
+}
+export async function createInvite(invite : InviteBuilder) : Promise<{invite : Invite}>
+{
+    const path = `/invites/`;
+    return postTokenJson(path, invite);
+}
+export async function deleteInvite(id : string) : Promise<{invite : Invite}>
+{
+    const path = `/invites/${id}`;
     return Delete(path);
 }
