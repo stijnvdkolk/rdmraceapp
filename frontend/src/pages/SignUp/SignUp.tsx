@@ -89,6 +89,7 @@ export default function SignUp() {
               history.push("/chat");
             });
           }, 3000);
+
       });
     } else {
       // als er een fout is
