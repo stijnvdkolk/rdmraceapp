@@ -1,3 +1,3 @@
-export default class Token{
-    token : string | undefined;
+export default class Token {
+  token: string | undefined;
 }

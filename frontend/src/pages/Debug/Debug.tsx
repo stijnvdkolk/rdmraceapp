@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import "../../App.css";
-import CreateInvite from "../../components/CreateInvite/CreateInvite";
+import { Link } from 'react-router-dom';
+import '../../App.css';
+import CreateInvite from '../../components/CreateInvite/CreateInvite';
 export default function Debug() {
   return (
     <>

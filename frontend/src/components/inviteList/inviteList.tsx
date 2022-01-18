@@ -1,22 +1,22 @@
-import {
-  DataGrid,
-  GridApi,
-  GridColDef,
-  GridRenderCellParams,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
+import Buttoned from '../button/button';
 import { useEffect, useState } from 'react';
 import { ConsumeEffect } from '../../API/ApiCalls';
-import { getInvites } from '../../API/Chat';
+import { deleteInvite, getInvites } from '../../API/Chat';
 import Invite from '../../classes/invites';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const datagridButton = (params: GridRenderCellParams) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const api: GridApi = params.api;
-
-  return <Button>{params.value}</Button>;
-};
+function datagridDeleteButton(params: GridRenderCellParams) {
+  return (
+    <Button
+      onClick={() => {
+        deleteInvite(params.row.id).then(() => window.location.reload());
+      }}
+    >
+      {params.value}
+    </Button>
+  );
+}
 
 // column names + their respective field names, width, and other specifications
 const columns: GridColDef[] = [
@@ -25,6 +25,13 @@ const columns: GridColDef[] = [
   { field: 'amountUsed', headerName: 'AmountUsed', width: 180 },
   { field: 'maxuses', headerName: 'MaxUses', width: 180, sortable: false },
   { field: 'expiry', headerName: 'ExpiryDate', width: 180 },
+  {
+    field: 'delete',
+    headerName: 'Delete',
+    width: 200,
+    sortable: false,
+    renderCell: (params: GridRenderCellParams) => datagridDeleteButton(params),
+  },
 ];
 
 export default function InviteList() {
@@ -47,6 +54,7 @@ export default function InviteList() {
       amountUsed: invite.amountUsed,
       maxuses: invite.maxUses,
       expiry: new Date(invite.expireAt).toLocaleString(),
+      delete: <Buttoned text="Delete Invite" />,
     };
   });
   // let history = useHistory();
@@ -60,7 +68,6 @@ export default function InviteList() {
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[5]}
-        checkboxSelection
         onPageChange={(e) => {
           setPage(e);
         }}

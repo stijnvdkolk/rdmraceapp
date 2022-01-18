@@ -277,10 +277,11 @@ export class UserService {
   }
 
   async deleteUser(id: string) {
-    try {
-      return this.prisma.user.delete({ where: { id } });
-    } catch (error) {
-      throw new NotFoundError('user_not_found');
-    }
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+    if (!user) throw new NotFoundError('user_not_found');
+    return this.prisma.user.delete({ where: { id } });
   }
 }

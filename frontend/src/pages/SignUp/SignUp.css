@@ -1,37 +1,43 @@
-html, body, #root, .App {
-    height: 100%;
-  }
-  .background{ 
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+html,
+body,
+#root,
+.App {
+  height: 100%;
+}
+.background {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
-  
-  .card{
-    display: flex;
-    justify-content: center;
-    text-align: center;
+.card {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+@media only screen and (max-width: 810px) {
+  .Signup {
+    padding-top: 5%;
   }
-  @media only screen and (max-width: 810px){
-    .Signup {padding-top: 5%;}
+}
+@media only screen and (min-width: 811px) {
+  .Signup {
+    padding-top: 2.5%;
   }
-  @media only screen and (min-width: 811px){
-    .Signup {padding-top: 2.5%;}
-  }
-  
-  .TextField{
-    margin: 10px;
-    
-    height: 50%;
-    display: flex;
-    
-    flex-direction: column;
-    justify-content: space-between;
-  }
-.FileInputDiv{
+}
+
+.TextField {
+  margin: 10px;
+
+  height: 50%;
+  display: flex;
+
+  flex-direction: column;
+  justify-content: space-between;
+}
+.FileInputDiv {
   margin-left: 41%;
 }
-.Overlay{
+.Overlay {
   background-color: grey;
   width: 75px;
   height: 75px;
@@ -41,5 +47,4 @@ html, body, #root, .App {
   grid-column: 1;
   margin-top: -75px;
   border-radius: 45px;
-
 }
