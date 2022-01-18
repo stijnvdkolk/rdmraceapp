@@ -19,6 +19,11 @@ import { PublicUser } from '@lib/unit-tests/types';
 import { v4 as uuidv4 } from 'uuid';
 import { ForbiddenException } from '@nestjs/common';
 
+import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
+import { CurrentUser } from '@decorators';
+import * as httpMock from 'node-mocks-http';
+import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
+
 describe('UserController', () => {
   let controller: UserController;
 
@@ -128,6 +133,41 @@ describe('UserController', () => {
 
     controller = module.get<UserController>(UserController);
     return;
+  });
+
+  describe('@CurrentUser', () => {
+    it('should work', () => {
+      function getParamDecoratorFactory() {
+        class TestDecorator {
+          public test(@CurrentUser() _value: unknown) {
+            return _value;
+          }
+        }
+
+        const args = Reflect.getMetadata(
+          ROUTE_ARGS_METADATA,
+          TestDecorator,
+          'test',
+        );
+        return args[Object.keys(args)[0]].factory;
+      }
+
+      /// Usage
+
+      const req = httpMock.createRequest();
+      const res = httpMock.createResponse();
+      req.user = currentUser;
+      const mockDecoratorData = new ExecutionContextHost(
+        [req, res],
+        UserController,
+        controller.getUserById,
+      );
+      const factory = getParamDecoratorFactory();
+      const user = factory(null, mockDecoratorData);
+      expect(controller.getUserById(user, '@me')).resolves.toStrictEqual(
+        req.user,
+      );
+    });
   });
 
   // Testing the getUserById method
