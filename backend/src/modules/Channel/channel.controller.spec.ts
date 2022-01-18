@@ -432,7 +432,7 @@ describe('ChannelController', () => {
       ).rejects.toThrowError(new ForbiddenException('not_allowed'));
     });
 
-    it('should only be able to delete their own message', async () => {
+    it('should throw if another user tries to delete a message', async () => {
       expect(
         controller.deleteChannelMessage(
           channels[0].id,
@@ -442,6 +442,16 @@ describe('ChannelController', () => {
       ).rejects.toThrowError(new ForbiddenException('not_allowed'));
     });
 
+    it('should only be able to delete their own message', async () => {
+      expect(
+        controller.deleteChannelMessage(
+          channels[0].id,
+          messages[0].id,
+          currentUser,
+        ),
+      ).resolves.toBeDefined();
+    });
+
     it('admins should be able to delete any message', async () => {
       expect(
         controller.deleteChannelMessage(
@@ -449,7 +459,7 @@ describe('ChannelController', () => {
           messages[0].id,
           adminUser,
         ),
-      ).toBeDefined();
+      ).resolves.toBeDefined();
     });
   });
 });
