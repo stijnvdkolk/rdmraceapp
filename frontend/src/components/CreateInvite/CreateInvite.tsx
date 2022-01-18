@@ -5,7 +5,7 @@ import { InviteBuilder } from "../../classes/invites";
 
 export default function CreateInvite() {
   const [currentSelectOption, setCurrentSelectOption] =
-    React.useState("TEAM_MEMBER");
+    React.useState<string>("TEAM_MEMBER");
   const handleSelectOption = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentSelectOption(event.target.value);
   };
@@ -33,19 +33,11 @@ export default function CreateInvite() {
   ];
 
   function sendRequest() {
-    console.log(currentSelectOption);
-    console.log(currentMaxUses);
-    console.log(currentDate);
-
     if (currentDate && currentMaxUses && currentSelectOption) {
-      var invitebuilder = new InviteBuilder{
-        maxUses: (Number)currentMaxUses
-        role: ("ADMIN" | "TEAM_MEMBER" | "SPONSOR" | "MARKETING")currentSelectOption
-        expiresAt: (Date)currentDate
-      };
+
+      var invitebuilder = new InviteBuilder(currentMaxUses, currentSelectOption, new Date(currentDate));
       
       var i = createInvite(invitebuilder);
-      
     }
   }
 
@@ -108,6 +100,7 @@ export default function CreateInvite() {
       <Button
         variant="contained"
         sx={{ borderRadius: "16px", width: "100px", marginTop: "20px" }}
+        onClick={sendRequest}
       >
         Create
       </Button>

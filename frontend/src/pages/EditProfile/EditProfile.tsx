@@ -1,8 +1,8 @@
 import { Avatar, Button, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { ConsumeEffect, patchData } from "../../API/ApiCalls";
-import { getSelf } from "../../API/Chat";
+import { getPerson, getSelf } from "../../API/Chat";
 import Person from "../../classes/Person";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import "./EditProfile.css";
@@ -12,32 +12,46 @@ import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Background from "../../components/backgrounds/background";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import Notification from "../../components/notification/notification"; 
-
+interface AParams {
+    personID: string | undefined;
+  }
 export default function UserProfile() {
     let history = useHistory();
-
+    const { personID } = useParams<AParams>(); //
     const [aboutMe, setAboutMe] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [profilePicture, setProfilePicture] = useState<string>("");
     const [userName, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-
-
+    const [anotherProfile, setAnotherProfile] = useState<Person | undefined>(undefined);
+    const [anotherLoaded, setAnotherLoaded] = useState<boolean>(false);
     const [meProfile, setMeProfile] = useState<Person | undefined>(undefined); //Person
     const [meLoaded, setMeLoaded] = useState<boolean>(false);
     useEffect(() => {
         ConsumeEffect(setMeLoaded, setMeProfile, () => {
             return getSelf();
         });
+        if(personID){
+            ConsumeEffect(setAnotherLoaded, setAnotherProfile, () => {
+                return getPerson(personID);
+            });
+        }
     }, []);
     useEffect(() => {
         Reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [meLoaded, meProfile]);
-
+    }, [meLoaded, meProfile, personID, anotherLoaded, anotherProfile]);
     function Reset(){
-        if (meLoaded && meProfile) {
+        if(anotherLoaded && anotherProfile ){
+            setAboutMe(anotherProfile.aboutMe);
+            setEmail(anotherProfile.email!);
+            setProfilePicture(Pfp(anotherProfile.id,anotherProfile.profilePicture));
+            setUserName(anotherProfile.username);
+            setPassword("");
+            return;
+        }
+        else if (meLoaded && meProfile) {
             setAboutMe(meProfile.aboutMe);
             setEmail(meProfile.email!);
             setProfilePicture(Pfp(meProfile.id, meProfile.profilePicture));
@@ -54,7 +68,6 @@ export default function UserProfile() {
     const [emailChanged, setEmailChanged] = useState<boolean>(false);
 
     const [open, setOpen] = useState(false);
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -78,42 +91,61 @@ export default function UserProfile() {
     }, [file]);
 
     useEffect(() => {
-        if(userName.length > 16){
-            setUserName(userName.substring(0, 20));
-        }
-        if(aboutMe.length > 120){
-            setAboutMe(aboutMe.substring(0, 120));
-        }
-        if(userName.length > 3 && userName !== meProfile?.username){
-            setUsernameHasChanged(true);
+        if(userName){
+            if(userName.length > 16){
+                setUserName(userName.substring(0, 20));
+            }
+            if(userName.length > 3 && userName !== meProfile?.username && userName !== anotherProfile?.username){
+                setUsernameHasChanged(true);
+            }
+            else{
+                setUsernameHasChanged(false);
+            }
         }
         else{
             setUsernameHasChanged(false);
         }
-        if (aboutMe !== meProfile?.aboutMe) {
-            setAboutMeChanged(true);
+        if (aboutMe){
+            if(aboutMe.length > 120){
+                setAboutMe(aboutMe.substring(0, 120));
+            }
+            if (aboutMe !== meProfile?.aboutMe && aboutMe !== anotherProfile?.aboutMe) {
+                setAboutMeChanged(true);
+            }
+            else{
+                setAboutMeChanged(false);
+            }
         }
         else{
-            setAboutMeChanged(false);
+            setAboutMeChanged(false);        
         }
-        if (password.length > 8 ) {
-            setPasswordChanged(true);
+        if(password){
+            if (password.length > 8 ) {
+                setPasswordChanged(true);
+            }
+            else{
+                setPasswordChanged(false);
+            }
         }
         else{
             setPasswordChanged(false);
         }
-        if (email.length > 20) {
-            setEmail(email.substring(0, 20));
-        }
-        if (email.length > 6){
-            setEmailChanged(true);
+        if(email){
+            if (email.length > 20) {
+                setEmail(email.substring(0, 20));
+            }
+            if (email.length > 6){
+                setEmailChanged(true);
+            }
+            else{
+                setEmailChanged(false);
+            }
         }
         else{
             setEmailChanged(false);
         }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userName, aboutMe, password]);
+    }, [userName, aboutMe, password, email ]);
     const [notification, setNotification] = useState(false); 
     async function SubmitEverything(){
         var formdata = new FormData();
@@ -126,22 +158,34 @@ export default function UserProfile() {
         henk = emailChanged ? formdata.append("email", email) : null;
 
         handleClose();
-        await patchData("/users/@me", formdata).then((result) => {
-            history.push("/chat");
-            if(result === "Bad Request"){
-                setNotification(true); // Dit zet de Notification wanneer er een error is
-                setTimeout(() => {
+        if(personID){
+            await patchData(`/users/${personID}`, formdata).then((result) => {                
+                if(result === "Bad Request"){
+                    setNotification(true); // Dit zet de Notification wanneer er een error is
+                    setTimeout(() => {
                     // Wacht X seconde voordat de error wordt verwijderd
                     setNotification(false); // Verwijder de notification
-                }, 5000);
-            }
-            else{
-                history.push("/chat");
-            }
-        });
-
-        
-
+                    }, 5000);
+                }
+                else{
+                    history.push(`/admin`);
+                }
+            });
+        }
+        else{
+            await patchData("/users/@me", formdata).then((result) => {
+                if(result === "Bad Request"){
+                    setNotification(true); // Dit zet de Notification wanneer er een error is
+                    setTimeout(() => {
+                        // Wacht X seconde voordat de error wordt verwijderd
+                        setNotification(false); // Verwijder de notification
+                    }, 5000);
+                }
+                else{
+                    history.push("/chat");
+                }
+            });
+        }
     }
 
 
@@ -169,7 +213,7 @@ export default function UserProfile() {
                     />
                     <div className="Head">
                         <Button variant="text" sx={{float: "left", width: "90px", height:"40px", marginLeft: "5px", marginTop:"10px",  marginRight: "10px"}}
-                            onClick={() => history.push("/chat")}
+                            onClick={() => personID ?  history.push("/admin") : history.push("/chat") }
                         >
                             <ArrowBackOutlinedIcon />
                               back

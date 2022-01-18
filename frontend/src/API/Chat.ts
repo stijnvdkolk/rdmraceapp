@@ -16,6 +16,11 @@ export async function getPeople(page: number): Promise<{person: Person[]}>
     const path = `/users?page=${page}`;
     return getfromURL(path);
 }
+export async function getPeopleAdmin(page: number): Promise<{person: Person[]}>
+{
+    const path = `/users?page=${page}&limit=500`;
+    return getfromURL(path);
+}
 export async function getSelf(): Promise<{person : Person}>
 {
     const path = "/users/@me";

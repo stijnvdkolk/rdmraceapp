@@ -7,19 +7,17 @@ import {
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ConsumeEffect } from "../../API/ApiCalls";
-import { getInvites, getPeople } from "../../API/Chat";
-import Person from "../../classes/Person";
+import { getInvites } from "../../API/Chat";
 import Invite from "../../classes/invites";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const datagridButton = (params: GridRenderCellParams) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const api: GridApi = params.api;
 
   return (
     <Button
-      onClick={() => {
-        console.log(api);
-      }}
+     
     >
       {params.value}
     </Button>
@@ -38,7 +36,9 @@ const columns: GridColDef[] = [
 
 export default function InviteList() {
   const [page, setPage] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isCLoaded, setIsCLoaded] = useState<boolean>(false);
   const [invites, setInvites] = useState<Invite[] | undefined>(undefined); //Person[]
   useEffect(() => {

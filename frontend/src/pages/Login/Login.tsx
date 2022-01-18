@@ -20,7 +20,9 @@ export default function Login() {
     undefined //Dit is undefined
   );
   let history = useHistory(); //Dit is de history die gebruikt wordt om naar de chat te gaan
-
+  if (localStorage.getItem("DogeToken") !== null) {
+    history.push("/chat"); //Als er een token is in localstorage dan gaat de gebruiker naar de chat
+  }
   async function loginCall() {
     //Dit is de login call die wordt aangeroepen wanneer je op de login button drukt
     setDisabled(true); // dit zet de button uit

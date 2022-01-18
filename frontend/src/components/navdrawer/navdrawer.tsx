@@ -135,18 +135,3 @@ export default function NavDrawer(props: IProps) {
     );    
      
 }
-/*
-<!-- Usage -->
-<div className="NavBar">   
-    <Navdrawer name="asgfhjsadgfjasfhasfasfsaasfas" imageLink="https://images-ext-2.discordapp.net/external/NFu54hJJeAEsrCYWF0gaSEAj_Q7qAecwh2J4ZxlZWhE/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/238401356690489344/5eefd320644cfcaf5546ad55ea1ff6a3.png">
-        <Divider/>
-        <label className="label leftside navbar">Nieuws Kanalen</label>
-        <NavListItem text="Belangrijk Nieuws" icon={<AccessibleIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
-        <Divider />
-        <label className="label leftside navbar">Chat Kanalen</label>
-        <NavListItem text="Publiek" icon={<ChildCareIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
-        <NavListItem text="Team Genoten" icon={<ChildFriendlyIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
-        <NavListItem text="one more channel cuz why not" icon={<EuroIcon />}/>
-    </Navdrawer>
-</div>
-*/

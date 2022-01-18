@@ -1,6 +1,7 @@
 import {
   DataGrid,
   GridApi,
+  GridCellParams,
   GridColDef,
   GridRenderCellParams,
   GridRowId,
@@ -9,18 +10,17 @@ import Buttoned from "../button/button";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ConsumeEffect } from "../../API/ApiCalls";
-import { getPeople, getSelf } from "../../API/Chat";
+import { getPeople, getSelf, getPeopleAdmin } from "../../API/Chat";
 import Person from "../../classes/Person";
 import { useHistory } from "react-router-dom";
 
-const datagridButton = (params: GridRenderCellParams) => {
+function datagridButton(params: GridRenderCellParams){
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const api: GridApi = params.api;
-
   return (
     <Button
       onClick={() => {
-        console.log(api);
+        window.location.href = `/editprofile/${params.row.id}`;
       }}
     >
       {params.value}
@@ -58,13 +58,11 @@ export default function AdminList() {
   const [contacts, setcontacts] = useState<Person[] | undefined>(undefined); //Person[]
   useEffect(() => {
     ConsumeEffect(setIsCLoaded, setcontacts, () => {
-      return getPeople(page);
+      return getPeopleAdmin(page); // get 500 users
     });
   }, [page]);
-  console.log(contacts);
 
   const rows = contacts?.map((contact) => {
-    console.log(contact.email);
     return {
       id: contact.id!,
       userName: contact.username!,
@@ -73,21 +71,33 @@ export default function AdminList() {
     };
   });
   let history = useHistory();
+  const onRowClicked = (params: GridCellParams) => {
+    history.push(`/editprofile/${params.row.id}`);
+  };
 
   return (
     <div
       style={{ height: 500, width: "90%", padding: "5%", paddingTop: "30px" }}
     >
+      {isCLoaded ? (
       <DataGrid
         rows={rows!}
         columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[5]}
+        rowsPerPageOptions={[10, 20, 50, 100]}
         checkboxSelection
         onPageChange={(e) => {
           setPage(e);
         }}
+        onCellDoubleClick={(params, event) => {
+          if(!event.ctrlKey){
+            onRowClicked(params);
+          }
+        }}
+
       />
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 }

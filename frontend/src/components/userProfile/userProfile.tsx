@@ -84,9 +84,6 @@ export default function UserProfile(props: ProfileProps) {
     }
   }
 
-  // useEffect(() => {
-  //   console.log(OwnProfile);
-  // }, [OwnProfile]);
   //TODO: David om te zien of het eigen profiel is, OOK IN CHAT gebruik OwnProfile
   return (
     <Card
@@ -157,12 +154,32 @@ export default function UserProfile(props: ProfileProps) {
                       sx={{
                         right: "10px",
                         height: "35px",
+                        marginTop: "3px",
                         width: "175px",
                         gridRow: "2",
                       }}
                     >
                       Edit Profile
                     </Button>
+                    {selfProfile.role === "ADMIN" ? (
+                      <Button
+                      endIcon={<EditIcon />}
+                      color="secondary"
+                      variant="contained"
+                      onClick={() => {
+                        history.push("/Admin");
+                      }}
+                      sx={{
+                        right: "10px",
+                        height: "35px",
+                        marginTop: "3px",
+                        width: "175px",
+                        gridRow: "3",
+                      }}>
+                        Admin Page
+                      </Button>
+                    ) : (
+                      <></>)}
                   </div>
                 )}
               </div>

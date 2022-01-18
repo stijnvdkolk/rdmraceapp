@@ -50,10 +50,7 @@ export default function Chat() {
     history.push("/chat/" + id);
   }
   //#region APICalls
-  
-  // useEffect(() => {
-  //   console.log(getChannels());
-  // }, []);
+
 
   useEffect(() => {
     ConsumeEffect(setIsLoaded, setselfProfile, () => {return getSelf();} );
