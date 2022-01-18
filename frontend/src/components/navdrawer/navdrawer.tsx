@@ -42,7 +42,7 @@ export default function NavDrawer(props: IProps) {
             <img className="profile" width="75" alt="" src={imageLink}/>
             <label className={matches ? "product" : "product2"}>{name}</label>
             <div className="sp-Lockup2 Order2">
-                <Background className='DMI IIcon'/>
+                <Background className='DMI IIcon' />
                 <div className="Cursor1 ICursor"></div>
                 <IconButton className="PersonIcon IIcon">
                     <PersonOutlinedIcon  sx={
@@ -51,6 +51,7 @@ export default function NavDrawer(props: IProps) {
                             height: "30px",                        
                         })
                     }
+                    color="secondary"
                     onClick={handleProfileClick}
                     />
                 </IconButton>

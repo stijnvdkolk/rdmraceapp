@@ -87,8 +87,6 @@
     */
     cursor: pointer;
     /* Inside Auto Layout */
-    flex: none;    
-    flex-grow: 0;
     width: 30px;
     height: 30px;
 }
