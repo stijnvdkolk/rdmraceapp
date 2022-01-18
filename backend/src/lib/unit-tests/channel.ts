@@ -62,6 +62,7 @@ export const channels = [
   newsChannel,
   publicChannel,
   privateChannel,
+  privateChannel,
 ];
 
 export const message1: Message = {

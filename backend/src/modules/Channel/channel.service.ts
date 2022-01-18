@@ -11,7 +11,6 @@ import {
   Message,
   Prisma,
   User,
-  UserRole,
 } from '@prisma/client';
 
 @Injectable()

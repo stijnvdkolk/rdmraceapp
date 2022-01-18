@@ -2,12 +2,16 @@ import { Test } from '@nestjs/testing';
 import { ChannelController } from './channel.controller';
 import { ChannelService } from './channel.service';
 import {
+  adminUser,
   channels,
   currentUser,
   messages,
   privateChannel,
+  testUser,
 } from '@lib/unit-tests';
 import { ForbiddenException } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
+import { User } from '@prisma/client';
 
 describe('ChannelController', () => {
   let controller: ChannelController;
@@ -33,13 +37,45 @@ describe('ChannelController', () => {
             getMessageFromChannel: jest.fn().mockImplementation(() => {
               return messages[0];
             }),
-            createMessage: jest.fn().mockImplementation(() => {
+            createMessage: jest
+              .fn()
+              .mockImplementation(
+                (
+                  channelid: string,
+                  authorId: string,
+                  content: string,
+                  attachments: { name: string }[],
+                ) => {
+                  const message = messages[0];
+                  message.channel.id = channelid;
+                  message.author.id = authorId;
+                  message.content = content;
+                  message.attachments = attachments.map((file) => ({
+                    id: uuidv4(),
+                    name: file.name,
+                  }));
+                  return message;
+                },
+              ),
+            updateMessage: jest
+              .fn()
+              .mockImplementation(
+                (messageId: string, data: { content: string }) => {
+                  const message = messages[0];
+                  message.content = data.content;
+                  message.id = messageId;
+                  return message;
+                },
+              ),
+            deleteMessage: jest.fn().mockImplementation((messageId: string) => {
+              const message = messages[0];
+              message.id = messageId;
+              return message;
+            }),
+            uploadAttachment: jest.fn().mockImplementation(() => {
               return null;
             }),
-            updateMessage: jest.fn().mockImplementation(() => {
-              return null;
-            }),
-            deleteMessage: jest.fn().mockImplementation(() => {
+            deleteAttachment: jest.fn().mockImplementation(() => {
               return null;
             }),
           },
@@ -164,48 +200,239 @@ describe('ChannelController', () => {
   });
 
   describe('createChannelMessage', () => {
-    test.todo('should be defined');
+    it('should be defined', async () => {
+      const message = await controller.createChannelMessage(
+        channels[0].id,
+        currentUser,
+        [],
+        {
+          content: 'test',
+        },
+      );
+      expect(message).toBeDefined();
+    });
 
-    test.todo(
-      'should only create the message if the user has access to the channel',
-    );
+    it('should only create the message if the user has access to the channel', async () => {
+      expect(
+        controller.createChannelMessage(privateChannel.id, currentUser, [], {
+          content: 'test',
+        }),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
 
-    test.todo('should return the message');
+    it('should return the message', async () => {
+      const message = await controller.createChannelMessage(
+        channels[0].id,
+        currentUser,
+        [],
+        {
+          content: messages[0].content,
+        },
+      );
+      expect(message).toEqual(messages[0]);
+    });
 
-    test.todo('should work with an attachment and no content');
+    it('should work with an attachment and no content', async () => {
+      const message = await controller.createChannelMessage(
+        channels[0].id,
+        currentUser,
+        [
+          {
+            originalname: 'test.png',
+            mimetype: null,
+            fieldname: null,
+            buffer: null,
+            encoding: null,
+            size: null,
+            destination: null,
+            filename: null,
+            path: null,
+            stream: null,
+          },
+        ],
+        {},
+      );
 
-    test.todo('should work with an attachment and content');
+      expect(message.attachments.length).toEqual(1);
+      expect(message.attachments[0].name).toEqual('test.png');
+      expect(message.content).toEqual(undefined);
+    });
 
-    test.todo('should work with multiple attachments');
+    it('should work with an attachment and content', async () => {
+      const message = await controller.createChannelMessage(
+        channels[0].id,
+        currentUser,
+        [
+          {
+            originalname: 'test.png',
+            mimetype: null,
+            fieldname: null,
+            buffer: null,
+            encoding: null,
+            size: null,
+            destination: null,
+            filename: null,
+            path: null,
+            stream: null,
+          },
+        ],
+        {
+          content: 'test',
+        },
+      );
+
+      expect(message.attachments.length).toEqual(1);
+      expect(message.attachments[0].name).toEqual('test.png');
+      expect(message.content).toEqual('test');
+    });
+
+    it('should work with multiple attachments', async () => {
+      const message = await controller.createChannelMessage(
+        channels[0].id,
+        currentUser,
+        [
+          {
+            originalname: 'test.png',
+            mimetype: null,
+            fieldname: null,
+            buffer: null,
+            encoding: null,
+            size: null,
+            destination: null,
+            filename: null,
+            path: null,
+            stream: null,
+          },
+          {
+            originalname: 'test2.png',
+            mimetype: null,
+            fieldname: null,
+            buffer: null,
+            encoding: null,
+            size: null,
+            destination: null,
+            filename: null,
+            path: null,
+            stream: null,
+          },
+        ],
+        {
+          content: 'test',
+        },
+      );
+
+      expect(message.attachments.length).toEqual(2);
+      expect(message.attachments[0].name).toEqual('test.png');
+      expect(message.attachments[1].name).toEqual('test2.png');
+      expect(message.content).toEqual('test');
+    });
   });
 
   describe('updateChannelMessage', () => {
-    test.todo('should be defined');
+    it('should be defined', async () => {
+      const message = await controller.updateChannelMessage(
+        channels[0].id,
+        messages[0].id,
+        currentUser,
+        { content: 'messageText' },
+      );
+      expect(message).toBeDefined();
+    });
 
-    test.todo('should throw if channel doesnt exists');
+    it('should throw if channel doesnt exists', async () => {
+      expect(
+        controller.updateChannelMessage(
+          'fake-channel-id',
+          messages[0].id,
+          currentUser,
+          { content: 'messageText' },
+        ),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
 
-    test.todo(
-      'should only update the message if the user has access to the channel',
-    );
+    it('should only update the message if the user has access to the channel', async () => {
+      expect(
+        controller.updateChannelMessage(
+          privateChannel.id,
+          messages[0].id,
+          currentUser,
+          { content: 'messageText' },
+        ),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
 
-    test.todo('should only be able to update their own message');
+    it('should only allow users to update their own message', async () => {
+      expect(
+        controller.updateChannelMessage(
+          channels[0].id,
+          messages[0].id,
+          testUser as User,
+          { content: 'messageText' },
+        ),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
 
-    test.todo('should return the message');
+    it('should return the message', async () => {
+      const message = await controller.updateChannelMessage(
+        channels[0].id,
+        messages[0].id,
+        currentUser,
+        { content: 'messageText' },
+      );
+      const msg = messages[0];
+      msg.content = 'messageText';
+      expect(message).toEqual(msg);
+    });
   });
 
   describe('deleteChannelMessage', () => {
-    test.todo('should be defined');
+    it('should be defined', async () => {
+      const message = await controller.deleteChannelMessage(
+        channels[0].id,
+        messages[0].id,
+        currentUser,
+      );
+      expect(message).toBeDefined();
+    });
 
-    test.todo('should throw if channel doesnt exists');
+    it('should throw if channel doesnt exists', async () => {
+      expect(
+        controller.deleteChannelMessage(
+          'fake-channel-id',
+          messages[0].id,
+          currentUser,
+        ),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
 
-    test.todo(
-      'should only delete the message if the user has access to the channel',
-    );
+    it('should only delete the message if the user has access to the channel', async () => {
+      expect(
+        controller.deleteChannelMessage(
+          privateChannel.id,
+          messages[0].id,
+          currentUser,
+        ),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
 
-    test.todo('should only be able to delete their own message');
+    it('should only be able to delete their own message', async () => {
+      expect(
+        controller.deleteChannelMessage(
+          channels[0].id,
+          messages[0].id,
+          testUser as User,
+        ),
+      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+    });
 
-    test.todo('admins should be able to delete any message');
-
-    test.todo('should return the message');
+    it('admins should be able to delete any message', async () => {
+      expect(
+        controller.deleteChannelMessage(
+          channels[0].id,
+          messages[0].id,
+          adminUser,
+        ),
+      ).toBeDefined();
+    });
   });
 });
