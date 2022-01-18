@@ -41,6 +41,7 @@ export default function Background(props: BackgroundProps) {
           sx={(style) => ({
             width: "25px",
             height: "25px",
+            marginRight: "10px",
           })}
         />
       ) : (
@@ -49,6 +50,7 @@ export default function Background(props: BackgroundProps) {
         sx={(style) => ({
           width: "25px",
           height: "25px",
+          marginRight: "10px",
         })}
         />
       )}
