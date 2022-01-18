@@ -14,7 +14,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { User, UserRole } from '@prisma/client';
+import { ChannelType, User, UserRole } from '@prisma/client';
 import { ChannelService } from './channel.service';
 
 @Controller('/channels')
@@ -34,8 +34,8 @@ export class ChannelController {
       })
       .sort((a, b) => {
         if (a.type === b.type) return 0;
-        if (a.type === 'NEWS_CHANNEL') return -1;
-        if (b.type === 'PRIVATE_CHANNEL') return 1;
+        if (a.type === ChannelType.NEWS_CHANNEL) return -1;
+        if (b.type === ChannelType.PRIVATE_CHANNEL) return 1;
         return 0;
       });
   }
@@ -52,7 +52,6 @@ export class ChannelController {
     @Query() query: PaginationQueryInput,
   ) {
     const channel = await this.channelService.getChannelById(id);
-    if (!channel) throw new ForbiddenException('not_allowed');
     if (
       channel.rolesAccess.length > 0 &&
       !channel.rolesAccess.includes(user.role)
@@ -68,7 +67,6 @@ export class ChannelController {
     @Param('messageId') messageId: string,
   ) {
     const channel = await this.channelService.getChannelById(channelId);
-    if (!channel) throw new ForbiddenException('not_allowed');
     if (
       channel.rolesAccess.length > 0 &&
       !channel.rolesAccess.includes(user.role)

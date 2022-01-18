@@ -59,9 +59,11 @@ export const privateChannel: PublicChannel = {
 export const channels = [
   publicChannel,
   privateChannel,
-  newsChannel,
   publicChannel,
   privateChannel,
+  newsChannel,
+  privateChannel,
+  publicChannel,
   privateChannel,
 ];
 

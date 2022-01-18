@@ -12,6 +12,7 @@ import {
 import { ForbiddenException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '@prisma/client';
+import { NotFoundError } from '@lib/errors';
 
 describe('ChannelController', () => {
   let controller: ChannelController;
@@ -26,7 +27,11 @@ describe('ChannelController', () => {
             getChannelById: jest
               .fn()
               .mockImplementation((channelId: string) => {
-                return channels.find((channel) => channel.id === channelId);
+                const channel = channels.find(
+                  (channel) => channel.id === channelId,
+                );
+                if (!channel) throw new NotFoundError('channel_not_found');
+                return channel;
               }),
             getChannels: jest.fn().mockImplementation(() => {
               return channels;
@@ -133,6 +138,18 @@ describe('ChannelController', () => {
         }),
       ).toEqual(channels);
     });
+
+    it('should return the channels correctly sorted as admin', async () => {
+      const channels = await controller.getChannels(adminUser, {});
+      expect(
+        channels.sort((a, b) => {
+          if (a.type === b.type) return 0;
+          if (a.type === 'NEWS_CHANNEL') return -1;
+          if (b.type === 'PRIVATE_CHANNEL') return 1;
+          return 0;
+        }),
+      ).toEqual(channels);
+    });
   });
 
   describe('getChannelMessages', () => {
@@ -157,7 +174,7 @@ describe('ChannelController', () => {
     it('should only return the messages if the channel exists', async () => {
       expect(
         controller.getChannelMessages(currentUser, 'fake-channel-id', {}),
-      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+      ).rejects.toThrowError(new NotFoundError('channel_not_found'));
     });
 
     it('should only return the messages if the user has access to the channel', async () => {
@@ -189,7 +206,7 @@ describe('ChannelController', () => {
     it('should only return the message if the channel exists', async () => {
       expect(
         controller.getChannelMessage(currentUser, 'fake-channel-id', 'fake-id'),
-      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+      ).rejects.toThrowError(new NotFoundError('channel_not_found'));
     });
 
     it('should only return the message if the user has access to the channel', async () => {
@@ -347,7 +364,7 @@ describe('ChannelController', () => {
           currentUser,
           { content: 'messageText' },
         ),
-      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+      ).rejects.toThrowError(new ForbiddenException('channel_not_found'));
     });
 
     it('should only update the message if the user has access to the channel', async () => {
@@ -402,7 +419,7 @@ describe('ChannelController', () => {
           messages[0].id,
           currentUser,
         ),
-      ).rejects.toThrowError(new ForbiddenException('not_allowed'));
+      ).rejects.toThrowError(new NotFoundError('channel_not_found'));
     });
 
     it('should only delete the message if the user has access to the channel', async () => {
