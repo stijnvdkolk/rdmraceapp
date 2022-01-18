@@ -29,7 +29,7 @@ export default function InviteWindow() {
         console.log(invite)
         if (invite !== undefined) {
             if (isValid) {
-                history.push("/Signup");
+                history.push(`/Signup/${Code}`);
             }
             else{
                 history.push("/Invalid");
