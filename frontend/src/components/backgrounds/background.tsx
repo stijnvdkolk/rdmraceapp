@@ -16,7 +16,7 @@ export default function Background(props: BackgroundProps) {
 
   function backgroundChange() {
     let bg = document.getElementById("out");
-    if (colorTheme === "dark") {
+    if (bg?.classList?.contains("red")) {
       bg?.classList?.add("dark");
       bg?.classList?.remove("red");
       if (changeColorTheme != null) {        

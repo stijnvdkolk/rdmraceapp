@@ -13,14 +13,14 @@ html, body, #root, .App {
     text-align: center;
   }
   @media only screen and (max-width: 810px){
-    .Signup {padding-top: 20%;}
+    .Signup {padding-top: 5%;}
   }
   @media only screen and (min-width: 811px){
-    .Signup {padding-top: 10%;}
+    .Signup {padding-top: 2.5%;}
   }
   
   .TextField{
-    margin: 20px;
+    margin: 10px;
     
     height: 50%;
     display: flex;
@@ -28,3 +28,18 @@ html, body, #root, .App {
     flex-direction: column;
     justify-content: space-between;
   }
+.FileInputDiv{
+  margin-left: 41%;
+}
+.Overlay{
+  background-color: grey;
+  width: 75px;
+  height: 75px;
+  color: black;
+  opacity: 0;
+  grid-row: 1;
+  grid-column: 1;
+  margin-top: -75px;
+  border-radius: 45px;
+
+}

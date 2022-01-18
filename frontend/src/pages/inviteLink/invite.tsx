@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { ConsumeEffect } from "../../API/ApiCalls";
 import { getSpecificInvite } from "../../API/Chat";
-import Invite, { requestedInvite } from "../../classes/invites";
+import { requestedInvite } from "../../classes/invites";
 
 interface CodeParams {
     Code: string | undefined;
@@ -11,6 +11,7 @@ interface CodeParams {
 export default function InviteWindow() {
     const { Code } = useParams<CodeParams>()
     const [isValid, setIsValid] = useState<boolean>();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [invite, setInvite] = useState<requestedInvite | undefined>(undefined);
     useEffect(() => {
@@ -35,6 +36,7 @@ export default function InviteWindow() {
                 history.push("/Invalid");
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isValid])
     return (
         <div>
