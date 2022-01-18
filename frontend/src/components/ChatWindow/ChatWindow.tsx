@@ -474,7 +474,7 @@ export default function ChatWindow(props: IProps){
                               horizontal: 'left',
                             }}
                             >
-                            <UserProfile bigprofile={false} functieArg={LastClickedPerson!} self={false} />
+                            <UserProfile onClick={handleProfileClose} bigprofile={false} functieArg={LastClickedPerson!} self={false} />
                         </Popover>
                     </>
                 )                
