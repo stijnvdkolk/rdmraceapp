@@ -6,7 +6,7 @@ import { Test } from '@nestjs/testing';
 import { mockDeep } from 'jest-mock-extended';
 import { InviteService } from './invite.service';
 
-describe('ChannelService', () => {
+describe('InviteService', () => {
   let service: InviteService;
 
   beforeAll(async () => {
