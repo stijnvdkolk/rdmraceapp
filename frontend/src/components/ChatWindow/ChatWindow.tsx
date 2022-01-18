@@ -134,8 +134,6 @@ export default function ChatWindow(props: IProps){
             event.preventDefault();
             setlastclickedImage(event.target);
             setLastClickedPersonAttchment(event.target);
-            //console.log((event.target as HTMLImageElement).src === undefined ? ((event.target as HTMLDivElement).firstChild as HTMLImageElement).src === undefined ? "" : (((event.target as HTMLDivElement).firstChild as HTMLImageElement).src)   : (event.target as HTMLImageElement).src);
-            //typeof(event.target) == HTMLDivElement ? setLastCLicked(event.target as HTMLDivElement) : setLastCLicked(undefined);
             setImageContext(
             ImageContext === null
                 ? {
@@ -242,8 +240,6 @@ export default function ChatWindow(props: IProps){
         }
 
         function setLastClickedPersonAttchment(e : EventTarget){
-            // console.log(e);
-            // console.log( (e as HTMLImageElement).parentElement as HTMLDivElement);
             if ((e as HTMLImageElement).src !== "" && (e as HTMLImageElement).src && (e as HTMLImageElement).src.length > 1 ){
                 var temp : HTMLDivElement = (e as HTMLDivElement).parentElement as HTMLDivElement;
                 while((temp.parentElement as HTMLDivElement).id !== "" && (temp.parentElement as HTMLDivElement).id.length > 1){
@@ -569,7 +565,6 @@ export default function ChatWindow(props: IProps){
     };
     useEffect(() => {
         if (chosenEmoji !== null) {
-            console.log(chosenEmoji);
             setInput(input + chosenEmoji.emoji);
             setChosenEmoji(null);
         }

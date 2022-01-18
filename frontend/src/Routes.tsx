@@ -22,7 +22,8 @@ export default function Routes(props: IProps) {
       <Route path="/Tos" component={TermsOfService} />
       <Route path="/Chat/:channelID" component={Chat} />
       <Route path="/Chat/" component={Chat} />
-      <Route path="/Editprofile/" component={EditProfile} />
+      <Route path="/Editprofile/:personID/" component={EditProfile} />
+      <Route path="/Editprofile" component={EditProfile} />
       <Route path="/Invalid/" component={Invalid} />
       <Route path="/Admin/:PersonID" component={Admin} />
       <Route path="/Admin/" component={Admin} />
