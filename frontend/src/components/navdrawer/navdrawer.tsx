@@ -1,5 +1,5 @@
 import React, * as react from 'react';
-import {Drawer, AppBar, Popover} from '@mui/material';
+import {Drawer, AppBar, Popover, IconButton} from '@mui/material';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import "./navdrawer.css";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -42,16 +42,19 @@ export default function NavDrawer(props: IProps) {
             <img className="profile" width="75" alt="" src={imageLink}/>
             <label className={matches ? "product" : "product2"}>{name}</label>
             <div className="sp-Lockup2 Order2">
-                <Background className='DMI IIcon'/>
+                <Background className='DMI IIcon' />
                 <div className="Cursor1 ICursor"></div>
-                <PersonOutlinedIcon className="PersonIcon IIcon" sx={
-                    style => ({
-                        width: "30px",
-                        height: "30px",                        
-                    })
-                }
-                onClick={handleProfileClick}
-                />
+                <IconButton className="PersonIcon IIcon">
+                    <PersonOutlinedIcon  sx={
+                        style => ({
+                            width: "30px",
+                            height: "30px",                        
+                        })
+                    }
+                    color="secondary"
+                    onClick={handleProfileClick}
+                    />
+                </IconButton>
                 <Popover 
                     id={profileId}
                     open={profileOpen}
@@ -132,18 +135,3 @@ export default function NavDrawer(props: IProps) {
     );    
      
 }
-/*
-<!-- Usage -->
-<div className="NavBar">   
-    <Navdrawer name="asgfhjsadgfjasfhasfasfsaasfas" imageLink="https://images-ext-2.discordapp.net/external/NFu54hJJeAEsrCYWF0gaSEAj_Q7qAecwh2J4ZxlZWhE/%3Fsize%3D2048/https/cdn.discordapp.com/avatars/238401356690489344/5eefd320644cfcaf5546ad55ea1ff6a3.png">
-        <Divider/>
-        <label className="label leftside navbar">Nieuws Kanalen</label>
-        <NavListItem text="Belangrijk Nieuws" icon={<AccessibleIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
-        <Divider />
-        <label className="label leftside navbar">Chat Kanalen</label>
-        <NavListItem text="Publiek" icon={<ChildCareIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
-        <NavListItem text="Team Genoten" icon={<ChildFriendlyIcon />} onClickCommand={() => console.log("Nieuw Icons!")}/>
-        <NavListItem text="one more channel cuz why not" icon={<EuroIcon />}/>
-    </Navdrawer>
-</div>
-*/

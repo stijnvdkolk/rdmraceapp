@@ -50,10 +50,7 @@ export default function Chat() {
     history.push("/chat/" + id);
   }
   //#region APICalls
-  
-  // useEffect(() => {
-  //   console.log(getChannels());
-  // }, []);
+
 
   useEffect(() => {
     ConsumeEffect(setIsLoaded, setselfProfile, () => {return getSelf();} );
@@ -65,8 +62,6 @@ export default function Chat() {
   useEffect(() => {
       ConsumeEffect(setIsCLoaded, setchannels, () => {return getChannels();} );
   }, []);
-  console.log(channels);
-  console.log(selfProfile?.role);
   const [isLoadedConversation, setIsLoadedConversation] = useState<boolean>(false);
   const [Conversation, setConversation] = useState<Channel | undefined>(undefined); //Person[]
 

@@ -5,10 +5,10 @@ import Person from "../../classes/Person";
 import Pfp from "../../classes/profilePicture";
 import "./userProfile.css";
 import IProps from "../IProps";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import { getPerson, getSelf, MakeDM } from "../../API/Chat";
-import SendIcon from '@mui/icons-material/Send';
-import LogoutIcon from '@mui/icons-material/Logout';
+import SendIcon from "@mui/icons-material/Send";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useHistory } from "react-router-dom";
 //import { Logout } from "../../Logout";
 
@@ -16,6 +16,7 @@ interface ProfileProps extends IProps {
   bigprofile: boolean;
   functieArg?: string | undefined;
   self: boolean;
+  onClick?: () => void;
 }
 
 function Logout() {
@@ -33,6 +34,7 @@ export default function UserProfile(props: ProfileProps) {
   const { bigprofile } = props;
   const { functieArg } = props;
   const { self } = props;
+  const { onClick } = props;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [selfProfile, setselfProfile] = useState<Person | undefined>(undefined); //Person
@@ -41,14 +43,11 @@ export default function UserProfile(props: ProfileProps) {
   const [meLoaded, setMeLoaded] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [OwnProfile, setOwnProfile] = useState<boolean>(false);
-  
-
 
   const logout = () => {
     Logout();
   };
-  
-  
+
   useEffect(() => {
     if (self) {
       setOwnProfile(true);
@@ -79,26 +78,23 @@ export default function UserProfile(props: ProfileProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meProfile]);
   let history = useHistory();
-  async function makeDmAndYeet(){
-    if(meProfile?.id !== functieArg && !self){
-      await MakeDM(functieArg!).then(
-        (res) => {
-            history.push(`/chat/${res.id!}`);
+  async function makeDmAndYeet() {
+    if (meProfile?.id !== functieArg && !self) {
+      await MakeDM(functieArg!).then((res) => {
+        if(onClick){
+          onClick();
         }
-      );
+        history.push(`/chat/${res.id!}`);
+      });
     }
-    
   }
 
-  // useEffect(() => {
-  //   console.log(OwnProfile);
-  // }, [OwnProfile]);
   //TODO: David om te zien of het eigen profiel is, OOK IN CHAT gebruik OwnProfile
   return (
     <Card
       className={bigprofile ? "GridParent" : "GridParentSmall"}
       sx={{
-        width: bigprofile ? "500px" : "270px",
+        width: bigprofile ? "360px" : "320px",
         height: bigprofile ? "500px" : "375px",
         borderRadius: "16px",
       }}
@@ -131,20 +127,20 @@ export default function UserProfile(props: ProfileProps) {
                     onClick={makeDmAndYeet}
                     variant="contained"
                     sx={{
-                      right: "20px",                        
-                      height: "35px",
+                      right: "20px",
+                      height: "50px",
                       top: "20px",
                       width: "200px",
                     }}
                     endIcon={<SendIcon />}
                   >{`message ${selfProfile.username}`}</Button>
                 ) : (
-                  <div className="LogoutEdit" > 
+                  <div className="LogoutEdit">
                     <Button
                       onClick={logout}
-                      variant="contained" 
+                      variant="contained"
                       sx={{
-                        right: "40px",                        
+                        right: "10px",
                         height: "35px",
                         width: "175px",
                         gridRow: "1",
@@ -156,23 +152,44 @@ export default function UserProfile(props: ProfileProps) {
                     <Button
                       endIcon={<EditIcon />}
                       color="secondary"
-                      variant="contained" 
+                      variant="contained"
+                      onClick={() => {
+                        history.push("/editprofile");
+                      }}
                       sx={{
-                        right: "40px",
+                        right: "10px",
                         height: "35px",
+                        marginTop: "3px",
                         width: "175px",
                         gridRow: "2",
                       }}
                     >
-
                       Edit Profile
                     </Button>
-
+                    {selfProfile.role === "ADMIN" ? (
+                      <Button
+                      endIcon={<EditIcon />}
+                      color="secondary"
+                      variant="contained"
+                      onClick={() => {
+                        history.push("/Admin");
+                      }}
+                      sx={{
+                        right: "10px",
+                        height: "35px",
+                        marginTop: "3px",
+                        width: "175px",
+                        gridRow: "3",
+                      }}>
+                        Admin Page
+                      </Button>
+                    ) : (
+                      <></>)}
                   </div>
                 )}
               </div>
-              <div className="name">                
-                <h3>{selfProfile.username}</h3>                
+              <div className="name">
+                <h3>{selfProfile.username}</h3>
               </div>
               <div className="divide">
                 <Divider />
