@@ -1,5 +1,5 @@
 //import Background from "../../components/backgrounds/background";
-import { Avatar, Button, Card } from "@mui/material";
+import { Avatar, Button, Card, Popover } from "@mui/material";
 import "../Admin/admin.css";
 import NavDrawer from "../../components/navdrawer/navdrawer";
 import { useState, useEffect } from "react";
@@ -16,6 +16,8 @@ import { getPeople, getSelf } from "../../API/Chat";
 import Pfp from "../../classes/profilePicture";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import InviteList from "../../components/inviteList/inviteList";
+import CreateInvite from "../../components/CreateInvite/CreateInvite";
+import React from "react";
 
 export default function Admin() {
   let history = useHistory();
@@ -43,13 +45,41 @@ export default function Admin() {
     ConsumeEffect(setIsCLoaded, setcontacts, () => {
       return getPeople(1);
     });
-  }, []);
+  }, []); //
 
   const [displayUsers, setDisplayUsers] = useState<boolean>(true);
 
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(false);
+  const id = open ? "simple-popover" : undefined;
+
+  const [createOn, setcreateOn] = useState(null);
+  const handlecreateClick = (event: any) => {
+    setcreateOn(event.currentTarget);
+  };
+  const Getcreate = (event: any) => {
+    handlecreateClick(event);
+  };
+
+  const handlecreateClose = () => {
+    setcreateOn(null);
+  };
+  const createOpen = Boolean(createOn);
+  const createId = createOpen ? "simple-popover" : undefined;
+
   return (
     <>
-      {self && (
+      {self && self.role === "ADMIN" && (
         <div className="Admin">
           <div className="options">
             <Card
@@ -63,26 +93,46 @@ export default function Admin() {
               }}
             >
               <h2 style={{ paddingLeft: "5%" }}>
-                {/*<AccountCircleIcon />*/}
-                <Button variant="text" onClick={() => history.push("/chat")}>
-                  <ArrowBackOutlinedIcon />
-                  back
-                </Button>
-                <Button onClick={() => setDisplayUsers(true)}>Users</Button>
-                <Button onClick={() => setDisplayUsers(false)}>
-                  Invite links
-                </Button>
-                {displayUsers ? null : (
-                  <Button
-                    variant="contained"
-                    sx={{
-                      float: "right",
-                      marginRight: "5%",
-                    }}
-                  >
-                    create invite
+                <div>
+                  <Button variant="text" onClick={() => history.push("/chat")}>
+                    <ArrowBackOutlinedIcon />
+                    back
                   </Button>
-                )}
+                  <Button onClick={() => setDisplayUsers(true)}>Users</Button>
+                  <Button onClick={() => setDisplayUsers(false)}>
+                    Invite links
+                  </Button>
+                  {displayUsers ? null : (
+                    <>
+                      <Button
+                        variant="contained"
+                        onClick={handlecreateClick}
+                        sx={{
+                          float: "right",
+                          marginRight: "5%",
+                        }}
+                      >
+                        Create invite
+                      </Button>
+                      <Popover
+                        id={createId}
+                        open={createOpen}
+                        anchorEl={createOn}
+                        onClose={handlecreateClose}
+                        anchorOrigin={{
+                          vertical: "bottom",
+                          horizontal: "right",
+                        }}
+                        transformOrigin={{
+                          vertical: "top",
+                          horizontal: "right",
+                        }}
+                      >
+                        <CreateInvite />
+                      </Popover>
+                    </>
+                  )}
+                </div>
               </h2>
               <Divider variant="middle" />
               {displayUsers ? <AdminList /> : <InviteList />}

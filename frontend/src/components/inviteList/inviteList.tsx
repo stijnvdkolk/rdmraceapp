@@ -48,14 +48,13 @@ export default function InviteList() {
   }, [page]);
 
   const rows = invites?.map((invite) => {
-    console.log(invite);    
     return {
       id: invite.id,
       code: invite.code,
       role: invite.role,
       amountUsed: invite.amountUsed,
       maxuses: invite.maxUses,
-      expiry: invite.expireAt,
+      expiry: new Date(invite.expireAt).toLocaleString(),
     };
   });
   // let history = useHistory();

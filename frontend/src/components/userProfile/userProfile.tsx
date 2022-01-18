@@ -5,10 +5,10 @@ import Person from "../../classes/Person";
 import Pfp from "../../classes/profilePicture";
 import "./userProfile.css";
 import IProps from "../IProps";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import { getPerson, getSelf, MakeDM } from "../../API/Chat";
-import SendIcon from '@mui/icons-material/Send';
-import LogoutIcon from '@mui/icons-material/Logout';
+import SendIcon from "@mui/icons-material/Send";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useHistory } from "react-router-dom";
 //import { Logout } from "../../Logout";
 
@@ -16,7 +16,6 @@ interface ProfileProps extends IProps {
   bigprofile: boolean;
   functieArg?: string | undefined;
   self: boolean;
-  
 }
 
 function Logout() {
@@ -42,14 +41,11 @@ export default function UserProfile(props: ProfileProps) {
   const [meLoaded, setMeLoaded] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [OwnProfile, setOwnProfile] = useState<boolean>(false);
-  
-
 
   const logout = () => {
     Logout();
   };
-  
-  
+
   useEffect(() => {
     if (self) {
       setOwnProfile(true);
@@ -80,15 +76,12 @@ export default function UserProfile(props: ProfileProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meProfile]);
   let history = useHistory();
-  async function makeDmAndYeet(){
-    if(meProfile?.id !== functieArg && !self){
-      await MakeDM(functieArg!).then(
-        (res) => {
-            history.push(`/chat/${res.id!}`);
-        }
-      );
+  async function makeDmAndYeet() {
+    if (meProfile?.id !== functieArg && !self) {
+      await MakeDM(functieArg!).then((res) => {
+        history.push(`/chat/${res.id!}`);
+      });
     }
-    
   }
 
   // useEffect(() => {
@@ -132,7 +125,7 @@ export default function UserProfile(props: ProfileProps) {
                     onClick={makeDmAndYeet}
                     variant="contained"
                     sx={{
-                      right: "20px",                        
+                      right: "20px",
                       height: "50px",
                       top: "20px",
                       width: "200px",
@@ -140,12 +133,12 @@ export default function UserProfile(props: ProfileProps) {
                     endIcon={<SendIcon />}
                   >{`message ${selfProfile.username}`}</Button>
                 ) : (
-                  <div className="LogoutEdit" > 
+                  <div className="LogoutEdit">
                     <Button
                       onClick={logout}
-                      variant="contained" 
+                      variant="contained"
                       sx={{
-                        right: "10px",                        
+                        right: "10px",
                         height: "35px",
                         width: "175px",
                         gridRow: "1",
@@ -157,8 +150,10 @@ export default function UserProfile(props: ProfileProps) {
                     <Button
                       endIcon={<EditIcon />}
                       color="secondary"
-                      variant="contained" 
-                      onClick={() => { history.push("/editprofile")}}
+                      variant="contained"
+                      onClick={() => {
+                        history.push("/editprofile");
+                      }}
                       sx={{
                         right: "10px",
                         height: "35px",
@@ -166,15 +161,13 @@ export default function UserProfile(props: ProfileProps) {
                         gridRow: "2",
                       }}
                     >
-
                       Edit Profile
                     </Button>
-
                   </div>
                 )}
               </div>
-              <div className="name">                
-                <h3>{selfProfile.username}</h3>                
+              <div className="name">
+                <h3>{selfProfile.username}</h3>
               </div>
               <div className="divide">
                 <Divider />
