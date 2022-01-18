@@ -83,21 +83,12 @@ export default function SignUp() {
       formData.append("password", password);
 
       await sendData(`/invites/${Code}`, formData).then((res) => {
-        console.log(res);
-        if(res.status === 200){
-          getToken(username, password).then((result) => {
-            localStorage.setItem("token", result.token.toString());
-            history.push("/chat");
-          });
-        }
-        else{
-          setError(true);
-          setNotification(true); // Dit zet de Notification wanneer er een error is
           setTimeout(() => {
-            // Wacht X seconde voordat de error wordt verwijderd
-            setNotification(false); // Verwijder de notification
-          }, 5000);
-        }
+            getToken(email, password).then((result) => {
+              localStorage.setItem("DogeToken", result.token.toString());
+              history.push("/chat");
+            });
+          }, 3000);
       });
     } else {
       // als er een fout is
