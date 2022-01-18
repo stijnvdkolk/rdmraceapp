@@ -18,3 +18,7 @@ export class InviteBuilder {
     this.expiresAt = expiresAt;
   }  
 }
+export class requestedInvite{
+  isValid!: boolean;
+  invite!: Invite;
+}

@@ -16,6 +16,7 @@ interface ProfileProps extends IProps {
   bigprofile: boolean;
   functieArg?: string | undefined;
   self: boolean;
+  onClick?: () => void;
 }
 
 function Logout() {
@@ -33,6 +34,7 @@ export default function UserProfile(props: ProfileProps) {
   const { bigprofile } = props;
   const { functieArg } = props;
   const { self } = props;
+  const { onClick } = props;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [selfProfile, setselfProfile] = useState<Person | undefined>(undefined); //Person
@@ -79,6 +81,9 @@ export default function UserProfile(props: ProfileProps) {
   async function makeDmAndYeet() {
     if (meProfile?.id !== functieArg && !self) {
       await MakeDM(functieArg!).then((res) => {
+        if(onClick){
+          onClick();
+        }
         history.push(`/chat/${res.id!}`);
       });
     }

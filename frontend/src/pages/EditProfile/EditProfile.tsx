@@ -12,6 +12,7 @@ import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Background from "../../components/backgrounds/background";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import Notification from "../../components/notification/notification"; 
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 interface AParams {
     personID: string | undefined;
   }
@@ -131,8 +132,8 @@ export default function UserProfile() {
             setPasswordChanged(false);
         }
         if(email){
-            if (email.length > 20) {
-                setEmail(email.substring(0, 20));
+            if (email.length > 30) {
+                setEmail(email.substring(0, 30));
             }
             if (email.length > 6){
                 setEmailChanged(true);
@@ -276,6 +277,12 @@ export default function UserProfile() {
                             Save Changes &nbsp;
                             <SaveOutlinedIcon />
                         </Button>
+                        {personID && anotherLoaded && anotherProfile && (
+                            <Button variant="contained" color="secondary" onClick={() => history.push(`/admin/users/${anotherProfile.id}`)} >
+                            Delete User &nbsp;
+                            <DeleteOutlineOutlinedIcon />
+                            </Button>                        
+                        )}
                     </div>
                     <Dialog
                         open={open}

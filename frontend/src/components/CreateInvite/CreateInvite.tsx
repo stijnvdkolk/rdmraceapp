@@ -2,8 +2,11 @@ import { Button, Card, MenuItem, TextField } from "@mui/material";
 import React from "react";
 import { createInvite } from "../../API/Chat";
 import { InviteBuilder } from "../../classes/invites";
+import IProps from "../IProps";
 
-export default function CreateInvite() {
+
+export default function CreateInvite(props: IProps) {
+  const {onClick } = props;
   const [currentSelectOption, setCurrentSelectOption] =
     React.useState<string>("TEAM_MEMBER");
   const handleSelectOption = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,9 +41,11 @@ export default function CreateInvite() {
       var invitebuilder = new InviteBuilder(currentMaxUses, currentSelectOption, new Date(currentDate));
       
       var i = createInvite(invitebuilder);
+      if(onClick){
+        onClick();
+      }
     }
   }
-
   return (
     <Card
       sx={{

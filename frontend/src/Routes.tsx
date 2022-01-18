@@ -10,12 +10,16 @@ import HomePage from './pages/Home/HomePage';
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService/TermsOfService';
 import EditProfile from './pages/EditProfile/EditProfile';
+import InviteWindow from './pages/inviteLink/invite';
 
 export default function Routes(props: IProps) {
   return (
     <Switch>
       <Route path="/Login" component={Login} />
+      <Route path="/SignUp/:Code" component={SignUp} />
       <Route path="/SignUp" component={SignUp} />
+      <Route path="/Invite/:Code" component={InviteWindow} />
+      <Route path="/Invite" component={InviteWindow} />
       <Route path="/Privacy" component={PrivacyPolicy} />
       <Route path="/Terms" component={TermsOfService} />
       <Route path="/TermsOfService" component={TermsOfService} />
