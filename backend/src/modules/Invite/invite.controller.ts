@@ -44,7 +44,6 @@ export class InviteController {
 
     let isValid = true;
 
-    isValid = false;
     // invite validating
     const date = new Date();
 
@@ -95,7 +94,6 @@ export class InviteController {
 
     let isValid = true;
 
-    isValid = false;
     // invite validating
     const date = new Date();
 
