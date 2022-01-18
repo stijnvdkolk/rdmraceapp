@@ -1,7 +1,7 @@
-import * as React from "react";
-import Snackbar from "@mui/material/Snackbar";
-import { Alert } from "@mui/material";
-import IProps from "../IProps";
+import * as React from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import { Alert } from '@mui/material';
+import IProps from '../IProps';
 
 // needed: onClick property to determine the click type
 interface NoteProps extends IProps {
@@ -19,7 +19,7 @@ export default function Notification(props: NoteProps) {
     event: React.SyntheticEvent<any, any> | React.MouseEvent<any, any> | Event,
     reason?: string
   ) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setOpen(false);
@@ -48,7 +48,7 @@ export default function Notification(props: NoteProps) {
   return (
     <div>
       <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={open}
         autoHideDuration={5000}
         onClose={handleClose}

@@ -1,17 +1,17 @@
 //import Background from "../../components/backgrounds/background";
-import { Button, Card, Popover } from "@mui/material";
-import "../Admin/admin.css";
-import { useState, useEffect } from "react";
-import { Divider } from "@mui/material";
-import { useHistory } from "react-router-dom";
-import AdminList from "../../components/adminList/adminList";
-import Person from "../../classes/Person";
-import { ConsumeEffect } from "../../API/ApiCalls";
-import { getPeople, getSelf } from "../../API/Chat";
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
-import InviteList from "../../components/inviteList/inviteList";
-import CreateInvite from "../../components/CreateInvite/CreateInvite";
-import React from "react";
+import { Button, Card, Popover } from '@mui/material';
+import '../Admin/admin.css';
+import { useState, useEffect } from 'react';
+import { Divider } from '@mui/material';
+import { useHistory } from 'react-router-dom';
+import AdminList from '../../components/adminList/adminList';
+import Person from '../../classes/Person';
+import { ConsumeEffect } from '../../API/ApiCalls';
+import { getSelf } from '../../API/Chat';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import InviteList from '../../components/inviteList/inviteList';
+import CreateInvite from '../../components/CreateInvite/CreateInvite';
+import React from 'react';
 
 export default function Admin() {
   let history = useHistory();
@@ -26,7 +26,6 @@ export default function Admin() {
     });
   }, []);
 
-
   const [displayUsers, setDisplayUsers] = useState<boolean>(true);
   const [createOn, setcreateOn] = useState(null);
   const handlecreateClick = (event: any) => {
@@ -37,26 +36,26 @@ export default function Admin() {
     setcreateOn(null);
   };
   const createOpen = Boolean(createOn);
-  const createId = createOpen ? "simple-popover" : undefined;
+  const createId = createOpen ? 'simple-popover' : undefined;
 
   return (
     <>
-      {self && self.role === "ADMIN" && (
+      {self && self.role === 'ADMIN' && (
         <div className="Admin">
           <div className="options">
             <Card
               style={{
-                width: "65vw",
-                height: "90vh",
-                borderRadius: "16px",
-                marginTop: "43px",
-                marginRight: "10px",
-                marginLeft: "0vw",
+                width: '65vw',
+                height: '90vh',
+                borderRadius: '16px',
+                marginTop: '43px',
+                marginRight: '10px',
+                marginLeft: '0vw',
               }}
             >
-              <h2 style={{ paddingLeft: "5%" }}>
+              <h2 style={{ paddingLeft: '5%' }}>
                 <div>
-                  <Button variant="text" onClick={() => history.push("/chat")}>
+                  <Button variant="text" onClick={() => history.push('/chat')}>
                     <ArrowBackOutlinedIcon />
                     back
                   </Button>
@@ -70,8 +69,8 @@ export default function Admin() {
                         variant="contained"
                         onClick={handlecreateClick}
                         sx={{
-                          float: "right",
-                          marginRight: "5%",
+                          float: 'right',
+                          marginRight: '5%',
                         }}
                       >
                         Create invite
@@ -82,15 +81,15 @@ export default function Admin() {
                         anchorEl={createOn}
                         onClose={handlecreateClose}
                         anchorOrigin={{
-                          vertical: "bottom",
-                          horizontal: "right",
+                          vertical: 'bottom',
+                          horizontal: 'right',
                         }}
                         transformOrigin={{
-                          vertical: "top",
-                          horizontal: "right",
+                          vertical: 'top',
+                          horizontal: 'right',
                         }}
                       >
-                        <CreateInvite onClick={handlecreateClose}  />
+                        <CreateInvite onClick={handlecreateClose} />
                       </Popover>
                     </>
                   )}

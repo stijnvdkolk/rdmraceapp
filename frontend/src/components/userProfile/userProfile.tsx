@@ -1,15 +1,15 @@
-import { Button, Card, CircularProgress, Divider } from "@mui/material";
-import { useEffect, useState } from "react";
-import { ConsumeEffect } from "../../API/ApiCalls";
-import Person from "../../classes/Person";
-import Pfp from "../../classes/profilePicture";
-import "./userProfile.css";
-import IProps from "../IProps";
-import EditIcon from "@mui/icons-material/Edit";
-import { getPerson, getSelf, MakeDM } from "../../API/Chat";
-import SendIcon from "@mui/icons-material/Send";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { useHistory } from "react-router-dom";
+import { Button, Card, CircularProgress, Divider } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { ConsumeEffect } from '../../API/ApiCalls';
+import Person from '../../classes/Person';
+import Pfp from '../../classes/profilePicture';
+import './userProfile.css';
+import IProps from '../IProps';
+import EditIcon from '@mui/icons-material/Edit';
+import { getPerson, getSelf, MakeDM } from '../../API/Chat';
+import SendIcon from '@mui/icons-material/Send';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useHistory } from 'react-router-dom';
 //import { Logout } from "../../Logout";
 
 interface ProfileProps extends IProps {
@@ -20,7 +20,7 @@ interface ProfileProps extends IProps {
 }
 
 function Logout() {
-  localStorage.removeItem("DogeToken");
+  localStorage.removeItem('DogeToken');
   window.location.reload();
 }
 
@@ -81,7 +81,7 @@ export default function UserProfile(props: ProfileProps) {
   async function makeDmAndYeet() {
     if (meProfile?.id !== functieArg && !self) {
       await MakeDM(functieArg!).then((res) => {
-        if(onClick){
+        if (onClick) {
           onClick();
         }
         history.push(`/chat/${res.id!}`);
@@ -92,11 +92,11 @@ export default function UserProfile(props: ProfileProps) {
   //TODO: David om te zien of het eigen profiel is, OOK IN CHAT gebruik OwnProfile
   return (
     <Card
-      className={bigprofile ? "GridParent" : "GridParentSmall"}
+      className={bigprofile ? 'GridParent' : 'GridParentSmall'}
       sx={{
-        width: bigprofile ? "360px" : "320px",
-        height: bigprofile ? "500px" : "375px",
-        borderRadius: "16px",
+        width: bigprofile ? '360px' : '320px',
+        height: bigprofile ? '500px' : '375px',
+        borderRadius: '16px',
       }}
     >
       {isLoaded ? (
@@ -105,7 +105,7 @@ export default function UserProfile(props: ProfileProps) {
             <>
               <div className="ProfEnStatus">
                 <img
-                  className={bigprofile ? "profPic" : "profPicSmall"}
+                  className={bigprofile ? 'profPic' : 'profPicSmall'}
                   alt={selfProfile.username}
                   src={Pfp(selfProfile.id!, selfProfile.profilePicture!)}
                 />
@@ -113,12 +113,12 @@ export default function UserProfile(props: ProfileProps) {
                   className="status"
                   style={{
                     backgroundColor:
-                      selfProfile.status === "ONLINE" ? "lime" : "grey",
-                    width: bigprofile ? "35px" : "25px",
-                    height: bigprofile ? "35px" : "25px",
-                    borderRadius: "20px",
-                    marginTop: bigprofile ? "65px" : "55px",
-                    marginLeft: "-100%",
+                      selfProfile.status === 'ONLINE' ? 'lime' : 'grey',
+                    width: bigprofile ? '35px' : '25px',
+                    height: bigprofile ? '35px' : '25px',
+                    borderRadius: '20px',
+                    marginTop: bigprofile ? '65px' : '55px',
+                    marginLeft: '-100%',
                   }}
                 />
                 {meProfile?.id !== functieArg && !self ? (
@@ -127,10 +127,10 @@ export default function UserProfile(props: ProfileProps) {
                     onClick={makeDmAndYeet}
                     variant="contained"
                     sx={{
-                      right: "20px",
-                      height: "50px",
-                      top: "20px",
-                      width: "200px",
+                      right: '20px',
+                      height: '50px',
+                      top: '20px',
+                      width: '200px',
                     }}
                     endIcon={<SendIcon />}
                   >{`message ${selfProfile.username}`}</Button>
@@ -140,10 +140,10 @@ export default function UserProfile(props: ProfileProps) {
                       onClick={logout}
                       variant="contained"
                       sx={{
-                        right: "10px",
-                        height: "35px",
-                        width: "175px",
-                        gridRow: "1",
+                        right: '10px',
+                        height: '35px',
+                        width: '175px',
+                        gridRow: '1',
                       }}
                       endIcon={<LogoutIcon />}
                     >
@@ -154,37 +154,39 @@ export default function UserProfile(props: ProfileProps) {
                       color="secondary"
                       variant="contained"
                       onClick={() => {
-                        history.push("/editprofile");
+                        history.push('/editprofile');
                       }}
                       sx={{
-                        right: "10px",
-                        height: "35px",
-                        marginTop: "3px",
-                        width: "175px",
-                        gridRow: "2",
+                        right: '10px',
+                        height: '35px',
+                        marginTop: '3px',
+                        width: '175px',
+                        gridRow: '2',
                       }}
                     >
                       Edit Profile
                     </Button>
-                    {selfProfile.role === "ADMIN" ? (
+                    {selfProfile.role === 'ADMIN' ? (
                       <Button
-                      endIcon={<EditIcon />}
-                      color="secondary"
-                      variant="contained"
-                      onClick={() => {
-                        history.push("/Admin");
-                      }}
-                      sx={{
-                        right: "10px",
-                        height: "35px",
-                        marginTop: "3px",
-                        width: "175px",
-                        gridRow: "3",
-                      }}>
+                        endIcon={<EditIcon />}
+                        color="secondary"
+                        variant="contained"
+                        onClick={() => {
+                          history.push('/Admin');
+                        }}
+                        sx={{
+                          right: '10px',
+                          height: '35px',
+                          marginTop: '3px',
+                          width: '175px',
+                          gridRow: '3',
+                        }}
+                      >
                         Admin Page
                       </Button>
                     ) : (
-                      <></>)}
+                      <></>
+                    )}
                   </div>
                 )}
               </div>

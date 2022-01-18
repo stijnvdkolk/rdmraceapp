@@ -31,7 +31,6 @@ export default function Routes(props: IProps) {
       <Route path="/Invalid/" component={Invalid} />
       <Route path="/Admin/:PersonID" component={Admin} />
       <Route path="/Admin/" component={Admin} />
-      <Route path="/Debug" component={Debug} />
       <Route path="/" component={HomePage} />
     </Switch>
   );

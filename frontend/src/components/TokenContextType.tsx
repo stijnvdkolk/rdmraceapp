@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import { useState } from "react";
-import Person from "../classes/Person";
+import React, { FC } from 'react';
+import { useState } from 'react';
+import Person from '../classes/Person';
 
 type TokenContextType = {
   token: string;
@@ -11,35 +11,39 @@ type TokenContextType = {
 
 export const TokenContext = React.createContext<Partial<TokenContextType>>({});
 export const TokenProvider: FC = ({ children }) => {
-    const [token, setToken] = useState<string>("");
-    const [me, setMe] = useState<Person>();
-    return (
-        <TokenContext.Provider value={{
-            token,
-            me,
-            setToken,
-            setMe,
-        }}>
-            {children}
-        </TokenContext.Provider>
-    );
+  const [token, setToken] = useState<string>('');
+  const [me, setMe] = useState<Person>();
+  return (
+    <TokenContext.Provider
+      value={{
+        token,
+        me,
+        setToken,
+        setMe,
+      }}
+    >
+      {children}
+    </TokenContext.Provider>
+  );
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 type UserContextType = {
-    user: Person;
-    setUser: (user: Person) => void;
+  user: Person;
+  setUser: (user: Person) => void;
 };
 
 export const UserContext = React.createContext<Partial<UserContextType>>({});
 export const UserProvider: FC = ({ children }) => {
-    const [user, setUser] = useState<Person>();
-    return (
-        <UserContext.Provider value={{
-            user,
-            setUser,
-        }}>
-            {children}
-        </UserContext.Provider>
-    );
+  const [user, setUser] = useState<Person>();
+  return (
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
 };

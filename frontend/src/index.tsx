@@ -9,7 +9,7 @@ import { ThemeProvider } from './components/theme-context';
 ReactDOM.render(
   <ThemeProvider>
     <BrowserRouter>
-        <App />
+      <App />
     </BrowserRouter>
   </ThemeProvider>,
   document.getElementById('root')

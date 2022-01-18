@@ -1,198 +1,195 @@
-.MuiDrawer-paperAnchorDockedLeft{
-    /* bruh */
-    left: 50px;
-    top: 27px;
-    justify-content: left;
-    /* M3/read-only/light/surface1 */
-    
-    border-radius: 20px;
+.MuiDrawer-paperAnchorDockedLeft {
+  /* bruh */
+  left: 50px;
+  top: 27px;
+  justify-content: left;
+  /* M3/read-only/light/surface1 */
+
+  border-radius: 20px;
 }
 
-.chatprofile{
-    cursor: pointer;
-    /* Auto Layout */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 8px 8px 8px 16px;
-    
-    width: 336px;
-    height: 56px;
-    left: 12px;
-    top: 12px;
-    /* Inside Auto Layout */
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 0px 0px;
-}
-.fullwidth{
-    width: 90%;
-}
-.rightlined{
-    width: 336px;
-}
-.sp-Lockup{
-    /* 18sp Lockup */
-    /* Auto Layout */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px;
-    height: 42px;
-    left: 16px;
-    top: 7px;
-    /* Inside Auto Layout */
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 34px 0px;
-}
-.DMI{
-    order: 4;
-    justify-content: center;
-    vertical-align: middle;
-    margin-right: 10px;
-}
-.ICursor{
-    cursor: pointer;
-    width: 0px;
-    height: 32px;
-    top: calc(50% - 32px/2);
-    
-    border: 1px solid #1F1F1F;
-    /* Inside Auto Layout */
-    flex: none;    
-    flex-grow: 0;
-    margin-left: 5px;
-    margin-right: 5px;
+.chatprofile {
+  /* Auto Layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 8px 8px 8px 16px;
 
+  width: 336px;
+  height: 56px;
+  left: 12px;
+  top: 12px;
+  /* Inside Auto Layout */
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 0px 0px;
+}
+.fullwidth {
+  width: 90%;
+}
+.rightlined {
+  width: 336px;
+}
+.sp-Lockup {
+  /* 18sp Lockup */
+  /* Auto Layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  height: 42px;
+  left: 16px;
+  top: 7px;
+  /* Inside Auto Layout */
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 34px 0px;
+}
+.DMI {
+  order: 4;
+  justify-content: center;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.ICursor {
+  cursor: pointer;
+  width: 0px;
+  height: 32px;
+  top: calc(50% - 32px / 2);
+
+  border: 1px solid #1f1f1f;
+  /* Inside Auto Layout */
+  flex: none;
+  flex-grow: 0;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 @media (prefers-color-scheme: dark) {
-    .ICursor   { border: 1px solid rgb(107, 107, 107); }
+  .ICursor {
+    border: 1px solid rgb(107, 107, 107);
   }
-.Cursor1{
-    order: 3;
 }
-.Cursor2{
-    order: 5;
-    margin-left: -5px;
+.Cursor1 {
+  order: 3;
 }
-.IIcon{
-    /* Icons/person_outline_24px
+.Cursor2 {
+  order: 5;
+  margin-left: -5px;
+}
+.IIcon {
+  /* Icons/person_outline_24px
     person, outline, human, people, face, profile, user, account
     */
-    cursor: pointer;
-    /* Inside Auto Layout */
-    width: 30px;
-    height: 30px;
+  cursor: pointer;
+  /* Inside Auto Layout */
+  width: 30px;
+  height: 30px;
 }
-.PersonIcon{
-    order: 2;
-}
-
-.Hamburger{
-    order: 6;
-}
-.pressables{
-    position: relative;
-    align-self: stretch;
-    float: right;
-
-    justify-content: right;
-    left: auto;
-    right: 10px;
-    float: right;
-    
-    flex: none;
-    order: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.product{
-    width: 15em !important;
-    height: 42px;
-    left: 52px;
-    top: calc(50% - 42px/2);
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 21px;
-    line-height: 24px;
-    /* or 96% */
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.1px;
-    order: 1;
-
-
-}
-.product2{
-    width: 50em !important;
-    height: 42px;
-    left: 52px;
-    top: calc(50% - 42px/2);
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 25px;
-    line-height: 24px;
-    /* or 96% */
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.1px;
-    order: 1;
-
-
+.PersonIcon {
+  order: 2;
 }
 
-.profile{
-    /* profile Picture */
-    width: 50px;
-    height: 50px;
-    left: 0px;
-    top: 0px;
-    /* Inside Auto Layout */
-    flex: none;
-    flex-grow: 0;
-    margin: 0px;
-    border-radius: 45px;
-    margin-right: 10px;
-    order: 0;
+.Hamburger {
+  order: 6;
 }
-.navdraw{
-    display: block;
+.pressables {
+  position: relative;
+  align-self: stretch;
+  float: right;
+
+  justify-content: right;
+  left: auto;
+  right: 10px;
+  float: right;
+
+  flex: none;
+  order: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.Divider{
-    order: 1;
-    float: right;
+.product {
+  width: 15em !important;
+  height: 42px;
+  left: 52px;
+  top: calc(50% - 42px / 2);
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 21px;
+  line-height: 24px;
+  /* or 96% */
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1px;
+  order: 1;
+}
+.product2 {
+  width: 50em !important;
+  height: 42px;
+  left: 52px;
+  top: calc(50% - 42px / 2);
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 24px;
+  /* or 96% */
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1px;
+  order: 1;
 }
 
-.Darkmode   { background-color: #1e1e1e !important; }
-
-.Order2{
-    order: 2;
-
+.profile {
+  /* profile Picture */
+  width: 50px;
+  height: 50px;
+  left: 0px;
+  top: 0px;
+  /* Inside Auto Layout */
+  flex: none;
+  flex-grow: 0;
+  margin: 0px;
+  border-radius: 45px;
+  margin-right: 10px;
+  order: 0;
 }
-.sp-Lockup2{
-    /* 18sp Lockup */
-    /* Auto Layout */
-    float: right;
-    left: auto;
-    right: 32px;
-    margin-right: 12px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px;
-    /* Inside Auto Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 0;
+.navdraw {
+  display: block;
+}
+.Divider {
+  order: 1;
+  float: right;
+}
+
+.Darkmode {
+  background-color: #1e1e1e !important;
+}
+
+.Order2 {
+  order: 2;
+}
+.sp-Lockup2 {
+  /* 18sp Lockup */
+  /* Auto Layout */
+  float: right;
+  left: auto;
+  right: 32px;
+  margin-right: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  /* Inside Auto Layout */
+  flex: none;
+  align-self: stretch;
+  flex-grow: 0;
 }

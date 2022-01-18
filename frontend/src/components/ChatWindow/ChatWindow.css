@@ -1,243 +1,230 @@
-.profile{
-    /* profile Picture */
-    width: 50px;
-    height: 50px;
-    left: 0px;
-    top: 0px;
-    /* Inside Auto Layout */
-    flex: none;
-    flex-grow: 0;
-    margin: 0px;
-    border-radius: 45px;
-    margin-right: 10px;
-    float: left;
+.profile {
+  /* profile Picture */
+  width: 50px;
+  height: 50px;
+  left: 0px;
+  top: 0px;
+  /* Inside Auto Layout */
+  flex: none;
+  flex-grow: 0;
+  margin: 0px;
+  border-radius: 45px;
+  margin-right: 10px;
+  float: left;
 }
-.Iprofile{
-    order: 0;
+.Iprofile {
+  order: 0;
 }
-.productChat{
-    width: 9.5em;
-    height: 50px;
-    left: 52px;
-    right: 94px;
-    top: calc(50% - 42px/2);
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 25px;
-    line-height: 24px;
-    /* or 96% */
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.1px;
-    float: left;
+.productChat {
+  width: 9.5em;
+  height: 50px;
+  left: 52px;
+  right: 94px;
+  top: calc(50% - 42px / 2);
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 24px;
+  /* or 96% */
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1px;
+  float: left;
 }
-.Iproduct{
-    order: 1;
+.Iproduct {
+  order: 1;
 }
-.chatHeaderContainer{
-    /* Product Lockup */
-    right: 100px;
-    /* Auto Layout */
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 8px 8px 8px 16px;
-    height: 56px;
-    left: 12px;
-}
-
-.MessageInput{
-    width: 95%;
-}
-.MessageInput2{
-    width: 100%;
-    margin-bottom: 10px;
-}
-.sendFormInner{
-    width: 100%;
-    padding-bottom: 10px;
+.chatHeaderContainer {
+  /* Product Lockup */
+  right: 100px;
+  /* Auto Layout */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 8px 8px 8px 16px;
+  height: 56px;
+  left: 12px;
 }
 
-.conversation{
-    overflow-y: scroll;
-    grid-row: 3;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    width: 100%;
+.MessageInput {
+  width: 95%;
 }
-.messageParent{
-    padding-bottom: 10px;
+.MessageInput2 {
+  width: 100%;
+  margin-bottom: 10px;
 }
-    
-.message{ 
-    padding-right: 10px;
-    display: grid;
-    grid-template-columns: 30px 60px auto auto;
-    grid-template-rows: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
-}
-.lightmessage:hover{
-    background-color: #f5f5f5;
-}
-.darkmessage:hover{
-    background-color: #2e2e2e;
-}
-.message-info{
-    grid-column: 3 /span 4;
-    grid-row: 1;
-    display: flex;
-
-}
-.message-text{ 
-    grid-column: 3 /span 4;
-    grid-row: 2;
-    text-align: start;
-    margin-right: 10px;
-}
-.message-image{
-    grid-column: 2 /span 1;
-    grid-row: 1 / span 3;
+.sendFormInner {
+  width: 100%;
+  padding-bottom: 10px;
 }
 
-.Picture:active{
-    width: 500px;
+.conversation {
+  overflow-y: scroll;
+  grid-row: 3;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  width: 100%;
+}
+.messageParent {
+  padding-bottom: 10px;
 }
 
-.message-sender{ /*authorname*/
-    order: 1;
-    margin-right: 10px;
+.message {
+  padding-right: 10px;
+  display: grid;
+  grid-template-columns: 30px 60px auto auto;
+  grid-template-rows: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+}
+.lightmessage:hover {
+  background-color: #f5f5f5;
+}
+.darkmessage:hover {
+  background-color: #2e2e2e;
+}
+.message-info {
+  grid-column: 3 / span 4;
+  grid-row: 1;
+  display: flex;
+}
+.message-text {
+  grid-column: 3 / span 4;
+  grid-row: 2;
+  text-align: start;
+  margin-right: 10px;
+}
+.message-image {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 3;
 }
 
-.message-time{
-    order: 2;
-    font-size: small;
+.Picture:active {
+  width: 500px;
 }
 
-.message-image-content{
-    padding-top: 10px;
-    grid-column: 3 / span 6;
-    grid-row: 4;
-    display: flex;
+.message-sender {
+  /*authorname*/
+  order: 1;
+  margin-right: 10px;
+}
 
+.message-time {
+  order: 2;
+  font-size: small;
 }
-.message-image-content-1{
-    padding-top: 10px;
-    grid-column: 2 / span 3;
-    grid-row: 5;
-    display: flex;
+
+.message-image-content {
+  padding-top: 10px;
+  grid-column: 3 / span 6;
+  grid-row: 4;
+  display: flex;
 }
-.CompleteChat{
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: 72px auto auto auto;
+.message-image-content-1 {
+  padding-top: 10px;
+  grid-column: 2 / span 3;
+  grid-row: 5;
+  display: flex;
 }
-.chatHeaderContainer{
-    grid-row: 1;
-    grid-column: 1 ;
+.CompleteChat {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 72px auto auto auto;
 }
-.sendForm{
-    grid-row: 4 / span 2;
-    grid-column: 1;
-    margin-bottom: 10px;
+.chatHeaderContainer {
+  grid-row: 1;
+  grid-column: 1;
 }
-.animatedSend:hover{
-    fill: red;
-    animation: rotate 1s forwards;
+.sendForm {
+  grid-row: 4 / span 2;
+  grid-column: 1;
+  margin-bottom: 10px;
 }
-.animatedSend{
-    animation: unrotate 0.5s forwards;
+.animatedSend:hover {
+  fill: red;
+  animation: rotate 1s forwards;
+}
+.animatedSend {
+  animation: unrotate 0.5s forwards;
 }
 
 @keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(270deg);
-    }    
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(270deg);
+  }
 }
 @keyframes unrotate {
-    from {
-        transform: rotate(270deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }    
+  from {
+    transform: rotate(270deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.animatedAttachment:hover{
-    fill: red;
-    animation: popup 0.25s forwards;
+.animatedAttachment:hover {
+  fill: red;
+  animation: popup 0.25s forwards;
 }
-.animatedAttachment{
-    
-    animation: unpopup 0.25s forwards;
+.animatedAttachment {
+  animation: unpopup 0.25s forwards;
 }
 
 @keyframes popup {
-   0%
-    {
-         transform: translateY(0px);
-    }
-    25%
-    {
-         transform: translateY(-2.5px);
-         height: 24px;
-    }
-    50%
-    {
-         transform: translateY(-5px);
-         height: 29px;
-    }
-    75%
-    {
-         transform: translateY(-7.5px);
-         height: 31px;
-    }
-    100%
-    {
-         transform: translateY(-10px);
-         height: 34px;
-    }
+  0% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: translateY(-2.5px);
+    height: 24px;
+  }
+  50% {
+    transform: translateY(-5px);
+    height: 29px;
+  }
+  75% {
+    transform: translateY(-7.5px);
+    height: 31px;
+  }
+  100% {
+    transform: translateY(-10px);
+    height: 34px;
+  }
 }
 @keyframes unpopup {
-    0%
-     {
-          transform: translateY(-10px);
-          height: 34px;
-     }
-     25%
-     {
-          transform: translateY(-7.5px);
-          height: 31px;
-     }
-     50%
-     {
-          transform: translateY(-5px);
-          height: 29px;
-     }
-     75%
-     {
-          transform: translateY(-2.5px);
-          height: 24px;
-     }
-     100%
-     {
-          transform: translateY(0px);
-     }
- }
- .Emoji:hover{ 
-    fill: red;
-    animation: popup 0.25s forwards;
-
- }
- .MenuItemWithIcon{
-    display: grid;
-    grid-template-columns: 30px auto;
-    grid-template-rows: auto;
-    grid-column: 1 / span 2;
-    grid-row: 1;
- }
+  0% {
+    transform: translateY(-10px);
+    height: 34px;
+  }
+  25% {
+    transform: translateY(-7.5px);
+    height: 31px;
+  }
+  50% {
+    transform: translateY(-5px);
+    height: 29px;
+  }
+  75% {
+    transform: translateY(-2.5px);
+    height: 24px;
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+.Emoji:hover {
+  fill: red;
+  animation: popup 0.25s forwards;
+}
+.MenuItemWithIcon {
+  display: grid;
+  grid-template-columns: 30px auto;
+  grid-template-rows: auto;
+  grid-column: 1 / span 2;
+  grid-row: 1;
+}

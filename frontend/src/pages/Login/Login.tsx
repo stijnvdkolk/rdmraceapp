@@ -1,17 +1,17 @@
-import React from "react";
-import "../../App.css"; //voor app css voor background
-import "./Login.css"; //voor Loginpage specific Css
-import { Button, Card, TextField } from "@mui/material"; //voor de login knoppen
-import Background from "../../components/backgrounds/background"; //voor background
-import { getToken } from "../../API/Chat"; //import getToken from Chat.js
-import Token from "../../classes/Token"; //voor token
-import { useHistory } from "react-router-dom"; //voor redirect naar chat
-import Notification from "../../components/notification/notification"; // voor notification
+import React from 'react';
+import '../../App.css'; //voor app css voor background
+import './Login.css'; //voor Loginpage specific Css
+import { Button, Card, TextField } from '@mui/material'; //voor de login knoppen
+import Background from '../../components/backgrounds/background'; //voor background
+import { getToken } from '../../API/Chat'; //import getToken from Chat.js
+import Token from '../../classes/Token'; //voor token
+import { useHistory } from 'react-router-dom'; //voor redirect naar chat
+import Notification from '../../components/notification/notification'; // voor notification
 
 export default function Login() {
   //Login page
-  const [email, setEmail] = React.useState(""); //email input Dit wordt aangepast als je op een key drukt in de Email Input
-  const [password, setPassword] = React.useState(""); //password input Dit wordt aangepast als je op een key drukt in de Password Input
+  const [email, setEmail] = React.useState(''); //email input Dit wordt aangepast als je op een key drukt in de Email Input
+  const [password, setPassword] = React.useState(''); //password input Dit wordt aangepast als je op een key drukt in de Password Input
   const [error, setError] = React.useState(false); // Dit is de error die wordt getoond als je niet ingelogd bent
   const [disabled, setDisabled] = React.useState(false); //Dit is de disabled state van de login button
   const [notification, setNotification] = React.useState(false); //Dit is de notification state van de login button deze wordt geshowed wanneer er een error is
@@ -20,15 +20,15 @@ export default function Login() {
     undefined //Dit is undefined
   );
   let history = useHistory(); //Dit is de history die gebruikt wordt om naar de chat te gaan
-  if (localStorage.getItem("DogeToken") !== null) {
-    history.push("/chat"); //Als er een token is in localstorage dan gaat de gebruiker naar de chat
+  if (localStorage.getItem('DogeToken') !== null) {
+    history.push('/chat'); //Als er een token is in localstorage dan gaat de gebruiker naar de chat
   }
   async function loginCall() {
     //Dit is de login call die wordt aangeroepen wanneer je op de login button drukt
     setDisabled(true); // dit zet de button uit
     var Rtoken: Token | undefined = undefined; // dit is de token die terug komt van de api
 
-    if (email !== "" || password !== "") {
+    if (email !== '' || password !== '') {
       // als er iets ingevuld is
       // check if email and password are filled in to prevent errors
       Rtoken = (await getToken(email, password))?.token as Token; // Krijg token uit API call probeert in RToken te zetten, anders Undefined
@@ -37,8 +37,8 @@ export default function Login() {
     if (Rtoken !== undefined) {
       // als er een token is doe het volgende
       setLoggedToken(Rtoken); // De token als bind aan LoggedToken
-      localStorage.setItem("DogeToken", Rtoken.toString()); // Token opslaan in localstorage als string als key-DogeToken
-      history.push("/chat"); // Ga naar /chat
+      localStorage.setItem('DogeToken', Rtoken.toString()); // Token opslaan in localstorage als string als key-DogeToken
+      history.push('/chat'); // Ga naar /chat
       //setTimeout(() => { }, 1000);
     } else {
       // als er geen token is doe het volgende
@@ -66,12 +66,12 @@ export default function Login() {
       <div className="card">
         <Card
           style={{
-            width: "300px",
-            height: "350px",
+            width: '300px',
+            height: '350px',
           }}
         >
           <h2>
-            {error ? "Incorrect login details" : "Sign in to PhidippidesChat!"}
+            {error ? 'Incorrect login details' : 'Sign in to PhidippidesChat!'}
           </h2>
           <p>Enter your details below.</p>
           <div className="firstField">
@@ -102,9 +102,9 @@ export default function Login() {
               variant="contained"
               disabled={disabled || !email || !password ? true : false}
               sx={{
-                width: "50%",
-                marginTop: "5%",
-                borderRadius: "30px",
+                width: '50%',
+                marginTop: '5%',
+                borderRadius: '30px',
               }}
               onClick={loginCall}
             >

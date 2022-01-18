@@ -1,33 +1,40 @@
-html, body, #root, .App {
+html,
+body,
+#root,
+.App {
   height: 100%;
   text-align: center;
   vertical-align: middle;
 }
 
-.background{ 
+.background {
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.red{
+.red {
   background-image: url('./background/Background red.svg');
 }
 
-.dark{
+.dark {
   background-image: url('./background/Background dark.svg');
 }
 
-.card{
+.card {
   display: flex;
   justify-content: center;
   text-align: center;
 }
-@media only screen and (max-width: 810px){
-  .Signup {padding-top: 30%;}
+@media only screen and (max-width: 810px) {
+  .Signup {
+    padding-top: 30%;
+  }
 }
-@media only screen and (min-width: 811px){
-  .Signup {padding-top: 20%;}
+@media only screen and (min-width: 811px) {
+  .Signup {
+    padding-top: 20%;
+  }
 }
-.vh{
+.vh {
   margin-top: 3vh;
 }

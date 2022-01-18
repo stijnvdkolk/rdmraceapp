@@ -1,22 +1,24 @@
-.card{
-    display: flex;
-    justify-content: center;
-    text-align: center;
+.card {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+@media only screen and (max-width: 810px) {
+  .card {
+    padding-top: 20%;
   }
-  @media only screen and (max-width: 810px){
-    .card {padding-top: 20%;}
+}
+@media only screen and (min-width: 811px) {
+  .card {
+    padding-top: 10%;
   }
-  @media only screen and (min-width: 811px){
-    .card {padding-top: 10%;}
-  }
-  .firstField{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    
-  }
-  
-  .secondField{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    
-  }
+}
+.firstField {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.secondField {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

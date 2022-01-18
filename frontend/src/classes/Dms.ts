@@ -1,12 +1,12 @@
-import Person from "./Person";
+import Person from './Person';
 
-export default class Dms{
-    id! : string;
-    name!: string;
-    type! : string ;
-    users! : Person[];
+export default class Dms {
+  id!: string;
+  name!: string;
+  type!: string;
+  users!: Person[];
 }
 
-export class DmChannel{
-    channels! : Dms[];
+export class DmChannel {
+  channels!: Dms[];
 }
