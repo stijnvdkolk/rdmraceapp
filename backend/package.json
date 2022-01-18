@@ -24,7 +24,7 @@
     "test": "SPACES_BUCKET=cdn-rdmraceapp jest --verbose",
     "test:watch": "SPACES_BUCKET=cdn-rdmraceapp jest --watch --verbose",
     "test:cov": "SPACES_BUCKET=cdn-rdmraceapp jest --coverage --verbose",
-    "test:cov:watch": "SPACES_BUCKET=cdn-rdmraceapp jest --coverage --watch --verbose",
+    "test:cov:watch": "SPACES_BUCKET=cdn-rdmraceapp jest --coverage --watchAll --verbose",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:migrate": "docker exec -it rdmchat_backend npx prisma migrate dev && npx prisma generate",

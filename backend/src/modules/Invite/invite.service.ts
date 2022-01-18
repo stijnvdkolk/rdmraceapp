@@ -91,6 +91,13 @@ export class InviteService {
   }
 
   async deleteInvite(id: string): Promise<Invite> {
+    const invite = await this.prisma.invite.findUnique({
+      select: { id: true },
+      where: {
+        id,
+      },
+    });
+    if (!id) throw new NotFoundError('invite_not_found');
     return await this.prisma.invite.delete({
       where: {
         id: id,

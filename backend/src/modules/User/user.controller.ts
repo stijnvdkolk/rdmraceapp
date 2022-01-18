@@ -81,7 +81,8 @@ export class UserController {
       limits: {
         fileSize: 10000000,
       },
-      fileFilter: (req, file, callback) => {
+      fileFilter: /* istanbul ignore next */ (req, file, callback) => {
+        /* istanbul ignore next */
         if (file.mimetype.includes('image')) {
           callback(null, true);
         } else {

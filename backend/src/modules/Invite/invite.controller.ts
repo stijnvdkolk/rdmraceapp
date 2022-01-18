@@ -25,7 +25,6 @@ import { InviteService } from './invite.service';
 @Controller('/invites')
 export class InviteController {
   constructor(
-    @Inject('SPACES') private spaces: SpacesProvider,
     private inviteService: InviteService,
     private userService: UserService,
   ) {}
@@ -40,7 +39,6 @@ export class InviteController {
   @Public()
   async getInviteById(@Param('id') id: string) {
     const invite = await this.inviteService.getInviteById(id);
-    if (!invite) throw new BadRequestException('invite_not_found');
 
     let isValid = true;
 
@@ -75,7 +73,8 @@ export class InviteController {
       limits: {
         fileSize: 10000000,
       },
-      fileFilter: (req, file, callback) => {
+      fileFilter: /* istanbul ignore next */ (req, file, callback) => {
+        /* istanbul ignore next */
         if (file.mimetype.includes('image')) {
           callback(null, true);
         } else {
@@ -90,7 +89,6 @@ export class InviteController {
     @UploadedFile() profilepicture: Express.Multer.File,
   ) {
     const invite = await this.inviteService.getInviteById(id);
-    if (!invite) throw new BadRequestException('invite_not_found');
 
     let isValid = true;
 
@@ -112,12 +110,12 @@ export class InviteController {
     let user = await this.inviteService.useInvite(invite, data);
 
     if (profilepicture) {
-      const profilePicture = await this.spaces.uploadProfilePicture(
-        user,
+      const profilePicture = await this.userService.uploadProfilePicture(
+        user.id,
         profilepicture,
       );
       user = await this.userService.editUser(user.id, {
-        profilePicture: profilePicture.profilePictureId,
+        profilePicture,
       });
     }
     return user;
@@ -126,10 +124,6 @@ export class InviteController {
   @Roles([UserRole.ADMIN])
   @Delete('/:id')
   async deleteInvite(@Param('id') id: string) {
-    try {
-      return await this.inviteService.deleteInvite(id);
-    } catch (e) {
-      throw new BadRequestException('invite_not_found');
-    }
+    return await this.inviteService.deleteInvite(id);
   }
 }
