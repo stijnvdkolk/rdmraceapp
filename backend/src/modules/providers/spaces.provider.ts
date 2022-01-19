@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Attachment, Message, User } from '@prisma/client';
+import { Message, User } from '@prisma/client';
 import { S3 } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class SpacesProvider {
-  private s3: S3 = new S3({
+  s3: S3 = new S3({
     endpoint: 'https://ams3.digitaloceanspaces.com',
     region: 'ams3',
     credentials: {

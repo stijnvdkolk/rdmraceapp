@@ -21,9 +21,10 @@
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch --preserveWatchOutput",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
+    "test": "jest --verbose",
+    "test:watch": "SPACES_BUCKET=cdn-rdmraceapp jest --watch --verbose",
+    "test:cov": "SPACES_BUCKET=cdn-rdmraceapp jest --coverage --verbose",
+    "test:cov:watch": "SPACES_BUCKET=cdn-rdmraceapp jest --coverage --watchAll --verbose",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:migrate": "docker exec -it rdmchat_backend npx prisma migrate dev && npx prisma generate",
@@ -42,11 +43,13 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nrwl/jest": "^13.4.3",
     "@prisma/client": "^3.6.0",
     "argon2": "^0.28.2",
     "aws-sdk": "^2.1048.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "jest-mock-extended": "^2.0.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
@@ -56,7 +59,7 @@
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
-    "@nestjs/testing": "^8.0.0",
+    "@nestjs/testing": "^8.2.4",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.0.1",
     "@types/multer": "^1.4.7",
@@ -69,6 +72,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "jest": "^27.0.6",
+    "node-mocks-http": "^1.11.0",
     "prettier": "^2.3.2",
     "prisma": "^3.6.0",
     "prisma-dbml-generator": "^0.8.2",
@@ -78,22 +82,5 @@
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
     "typescript": "^4.3.5"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }

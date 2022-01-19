@@ -6,8 +6,8 @@ export interface PrismaPagination {
 }
 
 export interface PaginationQueryOutput<
-  PrismaWhere extends PrismaWhereBase,
-  PrismaOrderBy extends PrismaOrderByBase,
+  PrismaWhere extends PrismaWhereBase = PrismaWhereBase,
+  PrismaOrderBy extends PrismaOrderByBase = PrismaOrderByBase,
 > {
   pagination: PrismaPagination;
   where: PrismaWhere;

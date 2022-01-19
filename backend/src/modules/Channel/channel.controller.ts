@@ -1,14 +1,11 @@
 import { CurrentUser } from '@decorators';
 import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
-import { PrismaService } from '@modules/Prisma/prisma.service';
-import { SpacesProvider } from '@modules/providers/spaces.provider';
 import {
   Body,
   Controller,
   Delete,
   ForbiddenException,
   Get,
-  Inject,
   Param,
   Patch,
   Post,
@@ -17,16 +14,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { User, UserRole } from '@prisma/client';
+import { ChannelType, User, UserRole } from '@prisma/client';
 import { ChannelService } from './channel.service';
 
 @Controller('/channels')
 export class ChannelController {
-  constructor(
-    private prisma: PrismaService,
-    private channelService: ChannelService,
-    @Inject('SPACES') private spaces: SpacesProvider,
-  ) {}
+  constructor(private channelService: ChannelService) {}
 
   @Get()
   async getChannels(
@@ -41,8 +34,8 @@ export class ChannelController {
       })
       .sort((a, b) => {
         if (a.type === b.type) return 0;
-        if (a.type === 'NEWS_CHANNEL') return -1;
-        if (b.type === 'PRIVATE_CHANNEL') return 1;
+        if (a.type === ChannelType.NEWS_CHANNEL) return -1;
+        if (b.type === ChannelType.PRIVATE_CHANNEL) return 1;
         return 0;
       });
   }
@@ -117,15 +110,8 @@ export class ChannelController {
       data.content,
       files.map((file) => ({ name: file.filename })),
     );
-    for await (const file of files) {
-      await this.spaces.uploadAttachment(
-        {
-          id: message.id,
-          channelId,
-        },
-        file,
-      );
-    }
+    for await (const file of files)
+      await this.channelService.uploadAttachment(channelId, message.id, file);
     return message;
   }
 
@@ -170,14 +156,12 @@ export class ChannelController {
     );
     if (message.author.id === user.id || user.role == UserRole.ADMIN) {
       for await (const attachment of message.attachments) {
-        await this.spaces.deleteAttachment(
-          `attachments/${channelId}/${messageId}/${attachment.name}`,
+        await this.channelService.deleteAttachment(
+          channelId,
+          messageId,
+          attachment.id,
+          attachment.name,
         );
-        await this.prisma.attachment.delete({
-          where: {
-            id: attachment.id,
-          },
-        });
       }
       return this.channelService.deleteMessage(messageId);
     }

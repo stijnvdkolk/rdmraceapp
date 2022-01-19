@@ -81,7 +81,8 @@ export class UserController {
       limits: {
         fileSize: 10000000,
       },
-      fileFilter: (req, file, callback) => {
+      fileFilter: /* istanbul ignore next */ (req, file, callback) => {
+        /* istanbul ignore next */
         if (file.mimetype.includes('image')) {
           callback(null, true);
         } else {
@@ -97,7 +98,7 @@ export class UserController {
     @UploadedFile() profilepicture: Express.Multer.File,
   ) {
     const user: Partial<User> = userData;
-    if (id === '@me') {
+    if (id === '@me' || currentUser.id === id) {
       if (profilepicture) {
         user.profilePicture = await this.userService.uploadProfilePicture(
           currentUser.id,

@@ -2,7 +2,8 @@ import { NotFoundError } from '@lib/errors';
 import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';
 import { PrismaService } from '@modules/Prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { SpacesProvider } from '@modules/providers/spaces.provider';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {
   Attachment,
   Channel,
@@ -10,7 +11,6 @@ import {
   Message,
   Prisma,
   User,
-  UserRole,
 } from '@prisma/client';
 
 @Injectable()
@@ -21,6 +21,7 @@ export class ChannelService {
       Prisma.ChannelWhereInput,
       Prisma.ChannelOrderByWithRelationInput
     >,
+    @Inject('SPACES') private spaces: SpacesProvider,
   ) {}
 
   async getChannelById(channelId: Channel['id']): Promise<Channel> {
@@ -29,46 +30,6 @@ export class ChannelService {
     });
     if (!channel) throw new NotFoundError('channel_not_found');
     return channel;
-  }
-
-  // Returns the DM channel of specific user, given an user ID
-  async getDirectMessageChannelsOfUser(userId: User['id']) {
-    return this.prisma.channel.findMany({
-      where: {
-        users: {
-          some: {
-            id: userId,
-          },
-        },
-        type: ChannelType.DM,
-      },
-      select: {
-        id: true,
-        messages: false,
-        name: true,
-        type: true,
-        createdAt: true,
-        description: false,
-        rolesAccess: false,
-        updatedAt: false,
-        users: {
-          select: {
-            aboutMe: true,
-            profilePicture: true,
-            status: true,
-            username: true,
-            role: true,
-            id: true,
-            email: false,
-            channels: false,
-            createdAt: true,
-            updatedAt: true,
-            messages: false,
-            password: false,
-          },
-        },
-      },
-    });
   }
 
   // Returns all the channels, given the correct QueryInput
@@ -108,26 +69,6 @@ export class ChannelService {
     } catch (error) {
       throw new NotFoundError('channels_not_found');
     }
-  }
-
-  // Creates a new DM channel between two users
-  async createDMChannel(creator: User, otherUser: User): Promise<Channel> {
-    return this.prisma.channel.create({
-      data: {
-        name: 'DM Channel',
-        users: {
-          connect: [
-            {
-              id: creator.id,
-            },
-            {
-              id: otherUser.id,
-            },
-          ],
-        },
-        type: ChannelType.DM,
-      },
-    });
   }
 
   // Returns all the messages from a channel, given the channel ID and optional QueryInput
@@ -356,6 +297,44 @@ export class ChannelService {
       });
     } catch (error) {
       throw new NotFoundError('channel_or_message_not_found');
+    }
+  }
+
+  async uploadAttachment(
+    channelId: Channel['id'],
+    messageId: Message['id'],
+    file: Express.Multer.File,
+  ) {
+    try {
+      return this.spaces.uploadAttachment(
+        {
+          id: messageId,
+          channelId,
+        },
+        file,
+      );
+    } catch (error) {
+      throw new BadRequestException();
+    }
+  }
+
+  async deleteAttachment(
+    channelId: Channel['id'],
+    messageId: Message['id'],
+    attachmentId: Attachment['id'],
+    attachmentName: Attachment['name'],
+  ) {
+    try {
+      await this.spaces.deleteAttachment(
+        `attachments/${channelId}/${messageId}/${attachmentName}`,
+      );
+      return this.prisma.attachment.delete({
+        where: {
+          id: attachmentId,
+        },
+      });
+    } catch (error) {
+      throw new NotFoundError('attachment_not_found');
     }
   }
 }

@@ -12,7 +12,7 @@ export class EditUserDto {
 
   @IsString()
   @IsOptional()
-  about: string;
+  aboutMe: string;
 
   @IsString()
   @IsStrongPassword()
