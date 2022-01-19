@@ -99,7 +99,7 @@ export class InviteService {
         id,
       },
     });
-    if (!id) throw new NotFoundError('invite_not_found');
+    if (!invite) throw new NotFoundError('invite_not_found');
     return await this.prisma.invite.delete({
       where: {
         id: id,

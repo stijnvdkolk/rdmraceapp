@@ -46,6 +46,7 @@ export default function CreateInvite(props: IProps) {
       if (onClick) {
         onClick();
       }
+      window.location.reload();
     }
   }
   return (
