@@ -30,8 +30,17 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
+      - name: Install required packages
+        run: |
+          apt-get install g++ gcc libstdc++ libc6 make python -y
+          npm install -g node-gyp rimraf
+
       - name: Install dependencies
-        run: yarn
+        run: yarn install
+
+      - name: Build Argon2
+        run: npm_config_build_from_source=true yarn add argon2
 
       - name: Generate Prisma client
         run: yarn prisma:generate:local
