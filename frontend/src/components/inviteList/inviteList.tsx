@@ -18,6 +18,20 @@ function datagridDeleteButton(params: GridRenderCellParams) {
   );
 }
 
+function datagridCopyButton(params: GridRenderCellParams) {
+  return (
+    <Button
+      onClick={() => {
+        navigator.clipboard.writeText(
+          `${window.location.origin}/invite/${params.row.id}`
+        );
+      }}
+    >
+      {params.value}
+    </Button>
+  );
+}
+
 // column names + their respective field names, width, and other specifications
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 180 },
@@ -31,6 +45,13 @@ const columns: GridColDef[] = [
     width: 200,
     sortable: false,
     renderCell: (params: GridRenderCellParams) => datagridDeleteButton(params),
+  },
+  {
+    field: 'copy_invite',
+    headerName: 'Copy',
+    width: 200,
+    sortable: false,
+    renderCell: (params: GridRenderCellParams) => datagridCopyButton(params),
   },
 ];
 
@@ -55,6 +76,7 @@ export default function InviteList() {
       maxuses: invite.maxUses,
       expiry: new Date(invite.expireAt).toLocaleString(),
       delete: <Buttoned text="Delete Invite" />,
+      copy_invite: <Buttoned text="Copy Invite" />,
     };
   });
   // let history = useHistory();
