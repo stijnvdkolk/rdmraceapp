@@ -25,7 +25,7 @@ describe('UserService', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      providers: [UserService, PaginationQueryBuilder, PrismaService],
+      providers: [UserService, PaginationQueryBuilder],
       imports: [PaginationQueryBuilder, ProviderModule, PrismaModule],
     })
       .overrideProvider(PrismaService)
@@ -33,7 +33,7 @@ describe('UserService', () => {
       .compile();
 
     service = module.get<UserService>(UserService);
-    prismaService = await module.resolve(PrismaService);
+    prismaService = module.get(PrismaService);
   });
 
   it('should be defined', () => {
