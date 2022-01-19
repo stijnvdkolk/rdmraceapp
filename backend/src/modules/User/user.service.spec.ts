@@ -34,6 +34,7 @@ describe('UserService', () => {
 
     service = module.get<UserService>(UserService);
     prismaService = module.get(PrismaService);
+    console.log(prismaService);
   });
 
   it('should be defined', () => {
