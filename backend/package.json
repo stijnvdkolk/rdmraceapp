@@ -21,7 +21,7 @@
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch --preserveWatchOutput",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "SPACES_BUCKET=cdn-rdmraceapp jest --verbose",
+    "test": "jest --verbose",
     "test:watch": "SPACES_BUCKET=cdn-rdmraceapp jest --watch --verbose",
     "test:cov": "SPACES_BUCKET=cdn-rdmraceapp jest --coverage --verbose",
     "test:cov:watch": "SPACES_BUCKET=cdn-rdmraceapp jest --coverage --watchAll --verbose",
