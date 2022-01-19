@@ -12,19 +12,17 @@ export const dmChannel: DMChannel = {
   createdAt,
   updatedAt,
 };
-export const dmChannels = [dmChannel, dmChannel, dmChannel].map(
-  (channel, i) => ({
-    ...channel,
-    _count: {
-      messages: Math.floor(Math.random() * 10) + 1,
+export const dmChannels = [dmChannel, dmChannel].map((channel, i) => ({
+  ...channel,
+  _count: {
+    messages: Math.floor(Math.random() * 10) + 1,
+  },
+  messages: [
+    {
+      createdAt: i == 1 ? createdAt : createdAt2,
     },
-    messages: [
-      {
-        createdAt: i == 1 ? createdAt : createdAt2,
-      },
-    ],
-  }),
-);
+  ],
+}));
 
 export const publicChannel: PublicChannel = {
   id: uuidv4(),

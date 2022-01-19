@@ -153,35 +153,31 @@ export class UserService {
 
   // Returns all the users, given the correct QueryInput
   async findUsersPagination(query: PaginationQueryInput) {
-    try {
-      const {
-        pagination: { skip, take },
-        where,
-        orderBy,
-      } = this.queryBuilder.build(query);
-      return this.prisma.user.findMany({
-        skip,
-        take,
-        orderBy,
-        where,
-        select: {
-          id: true,
-          email: false,
-          username: true,
-          password: false,
-          profilePicture: true,
-          status: true,
-          aboutMe: true,
-          role: true,
-          channels: false,
-          messages: false,
-          createdAt: true,
-          updatedAt: true,
-        },
-      });
-    } catch (error) {
-      throw new NotFoundError('users_not_found');
-    }
+    const {
+      pagination: { skip, take },
+      where,
+      orderBy,
+    } = this.queryBuilder.build(query);
+    return this.prisma.user.findMany({
+      skip,
+      take,
+      orderBy,
+      where,
+      select: {
+        id: true,
+        email: false,
+        username: true,
+        password: false,
+        profilePicture: true,
+        status: true,
+        aboutMe: true,
+        role: true,
+        channels: false,
+        messages: false,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
   }
 
   async createUser({
@@ -195,35 +191,32 @@ export class UserService {
     password: User['password'];
     role: UserRole;
   }) {
-    try {
-      return this.prisma.user.create({
-        data: {
-          email: email,
-          username: username,
-          password: await this.crypto.hashPassword(password),
-          role: role,
-        },
-        select: {
-          profilePicture: true,
-          aboutMe: true,
-          email: true,
-          username: true,
-          password: false,
-          status: true,
-          role: true,
-          messages: false,
-          channels: false,
-          id: true,
-          createdAt: true,
-          updatedAt: true,
-        },
-      });
-    } catch (error) {
-      throw new BadRequestException('could_not_create_user');
-    }
+    return this.prisma.user.create({
+      data: {
+        email: email,
+        username: username,
+        password: await this.crypto.hashPassword(password),
+        role: role,
+      },
+      select: {
+        profilePicture: true,
+        aboutMe: true,
+        email: true,
+        username: true,
+        password: false,
+        status: true,
+        role: true,
+        messages: false,
+        channels: false,
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
   }
 
   async editUser(userId: User['id'], user: Partial<User>) {
+    await this.findUserById(userId, false);
     try {
       return this.prisma.user.update({
         where: { id: userId },
@@ -256,7 +249,6 @@ export class UserService {
       ) {
         throw new BadRequestException('email_address_already_in_use');
       }
-      throw new NotFoundError('user_not_found');
     }
   }
 
@@ -269,10 +261,7 @@ export class UserService {
   }
 
   async deleteUser(id: string) {
-    try {
-      return this.prisma.user.delete({ where: { id } });
-    } catch (error) {
-      throw new NotFoundError('user_not_found');
-    }
+    await this.findUserById(id);
+    return this.prisma.user.delete({ where: { id } });
   }
 }
