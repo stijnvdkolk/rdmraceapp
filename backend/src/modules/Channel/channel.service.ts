@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { NotFoundError } from '@lib/errors';
 import { PaginationQueryInput } from '@lib/interfaces/pagination.interface';
 import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';

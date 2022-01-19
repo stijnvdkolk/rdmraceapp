@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { Inject, Injectable } from '@nestjs/common';
 import { Prisma, Invite, UserRole } from '@prisma/client';
 import { PrismaService } from '../Prisma/prisma.service';
