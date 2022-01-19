@@ -31,7 +31,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install dependencies
-        run: yarn install
+        run: yarn
 
       - name: Generate Prisma client
         run: yarn prisma:generate:local
