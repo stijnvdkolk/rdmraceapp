@@ -33,8 +33,7 @@ describe('UserService', () => {
       .compile();
 
     service = module.get<UserService>(UserService);
-    prismaService = module.get(PrismaService);
-    console.log(prismaService);
+    prismaService = await module.resolve(PrismaService);
   });
 
   it('should be defined', () => {
