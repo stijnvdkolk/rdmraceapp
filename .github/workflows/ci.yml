@@ -33,7 +33,7 @@ jobs:
 
       - name: Install required packages
         run: |
-          apt-get install g++ gcc libstdc++ libc6 make python -y
+          sudo apt install g++ gcc libstdc++ libc6 make python -y
           npm install -g node-gyp rimraf
 
       - name: Install dependencies
