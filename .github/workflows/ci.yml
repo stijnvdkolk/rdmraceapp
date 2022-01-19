@@ -38,3 +38,5 @@ jobs:
 
       - name: Run unit tests
         run: yarn test
+        env:
+          SPACES_BUCKET: cdn-rdmraceapp
