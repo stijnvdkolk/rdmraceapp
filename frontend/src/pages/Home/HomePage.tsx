@@ -3,12 +3,7 @@ import logo from './images/Small Logo.svg';
 import './HomePage.css';
 import Circle from '@mui/icons-material/Circle';
 import Buttoned from '../../components/button/button';
-import {
-  Container,
-  Typography,
-  Stack,
-  Card,
-} from '@mui/material';
+import { Container, Typography, Stack, Card } from '@mui/material';
 import Background from '../../components/backgrounds/background';
 //comment
 export default function HomePage(props: IProps) {

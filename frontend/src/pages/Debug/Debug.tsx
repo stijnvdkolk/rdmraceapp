@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
-import "../../App.css";
+import { Link } from 'react-router-dom';
+import '../../App.css';
+import CreateInvite from '../../components/CreateInvite/CreateInvite';
 export default function Debug() {
   return (
     <>
@@ -17,6 +18,8 @@ export default function Debug() {
         <Link to="/Chat/Publiek">Chat/Publiek</Link>
         <br />
         <Link to="/Admin">Admin</Link>
+        <br />
+        <CreateInvite />
       </div>
     </>
   );

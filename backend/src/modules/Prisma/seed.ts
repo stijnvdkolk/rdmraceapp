@@ -5,10 +5,11 @@ const prisma = new PrismaClient();
 async function seed() {
   console.log('!!! WARNING: This will delete all data in the database !!!');
 
-  await prisma.user.deleteMany();
   await prisma.attachment.deleteMany();
-  await prisma.channel.deleteMany();
   await prisma.message.deleteMany();
+  await prisma.channel.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.invite.deleteMany();
 
   console.log('Seeding...');
 

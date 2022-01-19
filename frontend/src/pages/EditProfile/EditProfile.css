@@ -1,107 +1,101 @@
-.MasterCard{
-    display: grid;
-    width: 100%;
-    height: 100%;
-    grid-template-columns: 5% auto 5%;
-    grid-template-rows: 5% auto 5%;
-
-
+.MasterCard {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: 5% auto 5%;
+  grid-template-rows: 5% auto 5%;
 }
-.Kaart{
-    display: grid;
-    width: 50%;
-    grid-template-columns: 25px auto 25px;
-    grid-template-rows: 75px auto 75px;
+.Kaart {
+  display: grid;
+  width: 50%;
+  grid-template-columns: 25px auto 25px;
+  grid-template-rows: 75px auto 75px;
 }
-.Head{
-    grid-column: 1 / 4;
-    grid-row: 1;
-    justify-content: left;
-    align-items: left;
-    text-align: left;
-
+.Head {
+  grid-column: 1 / 4;
+  grid-row: 1;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
 }
-.Middle{
-    grid-column: 2;
-    grid-row: 2;
-    display: grid;
-    grid-template-columns: 10% 40% 40% 10%; ;
-    grid-template-rows: 80px auto auto auto auto ;
+.Middle {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: 10% 40% 40% 10%;
+  grid-template-rows: 80px auto auto auto auto;
 }
-.Tail{
-    grid-column: 2;
-    grid-row: 3;
+.Tail {
+  grid-column: 2;
+  grid-row: 3;
 }
-.InputBox{
-    margin: 10px;
+.InputBox {
+  margin: 10px;
 }
-.MyAccount{
-    margin: 10px;
-    margin-left: 50px;
-
+.MyAccount {
+  margin: 10px;
+  margin-left: 50px;
 }
-.Avatar{
-    grid-row: 1;
-    grid-column: 1;
+.Avatar {
+  grid-row: 1;
+  grid-column: 1;
 }
-.Overlay{
-    background-color: grey;
-    width: 75px;
-    height: 75px;
-    color: black;
-    opacity: 0;
-    grid-row: 1;
-    grid-column: 1;
-    margin-top: -75px;
-    border-radius: 45px;
-
+.Overlay {
+  background-color: grey;
+  width: 75px;
+  height: 75px;
+  color: black;
+  opacity: 0;
+  grid-row: 1;
+  grid-column: 1;
+  margin-top: -75px;
+  border-radius: 45px;
 }
-.Overlay:hover{
-    opacity: 0.5;
+.Overlay:hover {
+  opacity: 0.5;
 }
-.OverLayPicture{
-    margin-top: 0px;
-    margin-left: 40px;
-    width: 50px;
-    height: 50px;
-
+.OverLayPicture {
+  margin-top: 0px;
+  margin-left: 40px;
+  width: 50px;
+  height: 50px;
 }
-.Avatar:hover{
-    cursor: pointer;
+.Avatar:hover {
+  cursor: pointer;
 }
-.NameInput{
-    margin-top: 10px;
-    grid-row: 2;
-    grid-column: 1 / 5;
-    height: 75px;
+.NameInput {
+  margin-top: 10px;
+  grid-row: 2;
+  grid-column: 1 / 5;
+  height: 75px;
 }
-.EmailInput{
-    grid-row: 4;
-    grid-column: 1 / 5;
-    height: 75px;
+.EmailInput {
+  grid-row: 4;
+  grid-column: 1 / 5;
+  height: 75px;
 }
-.FileInputDiv{
-    grid-row: 1;
-    grid-column: 1;
+.FileInputDiv {
+  grid-row: 1;
+  grid-column: 1;
 }
-.AboutMeInput{
-    grid-row: 3;
-    grid-column: 1 / 5;
-    height: 120px;
+.AboutMeInput {
+  grid-row: 3;
+  grid-column: 1 / 5;
+  height: 120px;
 }
-.PasswordInput{
-    grid-row: 5;
-    grid-column: 1 / 5;
-    height: 75px;
+.PasswordInput {
+  grid-row: 5;
+  grid-column: 1 / 5;
+  height: 75px;
 }
-.BGC{
-    float: left;
-    padding: 8px;
-    height: 50px;
-    width: 50px;
+.BGC {
+  float: left;
+  padding: 8px;
+  height: 50px;
+  width: 50px;
 }
-.EndFloat{
-    float: right;
-    margin-top: -50px;
-    width: 100px;
+.EndFloat {
+  float: right;
+  margin-top: -50px;
+  width: 100px;
 }
