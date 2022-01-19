@@ -17,6 +17,7 @@ import {
 import { PrismaClient } from '@prisma/client';
 import { NotFoundError } from '@lib/errors';
 import { BadRequestException } from '@nestjs/common';
+import { PrismaModule } from '@modules/Prisma/prima.module';
 
 describe('UserService', () => {
   let service: UserService;
@@ -24,16 +25,12 @@ describe('UserService', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      providers: [
-        UserService,
-        {
-          provide: PrismaService,
-          useValue: mockDeep<PrismaService>(),
-        },
-        PaginationQueryBuilder,
-      ],
-      imports: [PaginationQueryBuilder, ProviderModule],
-    }).compile();
+      providers: [UserService, PaginationQueryBuilder],
+      imports: [PaginationQueryBuilder, ProviderModule, PrismaModule],
+    })
+      .overrideProvider(PrismaService)
+      .useValue(mockDeep<PrismaService>())
+      .compile();
 
     service = module.get<UserService>(UserService);
     prismaService = module.get(PrismaService);

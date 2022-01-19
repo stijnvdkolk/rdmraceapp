@@ -1,4 +1,5 @@
 import { PaginationQueryBuilder } from '@lib/pagination/pagination.queryBuilder';
+import { PrismaModule } from '@modules/Prisma/prima.module';
 import { PrismaService } from '@modules/Prisma/prisma.service';
 import { ProviderModule } from '@modules/providers/provider.module';
 import { Test } from '@nestjs/testing';
@@ -11,16 +12,12 @@ describe('InviteService', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      providers: [
-        InviteService,
-        {
-          provide: PrismaService,
-          useValue: mockDeep<PrismaService>(),
-        },
-        PaginationQueryBuilder,
-      ],
-      imports: [PaginationQueryBuilder, ProviderModule],
-    }).compile();
+      providers: [InviteService, PaginationQueryBuilder],
+      imports: [PaginationQueryBuilder, ProviderModule, PrismaModule],
+    })
+      .overrideProvider(PrismaService)
+      .useValue(mockDeep<PrismaService>())
+      .compile();
 
     service = module.get<InviteService>(InviteService);
   });
