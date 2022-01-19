@@ -13,9 +13,8 @@ describe('Argon2CryptoProvider', () => {
 
   it('should be able to hash a password', async () => {
     const password = 'password';
-    const hash = await provider.hashPassword(password);
-    console.log(hash);
-    expect(hash).toBeDefined();
+
+    await expect(provider.hashPassword(password)).resolves.toBeDefined();
   });
 
   it('should be able to verify the right password', async () => {
